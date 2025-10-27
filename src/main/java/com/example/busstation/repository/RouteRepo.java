@@ -3,11 +3,11 @@ package com.example.busstation.repository;
 import com.example.busstation.model.BusStation;
 import com.example.busstation.model.Route;
 import com.example.busstation.model.BusTrip;
-import com.example.busstation.repository.AbstractRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class RouteRepo implements AbstractRepository<Route> {
@@ -35,10 +35,9 @@ public class RouteRepo implements AbstractRepository<Route> {
     }
 
     @Override
-    public Route findById(int id) {
-        String strId = String.valueOf(id);
+    public Route findById(String id) {
         for (Route route : routeRepo) {
-            if (route.getId().equals(strId)) {
+            if (route.getId().equals(id)) {
                 return route;
             }
         }
@@ -47,7 +46,23 @@ public class RouteRepo implements AbstractRepository<Route> {
 
     @Override
     public Route save(Route route) {
+        Objects.requireNonNull(route, "route is required");
+        Route existing = findById(route.getId());
+        if (existing != null) {
+            routeRepo.remove(existing);
+        }
         routeRepo.add(route);
         return route;
+    }
+
+    @Override
+    public boolean deleteById(String id) {
+        for (Route route : routeRepo) {
+            if (route.getId().equals(id)) {
+                routeRepo.remove(route);
+                return true;
+            }
+        }
+        return false;
     }
 }

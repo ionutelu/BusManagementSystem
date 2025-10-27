@@ -1,11 +1,11 @@
 package com.example.busstation.repository;
 
 import com.example.busstation.model.DutyAssignment;
-import com.example.busstation.repository.AbstractRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class DutyAssignmentRepo implements AbstractRepository<DutyAssignment> {
@@ -23,10 +23,9 @@ public class DutyAssignmentRepo implements AbstractRepository<DutyAssignment> {
     }
 
     @Override
-    public DutyAssignment findById(int id) {
-        String strId = String.valueOf(id);
+    public DutyAssignment findById(String id) {
         for (DutyAssignment assignment : assignmentRepo) {
-            if (assignment.getId().equals(strId)) {
+            if (assignment.getId().equals(id)) {
                 return assignment;
             }
         }
@@ -35,7 +34,23 @@ public class DutyAssignmentRepo implements AbstractRepository<DutyAssignment> {
 
     @Override
     public DutyAssignment save(DutyAssignment assignment) {
+        Objects.requireNonNull(assignment, "assignment is required");
+        DutyAssignment existing = findById(assignment.getId());
+        if (existing != null) {
+            assignmentRepo.remove(existing);
+        }
         assignmentRepo.add(assignment);
         return assignment;
+    }
+
+    @Override
+    public boolean deleteById(String id) {
+        for (DutyAssignment assignment : assignmentRepo) {
+            if (assignment.getId().equals(id)) {
+                assignmentRepo.remove(assignment);
+                return true;
+            }
+        }
+        return false;
     }
 }

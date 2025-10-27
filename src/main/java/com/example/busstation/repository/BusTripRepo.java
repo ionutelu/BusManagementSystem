@@ -1,12 +1,12 @@
 package com.example.busstation.repository;
 
 import com.example.busstation.model.BusTrip;
-import com.example.busstation.repository.AbstractRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class BusTripRepo implements AbstractRepository<BusTrip> {
@@ -31,7 +31,7 @@ public class BusTripRepo implements AbstractRepository<BusTrip> {
                 LocalDateTime.now().plusDays(2),
                 null,
                 null,
-                BusTrip.BusTripStatus.PLANNED
+                BusTrip.BusTripStatus.ACTIVE
         ));
     }
 
@@ -41,10 +41,9 @@ public class BusTripRepo implements AbstractRepository<BusTrip> {
     }
 
     @Override
-    public BusTrip findById(int id) {
-        String strId = String.valueOf(id);
+    public BusTrip findById(String id) {
         for (BusTrip trip : tripRepo) {
-            if (trip.getId().equals(strId)) {
+            if (trip.getId().equals(id)) {
                 return trip;
             }
         }
@@ -53,7 +52,23 @@ public class BusTripRepo implements AbstractRepository<BusTrip> {
 
     @Override
     public BusTrip save(BusTrip trip) {
+        Objects.requireNonNull(trip, "trip is required");
+        BusTrip existing = findById(trip.getId());
+        if (existing != null) {
+            tripRepo.remove(existing);
+        }
         tripRepo.add(trip);
         return trip;
+    }
+
+    @Override
+    public boolean deleteById(String id) {
+        for (BusTrip trip : tripRepo) {
+            if (trip.getId().equals(id)) {
+                tripRepo.remove(trip);
+                return true;
+            }
+        }
+        return false;
     }
 }
