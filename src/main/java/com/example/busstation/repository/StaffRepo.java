@@ -1,4 +1,4 @@
 package com.example.busstation.repository;
 
-public class BusRepository {
+public class StaffRepo {
 }
