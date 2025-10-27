@@ -10,6 +10,9 @@ public class Bus {
     public int capacity;
     public BusStatus status;
 
+    public Bus() {
+    }
+
     public Bus(String id, String registrationNumber, int capacity, BusStatus status){
         this.id = id;
         this.registrationNumber = registrationNumber;
@@ -28,4 +31,15 @@ public class Bus {
 
     public BusStatus getStatus(){return status;}
     public void setStatus(BusStatus status){this.status = status;}
+
+    @Override
+    public String toString() {
+        return "Bus{" +
+                "id='" + id + '\'' +
+                ", registrationNumber='" + registrationNumber + '\'' +
+                ", capacity=" + capacity +
+                ", status=" + status +
+                '}';
+    }
+
 }

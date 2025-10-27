@@ -2,14 +2,14 @@ package com.example.busstation.model;
 
 public class Staff {
     public String id;
-    String name;
+    public String name;
+
+    public Staff() {
+    }
 
     public Staff(String id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    public Staff() {
     }
 
     public String getId() {
@@ -27,4 +27,13 @@ public class Staff {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Staff{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
 }
