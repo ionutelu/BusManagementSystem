@@ -1,36 +1,65 @@
 package com.example.busstation.model;
 
+import java.util.Objects;
+
 public class Bus {
-    public enum BusStatus{
-        ACTIVE,
-        DOWN
+
+    public enum BusStatus {
+        DOWN("Down"),
+        ACTIVE("Active");
+
+        private final String description;
+
+        BusStatus(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
     }
-    public String id;
-    public String registrationNumber;
-    public int capacity;
-    public BusStatus status;
+
+    private String id;
+    private String registrationNumber;
+    private int capacity;
+    private BusStatus status;
 
     public Bus() {
+        this.status = BusStatus.DOWN;
     }
 
-    public Bus(String id, String registrationNumber, int capacity, BusStatus status){
+    public Bus(String id, String registrationNumber, int capacity) {
         this.id = id;
         this.registrationNumber = registrationNumber;
         this.capacity = capacity;
-        this.status = status;
+        this.status = BusStatus.DOWN;
     }
 
-    public String getId() {return id;}
-    public void setId(String id){this.id = id;}
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public String getRegistrationNumber(){return registrationNumber;}
-    public void setRegistrationNumber(String registrationNumber){this.registrationNumber = registrationNumber;}
+    public String getRegistrationNumber() { return registrationNumber; }
+    public void setRegistrationNumber(String registrationNumber) { this.registrationNumber = registrationNumber; }
 
-    public int getCapacity(){return capacity;}
-    public void setCapacity(int capacity){this.capacity = capacity;}
+    public int getCapacity() { return capacity; }
+    public void setCapacity(int capacity) { this.capacity = capacity; }
 
-    public BusStatus getStatus(){return status;}
-    public void setStatus(BusStatus status){this.status = status;}
+    public BusStatus getStatusEnum() { return status; }
+    public String getStatusDescription() { return status.getDescription(); }
+    public void setStatus(BusStatus status) { this.status = status; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Bus)) return false;
+        Bus bus = (Bus) o;
+        return Objects.equals(id, bus.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     @Override
     public String toString() {
@@ -41,5 +70,4 @@ public class Bus {
                 ", status=" + status +
                 '}';
     }
-
 }
