@@ -18,6 +18,9 @@ public class DutyAssignment {
         this.role = role;
     }
 
+    public DutyAssignment() {
+    }
+
     public String getId() {
         return id;
     }
@@ -48,5 +51,15 @@ public class DutyAssignment {
 
     public void setRole(DriverRole role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "DutyAssignment{" +
+                "id='" + id + '\'' +
+                ", tripId='" + tripId + '\'' +
+                ", staffId='" + staffId + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

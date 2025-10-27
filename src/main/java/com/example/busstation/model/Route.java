@@ -3,11 +3,11 @@ package com.example.busstation.model;
 import java.util.List;
 
 public class Route {
-    String id;
-    BusStation origin;
-    BusStation destination;
-    float distance;
-    List<BusTrip> trips;
+    public String id;
+    public BusStation origin;
+    public BusStation destination;
+    public float distance;
+    public List<BusTrip> trips;
 
     public Route(String id, BusStation origin, BusStation destination, float distance, List<BusTrip> trips) {
         this.id = id;
@@ -15,6 +15,9 @@ public class Route {
         this.destination = destination;
         this.distance = distance;
         this.trips = trips;
+    }
+
+    public Route() {
     }
 
     public String getId() {
@@ -55,5 +58,15 @@ public class Route {
 
     public void setTrips(List<BusTrip> trips) {
         this.trips = trips;
+    }
+
+    public String toString() {
+        return "Route{" +
+                "id='" + id + '\'' +
+                ", origin=" + origin +
+                ", destination=" + destination +
+                ", distance=" + distance +
+                ", trips=" + trips +
+                '}';
     }
 }

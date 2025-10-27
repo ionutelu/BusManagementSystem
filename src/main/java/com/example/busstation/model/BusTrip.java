@@ -10,14 +10,17 @@ public class BusTrip {
         ACTIVE,
         COMPLETED
     }
-    String id;
-    String routeId;
-    String busId;
-    LocalDateTime startTime;
-    List<Ticket> tickets;
-    List<DutyAssignment> assignments;
-    BusTripStatus status;
+    public String id;
+    public String routeId;
+    public String busId;
+    public LocalDateTime startTime;
+    public List<Ticket> tickets;
+    public List<DutyAssignment> assignments;
+    public BusTripStatus status;
 
+    public BusTrip(){
+
+    }
     public BusTrip(String id, String routeId, String busId, LocalDateTime startTime,
                    List<Ticket> tickets, List<DutyAssignment> assignments, BusTripStatus status) {
         this.id = id;
@@ -57,7 +60,6 @@ public class BusTrip {
         return status;
     }
 
-    // Setters
     public void setId(String id) {
         this.id = id;
     }
@@ -86,4 +88,16 @@ public class BusTrip {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "BusTrip{" +
+                "id='" + id + '\'' +
+                ", routeId='" + routeId + '\'' +
+                ", busId='" + busId + '\'' +
+                ", startTime=" + startTime +
+                ", tickets=" + tickets +
+                ", assignments=" + assignments +
+                ", status=" + status +
+                '}';
+    }
 }
