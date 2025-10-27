@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class BusRepo implements AbstractRepository<Bus> {
@@ -24,8 +25,7 @@ public class BusRepo implements AbstractRepository<Bus> {
     }
 
     @Override
-    public Bus findById(int id) {
-
+    public Bus findById(String id) {
         String strId = String.valueOf(id);
         for (Bus bus : busRepo) {
             if (bus.getId().equals(strId)) {
@@ -35,9 +35,23 @@ public class BusRepo implements AbstractRepository<Bus> {
         return null;
     }
 
-    @Override
     public Bus save(Bus bus) {
+        Objects.requireNonNull(bus, "bus is required");
+        Bus existing = findById(bus.getId());
+        if (existing != null) {
+            busRepo.remove(existing);
+        }
         busRepo.add(bus);
         return bus;
+    }
+
+    public boolean deleteById(String id) {
+        for (Bus b : busRepo) {
+            if (b.getId().equals(id)) {
+                busRepo.remove(b);
+                return true;
+            }
+        }
+        return false;
     }
 }
