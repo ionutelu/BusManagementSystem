@@ -1,11 +1,11 @@
 package com.example.busstation.repository;
 
 import com.example.busstation.model.Passenger;
-import com.example.busstation.repository.AbstractRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class PassengerRepo implements AbstractRepository<Passenger> {
@@ -23,10 +23,9 @@ public class PassengerRepo implements AbstractRepository<Passenger> {
     }
 
     @Override
-    public Passenger findById(int id) {
-        String strId = String.valueOf(id);
+    public Passenger findById(String id) {
         for (Passenger passenger : passengerRepo) {
-            if (passenger.getId().equals(strId)) {
+            if (passenger.getId().equals(id)) {
                 return passenger;
             }
         }
@@ -35,7 +34,23 @@ public class PassengerRepo implements AbstractRepository<Passenger> {
 
     @Override
     public Passenger save(Passenger passenger) {
+        Objects.requireNonNull(passenger, "passenger is required");
+        Passenger existing = findById(passenger.getId());
+        if (existing != null) {
+            passengerRepo.remove(existing);
+        }
         passengerRepo.add(passenger);
         return passenger;
+    }
+
+    @Override
+    public boolean deleteById(String id) {
+        for (Passenger passenger : passengerRepo) {
+            if (passenger.getId().equals(id)) {
+                passengerRepo.remove(passenger);
+                return true;
+            }
+        }
+        return false;
     }
 }

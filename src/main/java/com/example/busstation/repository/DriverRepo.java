@@ -1,11 +1,11 @@
 package com.example.busstation.repository;
 
 import com.example.busstation.model.Driver;
-import com.example.busstation.repository.AbstractRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class DriverRepo implements AbstractRepository<Driver> {
@@ -23,10 +23,9 @@ public class DriverRepo implements AbstractRepository<Driver> {
     }
 
     @Override
-    public Driver findById(int id) {
-        String strId = String.valueOf(id);
+    public Driver findById(String id) {
         for (Driver driver : driverRepo) {
-            if (driver.getId().equals(strId)) {
+            if (driver.getId().equals(id)) {
                 return driver;
             }
         }
@@ -35,7 +34,23 @@ public class DriverRepo implements AbstractRepository<Driver> {
 
     @Override
     public Driver save(Driver driver) {
+        Objects.requireNonNull(driver, "driver is required");
+        Driver existing = findById(driver.getId());
+        if (existing != null) {
+            driverRepo.remove(existing);
+        }
         driverRepo.add(driver);
         return driver;
+    }
+
+    @Override
+    public boolean deleteById(String id) {
+        for (Driver driver : driverRepo) {
+            if (driver.getId().equals(id)) {
+                driverRepo.remove(driver);
+                return true;
+            }
+        }
+        return false;
     }
 }

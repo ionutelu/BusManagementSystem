@@ -1,11 +1,11 @@
 package com.example.busstation.repository;
 
 import com.example.busstation.model.TripManager;
-import com.example.busstation.repository.AbstractRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class TripManagerRepo implements AbstractRepository<TripManager> {
@@ -23,10 +23,9 @@ public class TripManagerRepo implements AbstractRepository<TripManager> {
     }
 
     @Override
-    public TripManager findById(int id) {
-        String strId = String.valueOf(id);
+    public TripManager findById(String id) {
         for (TripManager manager : managerRepo) {
-            if (manager.getId().equals(strId)) {
+            if (manager.getId().equals(id)) {
                 return manager;
             }
         }
@@ -35,7 +34,23 @@ public class TripManagerRepo implements AbstractRepository<TripManager> {
 
     @Override
     public TripManager save(TripManager manager) {
+        Objects.requireNonNull(manager, "manager is required");
+        TripManager existing = findById(manager.getId());
+        if (existing != null) {
+            managerRepo.remove(existing); // update
+        }
         managerRepo.add(manager);
         return manager;
+    }
+
+    @Override
+    public boolean deleteById(String id) {
+        for (TripManager manager : managerRepo) {
+            if (manager.getId().equals(id)) {
+                managerRepo.remove(manager);
+                return true;
+            }
+        }
+        return false;
     }
 }
