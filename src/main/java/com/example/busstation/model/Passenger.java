@@ -1,21 +1,27 @@
 package com.example.busstation.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Passenger {
-    public String id;
-    public String name;
-    public String currency;
-    public List<Ticket> tickets;
 
-    public Passenger(){
+    private String id;
+    private String name;
+    private String currency;
+    private List<Ticket> tickets = new ArrayList<>();
+
+    public Passenger() {
     }
 
     public Passenger(String id, String name, String currency, List<Ticket> tickets) {
-        this.id = id;
-        this.name = name;
-        this.currency = currency;
-        this.tickets = tickets;
+        this.id = Objects.requireNonNull(id, "id is required");
+        this.name = Objects.requireNonNull(name, "name is required");
+        this.currency = Objects.requireNonNull(currency, "currency is required");
+        if (tickets != null) {
+            this.tickets = new ArrayList<>(tickets);
+        }
     }
 
     public String getId() {
@@ -23,7 +29,7 @@ public class Passenger {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = Objects.requireNonNull(id, "id is required");
     }
 
     public String getName() {
@@ -31,7 +37,7 @@ public class Passenger {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = Objects.requireNonNull(name, "name is required");
     }
 
     public String getCurrency() {
@@ -39,15 +45,24 @@ public class Passenger {
     }
 
     public void setCurrency(String currency) {
-        this.currency = currency;
+        this.currency = Objects.requireNonNull(currency, "currency is required");
     }
 
     public List<Ticket> getTickets() {
-        return tickets;
+        return Collections.unmodifiableList(tickets);
     }
 
     public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+        this.tickets = (tickets != null) ? new ArrayList<>(tickets) : new ArrayList<>();
+    }
+
+    public void addTicket(Ticket ticket) {
+        Objects.requireNonNull(ticket, "ticket is required");
+        this.tickets.add(ticket);
+    }
+
+    public boolean removeTicket(Ticket ticket) {
+        return this.tickets.remove(ticket);
     }
 
     @Override
@@ -60,4 +75,16 @@ public class Passenger {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Passenger)) return false;
+        Passenger that = (Passenger) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
