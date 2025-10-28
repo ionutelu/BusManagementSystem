@@ -1,7 +1,7 @@
 package com.example.busstation.service;
 
 import com.example.busstation.model.Bus;
-import com.example.busstation.model.Bus.BusStatus;
+import com.example.busstation.model.BusStatus;
 import com.example.busstation.repository.BusRepo;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +27,8 @@ public class BusService {
         return repo.save(bus);
     }
 
-    public Bus add(String registrationNumber, int capacity, BusStatus status) {
-        Bus bus = new Bus(String.valueOf(repo.findAll().size() + 1), registrationNumber, capacity);
+    public Bus add(String registrationNumber, int capacity, BusStatus status, String vin) {
+        Bus bus = new Bus(String.valueOf(repo.findAll().size() + 1), registrationNumber, capacity, vin);
         bus.setStatus(status != null ? status : BusStatus.DOWN);
         return add(bus);
     }

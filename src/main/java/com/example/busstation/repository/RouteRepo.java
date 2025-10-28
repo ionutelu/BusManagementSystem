@@ -1,6 +1,7 @@
 package com.example.busstation.repository;
 
 import com.example.busstation.model.BusStation;
+import com.example.busstation.model.BusTripStatus;
 import com.example.busstation.model.Route;
 import com.example.busstation.model.BusTrip;
 import org.springframework.stereotype.Repository;
@@ -16,11 +17,11 @@ public class RouteRepo implements AbstractRepository<Route> {
 
     public RouteRepo() {
 
-        BusStation central = new BusStation("1", "Central Station", "Bucharest", null);
-        BusStation north = new BusStation("2", "North Station", "Cluj", null);
+        BusStation central = new BusStation("1", "Central Station", "Bucharest", null, Boolean.FALSE);
+        BusStation north = new BusStation("2", "North Station", "Cluj", null, Boolean.TRUE);
 
-        BusTrip trip1 = new BusTrip("1", "Route1", "1", null, null, null, BusTrip.BusTripStatus.PLANNED);
-        BusTrip trip2 = new BusTrip("2", "Route1", "2", null, null, null, BusTrip.BusTripStatus.PLANNED);
+        BusTrip trip1 = new BusTrip("1", "Route1", "1", null, null, null, BusTripStatus.PLANNED);
+        BusTrip trip2 = new BusTrip("2", "Route1", "2", null, null, null, BusTripStatus.PLANNED);
 
         List<BusTrip> trips = new ArrayList<>();
         trips.add(trip1);

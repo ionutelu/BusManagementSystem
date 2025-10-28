@@ -15,8 +15,8 @@ public class BusRepo implements AbstractRepository<Bus> {
 
 
     public BusRepo() {
-        busRepo.add(new Bus("1", "B123ABC", 50));
-        busRepo.add(new Bus("2", "B456DEF", 40));
+        busRepo.add(new Bus("1", "B123ABC", 50, "BALALALA"));
+        busRepo.add(new Bus("2", "B456DEF", 40, "ABBAABBA"));
     }
 
     @Override

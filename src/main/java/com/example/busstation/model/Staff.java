@@ -6,6 +6,7 @@ public abstract class Staff {
 
     protected String id;
     protected String name;
+    protected String email;
 
     public Staff() {
     }

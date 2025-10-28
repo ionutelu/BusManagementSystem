@@ -1,5 +1,6 @@
 package com.example.busstation.repository;
 
+import com.example.busstation.model.DriverRole;
 import com.example.busstation.model.DutyAssignment;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +14,8 @@ public class DutyAssignmentRepo implements AbstractRepository<DutyAssignment> {
     private final List<DutyAssignment> assignmentRepo = new ArrayList<>();
 
     public DutyAssignmentRepo() {
-        assignmentRepo.add(new DutyAssignment("1", "1", "1", DutyAssignment.DriverRole.PRIMARY_DRIVER));
-        assignmentRepo.add(new DutyAssignment("2", "1", "2", DutyAssignment.DriverRole.RESERVE_DRIVER));
+        assignmentRepo.add(new DutyAssignment("1", "1", "1", DriverRole.PRIMARY_DRIVER));
+        assignmentRepo.add(new DutyAssignment("2", "1", "2", DriverRole.RESERVE_DRIVER));
     }
 
     @Override
