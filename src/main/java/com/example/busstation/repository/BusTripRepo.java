@@ -1,6 +1,7 @@
 package com.example.busstation.repository;
 
 import com.example.busstation.model.BusTrip;
+import com.example.busstation.model.BusTripStatus;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ public class BusTripRepo implements AbstractRepository<BusTrip> {
                 LocalDateTime.now().plusDays(1),
                 null,
                 null,
-                BusTrip.BusTripStatus.PLANNED
+                BusTripStatus.PLANNED
         ));
 
         tripRepo.add(new BusTrip(
@@ -31,7 +32,7 @@ public class BusTripRepo implements AbstractRepository<BusTrip> {
                 LocalDateTime.now().plusDays(2),
                 null,
                 null,
-                BusTrip.BusTripStatus.ACTIVE
+                BusTripStatus.ACTIVE
         ));
     }
 

@@ -10,18 +10,29 @@ public class BusStation {
     private String id;
     private String name;
     private String city;
+    private Boolean isDamaged;
     private List<BusTrip> trips = new ArrayList<>();
 
     public BusStation() {
     }
 
-    public BusStation(String id, String name, String city, List<BusTrip> trips) {
+    public BusStation(String id, String name, String city, List<BusTrip> trips, Boolean isDamaged) {
         this.id = Objects.requireNonNull(id, "id is required");
         this.name = Objects.requireNonNull(name, "name is required");
         this.city = Objects.requireNonNull(city, "city is required");
+        this.isDamaged = isDamaged;
         if (trips != null) {
             this.trips = new ArrayList<>(trips);
         }
+    }
+
+
+    public Boolean getDamaged() {
+        return isDamaged;
+    }
+
+    public void setDamaged(Boolean damaged) {
+        isDamaged = damaged;
     }
 
     public String getId() { return id; }

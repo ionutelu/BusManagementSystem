@@ -8,12 +8,6 @@ import java.util.Objects;
 
 public class BusTrip {
 
-    public enum BusTripStatus {
-        PLANNED,
-        ACTIVE,
-        COMPLETED
-    }
-
     private String id;
     private String routeId;
     private String busId;

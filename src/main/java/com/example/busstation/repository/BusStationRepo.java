@@ -14,8 +14,8 @@ public class BusStationRepo implements AbstractRepository<BusStation> {
     private final List<BusStation> stationRepo = new ArrayList<>();
 
     public BusStationRepo() {
-        stationRepo.add(new BusStation("1", "Central Station", "Bucharest", null));
-        stationRepo.add(new BusStation("2", "North Station", "Cluj", null));
+        stationRepo.add(new BusStation("1", "Central Station", "Bucharest", null, Boolean.TRUE));
+        stationRepo.add(new BusStation("2", "North Station", "Cluj", null, Boolean.FALSE));
     }
 
     @Override

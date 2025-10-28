@@ -4,22 +4,8 @@ import java.util.Objects;
 
 public class Bus {
 
-    public enum BusStatus {
-        DOWN("Down"),
-        ACTIVE("Active");
-
-        private final String description;
-
-        BusStatus(String description) {
-            this.description = description;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-    }
-
     private String id;
+    private String vin;
     private String registrationNumber;
     private int capacity;
     private BusStatus status;
@@ -27,12 +13,19 @@ public class Bus {
     public Bus() {
         this.status = BusStatus.DOWN;
     }
-
-    public Bus(String id, String registrationNumber, int capacity) {
+    public Bus(String id, String registrationNumber, int capacity, String vin) {
         this.id = id;
         this.registrationNumber = registrationNumber;
         this.capacity = capacity;
         this.status = BusStatus.DOWN;
+        this.vin = vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+    public String getVin() {
+        return vin;
     }
 
     public String getId() { return id; }
