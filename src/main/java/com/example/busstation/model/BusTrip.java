@@ -29,7 +29,8 @@ public class BusTrip {
         this.id = Objects.requireNonNull(id, "id is required");
         this.routeId = Objects.requireNonNull(routeId, "routeId is required");
         this.busId = Objects.requireNonNull(busId, "busId is required");
-        this.startTime = Objects.requireNonNull(startTime, "startTime is required");
+        // this.startTime = Objects.requireNonNull(startTime, "startTime is required");
+        this.startTime = startTime;
         this.tickets = (tickets != null) ? new ArrayList<>(tickets) : new ArrayList<>();
         this.assignments = (assignments != null) ? new ArrayList<>(assignments) : new ArrayList<>();
         this.status = (status != null) ? status : BusTripStatus.PLANNED;
