@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class BusStation {
+public class BusStation implements Identifiable<String>{
 
     private String id;
     private String name;
@@ -35,7 +35,9 @@ public class BusStation {
         isDamaged = damaged;
     }
 
+    @Override
     public String getId() { return id; }
+    @Override
     public void setId(String id) { this.id = Objects.requireNonNull(id, "id is required"); }
 
     public String getName() { return name; }

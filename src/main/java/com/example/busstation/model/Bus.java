@@ -2,7 +2,7 @@ package com.example.busstation.model;
 
 import java.util.Objects;
 
-public class Bus {
+public class Bus implements Identifiable<String> {
 
     private String id;
     private String vin;
@@ -27,8 +27,9 @@ public class Bus {
     public String getVin() {
         return vin;
     }
-
+    @Override
     public String getId() { return id; }
+    @Override
     public void setId(String id) { this.id = id; }
 
     public String getRegistrationNumber() { return registrationNumber; }

@@ -2,7 +2,7 @@ package com.example.busstation.model;
 
 import java.util.Objects;
 
-public abstract class Staff {
+public abstract class Staff implements Identifiable<String>{
 
     protected String id;
     protected String name;
@@ -15,11 +15,11 @@ public abstract class Staff {
         this.id = Objects.requireNonNull(id, "id is required");
         this.name = Objects.requireNonNull(name, "name is required");
     }
-
+    @Override
     public String getId() {
         return id;
     }
-
+    @Override
     public void setId(String id) {
         this.id = Objects.requireNonNull(id, "id is required");
     }

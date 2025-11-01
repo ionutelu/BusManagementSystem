@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Passenger {
+public class Passenger implements Identifiable<String>{
 
     private String id;
     private String name;
@@ -23,11 +23,11 @@ public class Passenger {
             this.tickets = new ArrayList<>(tickets);
         }
     }
-
+    @Override
     public String getId() {
         return id;
     }
-
+    @Override
     public void setId(String id) {
         this.id = Objects.requireNonNull(id, "id is required");
     }

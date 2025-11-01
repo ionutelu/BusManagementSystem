@@ -2,7 +2,7 @@ package com.example.busstation.model;
 
 import java.util.Objects;
 
-public class Ticket {
+public class Ticket implements Identifiable<String>{
 
     private String id;
     private String tripId;
@@ -23,11 +23,11 @@ public class Ticket {
         }
         this.price = price;
     }
-
+    @Override
     public String getId() {
         return id;
     }
-
+    @Override
     public void setId(String id) {
         this.id = Objects.requireNonNull(id, "id is required");
     }
