@@ -2,7 +2,7 @@ package com.example.busstation.model;
 
 import java.util.Objects;
 
-public class DutyAssignment {
+public class DutyAssignment implements Identifiable<String>{
 
     private String id;
     private String tripId;
@@ -23,11 +23,11 @@ public class DutyAssignment {
         this.staffId = Objects.requireNonNull(staffId, "staffId is required");
         this.role = Objects.requireNonNullElse(role, DriverRole.PRIMARY_DRIVER);
     }
-
+    @Override
     public String getId() {
         return id;
     }
-
+    @Override
     public void setId(String id) {
         this.id = Objects.requireNonNull(id, "id is required");
     }

@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Route {
+public class Route implements Identifiable<String>{
 
     private String id;
     private BusStation origin;
@@ -25,11 +25,11 @@ public class Route {
             this.trips = new ArrayList<>(trips);
         }
     }
-
+    @Override
     public String getId() {
         return id;
     }
-
+    @Override
     public void setId(String id) {
         this.id = Objects.requireNonNull(id, "id is required");
     }

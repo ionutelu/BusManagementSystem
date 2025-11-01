@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class BusTrip {
+public class BusTrip implements Identifiable<String>{
 
     private String id;
     private String routeId;
@@ -29,8 +29,9 @@ public class BusTrip {
         this.assignments = (assignments != null) ? new ArrayList<>(assignments) : new ArrayList<>();
         this.status = (status != null) ? status : BusTripStatus.PLANNED;
     }
-
+    @Override
     public String getId() { return id; }
+    @Override
     public void setId(String id) { this.id = Objects.requireNonNull(id); }
 
     public String getRouteId() { return routeId; }
