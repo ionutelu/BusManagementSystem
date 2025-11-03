@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Routes List</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<h1>Routes</h1>
+
+<a th:href="@{/routes/new}">Add New Route</a>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Origin</th>
+    <th>Destination</th>
+    <th>Distance (km)</th>
+    <th>Trips</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="route : ${routes}">
+    <td th:text="${route.id}">Route ID</td>
+    <td th:text="${route.origin != null ? route.origin.name : 'N/A'}">Origin</td>
+    <td th:text="${route.destination != null ? route.destination.name : 'N/A'}">Destination</td>
+    <td th:text="${route.distance}">Distance</td>
+    <td>
+      <ul>
+        <li th:each="trip : ${route.trips}" th:text="${trip.id + ' - ' + trip.date}">Trip</li>
+      </ul>
+    </td>
+    <td>
+      <form th:action="@{'/routes/' + ${route.id} + '/delete'}" method="post">
+        <button type="submit">Delete</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
