@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BusTrip List</title>
+</head>
+<body>
+<h1>All BusTrips</h1>
+
+<a th:href="@{/busTrips/new}">Add New BusTrip</a>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Route ID</th>
+        <th>Bus ID</th>
+        <th>Start Time</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr th:each="bt : ${busTrips}">
+        <td th:text="${bt.id}">1</td>
+        <td th:text="${bt.routeId}">R1</td>
+        <td th:text="${bt.busId}">B1</td>
+        <td th:text="${#temporals.format(bt.startTime, 'yyyy-MM-dd HH:mm')}">2025-11-03 10:00</td>
+        <td th:text="${bt.status}">PLANNED</td>
+        <td>
+            <form th:action="@{'/busTrips/' + ${bt.id} + '/delete'}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
