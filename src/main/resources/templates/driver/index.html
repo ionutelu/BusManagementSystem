@@ -1,31 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Bus List</title>
+  <title>Drivers List</title>
 </head>
 <body>
-<h1>All Buses</h1>
 
-<a th:href="@{/buses/new}">Add New Bus</a>
+<h1>Drivers</h1>
+
+<a th:href="@{/drivers/new}">Add New Driver</a>
 
 <table border="1">
   <tr>
     <th>ID</th>
-    <th>VIN</th>
-    <th>Registration Number</th>
-    <th>Capacity</th>
-    <th>Status</th>
+    <th>Name</th>
+    <th>Experience Years</th>
     <th>Actions</th>
   </tr>
 
-  <tr th:each="bus : ${buses}">
-    <td th:text="${bus.id}">1</td>
-    <td th:text="${bus.vin}">VIN123</td>
-    <td th:text="${bus.registrationNumber}">B123</td>
-    <td th:text="${bus.capacity}">50</td>
-    <td th:text="${bus.statusDescription}">DOWN</td>
+  <tr th:each="driver : ${drivers}">
+    <td th:text="${driver.id}">DR01</td>
+    <td th:text="${driver.name}">John Doe</td>
+    <td th:text="${driver.experienceYears}">5</td>
+
     <td>
-      <form th:action="@{'/buses/' + ${bus.id} + '/delete'}" method="post">
+      <form th:action="@{'/drivers/' + ${driver.id} + '/delete'}" method="post">
         <button type="submit">Delete</button>
       </form>
     </td>
