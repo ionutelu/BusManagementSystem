@@ -17,13 +17,11 @@ public class Route implements Identifiable<String>{
     }
 
     public Route(String id, BusStation origin, BusStation destination, float distance, List<BusTrip> trips) {
-        this.id = Objects.requireNonNull(id, "id is required");
-        this.origin = Objects.requireNonNull(origin, "origin is required");
-        this.destination = Objects.requireNonNull(destination, "destination is required");
+        this.id = id;
+        this.origin = origin;
+        this.destination = destination;
         this.distance = distance;
-        if (trips != null) {
-            this.trips = new ArrayList<>(trips);
-        }
+        this.trips = new ArrayList<>(trips);
     }
     @Override
     public String getId() {
@@ -31,7 +29,7 @@ public class Route implements Identifiable<String>{
     }
     @Override
     public void setId(String id) {
-        this.id = Objects.requireNonNull(id, "id is required");
+        this.id = id;
     }
 
     public BusStation getOrigin() {
@@ -39,7 +37,7 @@ public class Route implements Identifiable<String>{
     }
 
     public void setOrigin(BusStation origin) {
-        this.origin = Objects.requireNonNull(origin, "origin is required");
+        this.origin = origin;
     }
 
     public BusStation getDestination() {
@@ -47,7 +45,7 @@ public class Route implements Identifiable<String>{
     }
 
     public void setDestination(BusStation destination) {
-        this.destination = Objects.requireNonNull(destination, "destination is required");
+        this.destination = destination;
     }
 
     public float getDistance() {
@@ -55,9 +53,6 @@ public class Route implements Identifiable<String>{
     }
 
     public void setDistance(float distance) {
-        if (distance < 0) {
-            throw new IllegalArgumentException("distance cannot be negative");
-        }
         this.distance = distance;
     }
 
@@ -66,11 +61,10 @@ public class Route implements Identifiable<String>{
     }
 
     public void setTrips(List<BusTrip> trips) {
-        this.trips = (trips != null) ? new ArrayList<>(trips) : new ArrayList<>();
+        this.trips = trips;
     }
 
     public void addTrip(BusTrip trip) {
-        Objects.requireNonNull(trip, "trip is required");
         trips.add(trip);
     }
 

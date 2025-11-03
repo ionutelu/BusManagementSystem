@@ -11,9 +11,10 @@ public abstract class Staff implements Identifiable<String>{
     public Staff() {
     }
 
-    public Staff(String id, String name) {
-        this.id = Objects.requireNonNull(id, "id is required");
-        this.name = Objects.requireNonNull(name, "name is required");
+    public Staff(String id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
     }
     @Override
     public String getId() {
@@ -21,7 +22,7 @@ public abstract class Staff implements Identifiable<String>{
     }
     @Override
     public void setId(String id) {
-        this.id = Objects.requireNonNull(id, "id is required");
+        this.id = id;
     }
 
     public String getName() {
@@ -29,9 +30,16 @@ public abstract class Staff implements Identifiable<String>{
     }
 
     public void setName(String name) {
-        this.name = Objects.requireNonNull(name, "name is required");
+        this.name = name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
     @Override
     public String toString() {
         return "Staff{" +

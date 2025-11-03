@@ -17,13 +17,11 @@ public class BusStation implements Identifiable<String>{
     }
 
     public BusStation(String id, String name, String city, List<BusTrip> trips, Boolean isDamaged) {
-        this.id = Objects.requireNonNull(id, "id is required");
-        this.name = Objects.requireNonNull(name, "name is required");
-        this.city = Objects.requireNonNull(city, "city is required");
+        this.id = id;
+        this.name = name;
+        this.city = city;
         this.isDamaged = isDamaged;
-        if (trips != null) {
-            this.trips = new ArrayList<>(trips);
-        }
+        this.trips = trips;
     }
 
 
@@ -38,13 +36,13 @@ public class BusStation implements Identifiable<String>{
     @Override
     public String getId() { return id; }
     @Override
-    public void setId(String id) { this.id = Objects.requireNonNull(id, "id is required"); }
+    public void setId(String id) { this.id = id; }
 
     public String getName() { return name; }
-    public void setName(String name) { this.name = Objects.requireNonNull(name, "name is required"); }
+    public void setName(String name) { this.name = name; }
 
     public String getCity() { return city; }
-    public void setCity(String city) { this.city = Objects.requireNonNull(city, "city is required"); }
+    public void setCity(String city) { this.city = city; }
 
     public List<BusTrip> getTrips() { return Collections.unmodifiableList(trips); }
 
@@ -57,7 +55,6 @@ public class BusStation implements Identifiable<String>{
     }
 
     public void addTrip(BusTrip trip) {
-        Objects.requireNonNull(trip, "trip is required");
         this.trips.add(trip);
     }
 

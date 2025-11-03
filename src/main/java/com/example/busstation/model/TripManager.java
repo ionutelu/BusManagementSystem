@@ -14,10 +14,10 @@ public class TripManager extends Staff {
         super();
     }
 
-    public TripManager(String id, String name, List<DutyAssignment> assignments, String employeeCode) {
-        super(id, name);
+    public TripManager(String id, String name, String email, List<DutyAssignment> assignments, String employeeCode) {
+        super(id, name, email);
         this.assignments = (assignments != null) ? new ArrayList<>(assignments) : new ArrayList<>();
-        this.employeeCode = Objects.requireNonNull(employeeCode, "employeeCode is required");
+        this.employeeCode = employeeCode;
     }
 
     public List<DutyAssignment> getAssignments() {
@@ -29,7 +29,6 @@ public class TripManager extends Staff {
     }
 
     public void addAssignment(DutyAssignment assignment) {
-        Objects.requireNonNull(assignment, "assignment cannot be null");
         this.assignments.add(assignment);
     }
 
@@ -42,7 +41,7 @@ public class TripManager extends Staff {
     }
 
     public void setEmployeeCode(String employeeCode) {
-        this.employeeCode = Objects.requireNonNull(employeeCode, "employeeCode is required");
+        this.employeeCode = employeeCode;
     }
 
     @Override
