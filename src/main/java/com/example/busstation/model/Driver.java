@@ -14,8 +14,8 @@ public class Driver extends Staff {
         super();
     }
 
-    public Driver(String id, String name, int experienceYears) {
-        super(id, name);
+    public Driver(String id, String name, String email, int experienceYears) {
+        super(id, name, email);
         this.experienceYears = experienceYears;
     }
 
