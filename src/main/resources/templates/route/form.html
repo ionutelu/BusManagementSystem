@@ -1,0 +1,31 @@
+<form th:action="@{/routes}" th:object="${route}" method="post">
+  <div>
+    <label for="id">Route ID:</label>
+    <input type="text" th:field="*{id}" id="id" required/>
+  </div>
+  <div>
+    <label for="origin">Origin Station:</label>
+    <input type="text" th:field="*{origin.name}" id="origin" required/>
+  </div>
+  <div>
+    <label for="destination">Destination Station:</label>
+    <input type="text" th:field="*{destination.name}" id="destination" required/>
+  </div>
+  <div>
+    <label for="distance">Distance (km):</label>
+    <input type="number" step="0.1" th:field="*{distance}" id="distance" required/>
+  </div>
+<!--  <div>-->
+<!--    <label>Bus Trips:</label>-->
+<!--    <ul>-->
+<!--      <li th:each="trip : ${trips}">-->
+<!--        <input type="checkbox" th:value="${trip.id}" th:field="*{trips}" />-->
+<!--        <span th:text="${trip.id + ' - ' + trip.date}">Trip</span>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </div>-->
+  <div>
+    <button type="submit">Save</button>
+    <a th:href="@{/routes}">Cancel</a>
+  </div>
+</form>
