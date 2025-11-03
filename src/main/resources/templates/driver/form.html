@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Add New Bus</title>
+  <title>New Driver</title>
 </head>
 <body>
-<h1>Add New Bus</h1>
 
-<form th:action="@{/buses}" method="post" th:object="${bus}">
-  <label for="id">id:</label>
-  <input type="text" id="id" name="id" th:field="*{id}" required /><br/><br/>
+<h1>Add Driver</h1>
 
-  <label for="vin">VIN:</label>
-  <input type="text" id="vin" name="vin" th:field="*{vin}" required /><br/><br/>
+<form th:action="@{/drivers}" th:object="${driver}" method="post">
 
-  <label for="registrationNumber">Registration Number:</label>
-  <input type="text" id="registrationNumber" name="registrationNumber" th:field="*{registrationNumber}" required /><br/><br/>
+  <label for="id">ID:</label>
+  <input type="text" id="id" th:field="*{id}" required>
 
-  <label for="capacity">Capacity:</label>
-  <input type="number" id="capacity" name="capacity" th:field="*{capacity}" required /><br/><br/>
+  <br><br>
 
-  <button type="submit">Add Bus</button>
+  <label for="name">Name:</label>
+  <input type="text" id="name" th:field="*{name}" required>
+
+  <br><br>
+
+  <label for="experienceYears">Experience (Years):</label>
+  <input type="number" id="experienceYears" th:field="*{experienceYears}" min="0">
+
+  <br><br>
+
+  <button type="submit">Save</button>
 </form>
 
-<br/>
-<a th:href="@{/buses}">Back to Bus List</a>
+<a th:href="@{/drivers}">Back to list</a>
 
 </body>
 </html>
