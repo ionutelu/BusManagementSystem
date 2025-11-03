@@ -1,0 +1,32 @@
+package com.example.busstation.service;
+
+import com.example.busstation.model.TripManager;
+import com.example.busstation.repository.TripManagerRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class TripManagerService {
+    private final TripManagerRepo tripManagerRepo;
+    @Autowired
+    public TripManagerService(TripManagerRepo tripManagerRepo) {
+        this.tripManagerRepo = tripManagerRepo;
+    }
+    public List<TripManager> findAll(){
+        return tripManagerRepo.findAll();
+    }
+
+    public void save(TripManager tripManager){
+        tripManagerRepo.save(tripManager);
+    }
+
+    public boolean deleteById(String id){
+        return tripManagerRepo.deleteById(id);
+    }
+
+    public void findById(String id){
+        tripManagerRepo.findById(id);
+    }
+}
