@@ -18,10 +18,10 @@ public class DutyAssignment implements Identifiable<String>{
     }
 
     public DutyAssignment(String id, String tripId, String staffId, DriverRole role) {
-        this.id = Objects.requireNonNull(id, "id is required");
-        this.tripId = Objects.requireNonNull(tripId, "tripId is required");
-        this.staffId = Objects.requireNonNull(staffId, "staffId is required");
-        this.role = Objects.requireNonNullElse(role, DriverRole.PRIMARY_DRIVER);
+        this.id = id;
+        this.tripId = tripId;
+        this.staffId = staffId;
+        this.role = role;
     }
     @Override
     public String getId() {
@@ -29,7 +29,7 @@ public class DutyAssignment implements Identifiable<String>{
     }
     @Override
     public void setId(String id) {
-        this.id = Objects.requireNonNull(id, "id is required");
+        this.id = id;
     }
 
     public String getTripId() {
@@ -37,7 +37,7 @@ public class DutyAssignment implements Identifiable<String>{
     }
 
     public void setTripId(String tripId) {
-        this.tripId = Objects.requireNonNull(tripId, "tripId is required");
+        this.tripId = tripId;
     }
 
     public String getStaffId() {
@@ -45,7 +45,7 @@ public class DutyAssignment implements Identifiable<String>{
     }
 
     public void setStaffId(String staffId) {
-        this.staffId = Objects.requireNonNull(staffId, "staffId is required");
+        this.staffId = staffId;
     }
 
     public DriverRole getRole() {
@@ -53,7 +53,7 @@ public class DutyAssignment implements Identifiable<String>{
     }
 
     public void setRole(DriverRole role) {
-        this.role = Objects.requireNonNullElse(role, DriverRole.PRIMARY_DRIVER);
+        this.role = role;
     }
 
     public String getRoleDescription() {

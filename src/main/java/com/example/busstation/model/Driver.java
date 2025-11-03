@@ -28,7 +28,6 @@ public class Driver extends Staff {
     }
 
     public void addAssignment(DutyAssignment assignment) {
-        Objects.requireNonNull(assignment, "assignment cannot be null");
         this.assignments.add(assignment);
     }
 
@@ -41,9 +40,6 @@ public class Driver extends Staff {
     }
 
     public void setExperienceYears(int experienceYears) {
-        if (experienceYears < 0) {
-            throw new IllegalArgumentException("Experience years cannot be negative");
-        }
         this.experienceYears = experienceYears;
     }
 

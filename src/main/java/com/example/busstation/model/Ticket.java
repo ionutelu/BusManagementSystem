@@ -14,13 +14,10 @@ public class Ticket implements Identifiable<String>{
     }
 
     public Ticket(String id, String tripId, String passengerId, String seatNumber, double price) {
-        this.id = Objects.requireNonNull(id, "id is required");
-        this.tripId = Objects.requireNonNull(tripId, "tripId is required");
-        this.passengerId = Objects.requireNonNull(passengerId, "passengerId is required");
-        this.seatNumber = Objects.requireNonNull(seatNumber, "seatNumber is required");
-        if (price < 0) {
-            throw new IllegalArgumentException("price cannot be negative");
-        }
+        this.id = id;
+        this.tripId = tripId;
+        this.passengerId = passengerId;
+        this.seatNumber = seatNumber;
         this.price = price;
     }
     @Override
@@ -29,7 +26,7 @@ public class Ticket implements Identifiable<String>{
     }
     @Override
     public void setId(String id) {
-        this.id = Objects.requireNonNull(id, "id is required");
+        this.id = id;
     }
 
     public String getTripId() {
@@ -37,7 +34,7 @@ public class Ticket implements Identifiable<String>{
     }
 
     public void setTripId(String tripId) {
-        this.tripId = Objects.requireNonNull(tripId, "tripId is required");
+        this.tripId = tripId;
     }
 
     public String getPassengerId() {
@@ -45,7 +42,7 @@ public class Ticket implements Identifiable<String>{
     }
 
     public void setPassengerId(String passengerId) {
-        this.passengerId = Objects.requireNonNull(passengerId, "passengerId is required");
+        this.passengerId = passengerId;
     }
 
     public String getSeatNumber() {
@@ -53,7 +50,7 @@ public class Ticket implements Identifiable<String>{
     }
 
     public void setSeatNumber(String seatNumber) {
-        this.seatNumber = Objects.requireNonNull(seatNumber, "seatNumber is required");
+        this.seatNumber = seatNumber;
     }
 
     public double getPrice() {
@@ -61,9 +58,6 @@ public class Ticket implements Identifiable<String>{
     }
 
     public void setPrice(double price) {
-        if (price < 0) {
-            throw new IllegalArgumentException("price cannot be negative");
-        }
         this.price = price;
     }
 
