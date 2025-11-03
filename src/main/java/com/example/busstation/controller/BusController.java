@@ -17,24 +17,24 @@ public class BusController {
     }
 
     @GetMapping
-    public String listBuses(Model model) {
+    public String index(Model model) {
         model.addAttribute("buses", busService.findAll());
         return "bus/index";
     }
 
     @GetMapping("/new")
-    public String showForm(Bus bus) {
+    public String form(Bus bus) {
         return "bus/form";
     }
 
     @PostMapping
-    public String addBus(Bus bus) {
+    public String create(Bus bus) {
         busService.save(bus);
         return "redirect:/buses";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteBus(@PathVariable String id) {
+    public String delete(@PathVariable String id) {
         busService.deleteById(id);
         return "redirect:/buses";
     }

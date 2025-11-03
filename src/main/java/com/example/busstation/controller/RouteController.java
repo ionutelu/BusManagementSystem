@@ -17,25 +17,25 @@ public class RouteController {
     }
 
     @GetMapping
-    public String listRoutes(Model model) {
+    public String index(Model model) {
         model.addAttribute("routes", routeService.findAll());
         return "route/index";
     }
 
     @GetMapping("/new")
-    public String showForm(Model model) {
+    public String form(Model model) {
         model.addAttribute("route", new Route());
         return "route/form";
     }
 
     @PostMapping
-    public String addRoute(@ModelAttribute Route route) {
+    public String create(@ModelAttribute Route route) {
         routeService.save(route);
         return "redirect:/routes";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteRoute(@PathVariable String id) {
+    public String delete(@PathVariable String id) {
         routeService.deleteById(id);
         return "redirect:/routes";
     }

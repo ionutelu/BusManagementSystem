@@ -21,24 +21,24 @@ public class BusStationController {
     }
 
     @GetMapping
-    public String listBuses(Model model) {
+    public String index(Model model) {
         model.addAttribute("busStations", busStationService.findAll());
         return "busStation/index";
     }
 
     @GetMapping("/new")
-    public String showForm(BusStation busStation) {
+    public String form(BusStation busStation) {
         return "busStation/form";
     }
 
     @PostMapping
-    public String addBusStations(BusStation busStation) {
+    public String create(BusStation busStation) {
         busStationService.save(busStation);
         return "redirect:/busStations";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteBusStations(@PathVariable String id) {
+    public String delete(@PathVariable String id) {
         busStationService.deleteById(id);
         return "redirect:/busStations";
     }

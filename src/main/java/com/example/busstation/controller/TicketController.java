@@ -17,24 +17,24 @@ public class TicketController {
     }
 
     @GetMapping
-    public String listTickets(Model model){
+    public String index(Model model){
         model.addAttribute("tickets", ticketService.findAll());
         return "ticket/index";
     }
 
     @GetMapping("/new")
-    public String showForm(Ticket ticket){
+    public String form(Ticket ticket){
         return "ticket/form";
     }
 
     @PostMapping
-    public String addTicket(Ticket ticket){
+    public String create(Ticket ticket){
         ticketService.save(ticket);
         return "redirect:/tickets";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteTicket(@PathVariable String id) {
+    public String delete(@PathVariable String id) {
         ticketService.deleteById(id);
         return "redirect:/tickets";
     }

@@ -18,24 +18,24 @@ public class DriverController {
     }
 
     @GetMapping
-    public String listDrivers(Model model){
+    public String index(Model model){
         model.addAttribute("drivers", driverService.findAll());
         return "driver/index";
     }
 
     @GetMapping("/new")
-    public String showForm(Driver driver) {
+    public String form(Driver driver) {
         return "driver/form";
     }
 
     @PostMapping
-    public String addDrivers(Driver driver) {
+    public String create(Driver driver) {
         driverService.save(driver);
         return "redirect:/drivers";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteDrivers(@PathVariable String id) {
+    public String delete(@PathVariable String id) {
         driverService.deleteById(id);
         return "redirect:/drivers";
     }

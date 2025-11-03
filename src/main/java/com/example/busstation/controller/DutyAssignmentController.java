@@ -17,25 +17,25 @@ public class DutyAssignmentController {
     }
 
     @GetMapping
-    public String listAssignments(Model model) {
+    public String index(Model model) {
         model.addAttribute("assignments", dutyAssignmentService.findAll());
         return "dutyAssignment/index";
     }
 
     @GetMapping("/new")
-    public String showForm(Model model) {
+    public String form(Model model) {
         model.addAttribute("dutyAssignment", new DutyAssignment());
         return "dutyAssignment/form";
     }
 
     @PostMapping
-    public String addDutyAssignments(@ModelAttribute DutyAssignment dutyAssignment) {
+    public String create(@ModelAttribute DutyAssignment dutyAssignment) {
         dutyAssignmentService.save(dutyAssignment);
         return "redirect:/assignments";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteAssignment(@PathVariable String id) {
+    public String delete(@PathVariable String id) {
         dutyAssignmentService.deleteById(id);
         return "redirect:/assignments";
     }

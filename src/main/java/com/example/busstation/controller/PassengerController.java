@@ -17,13 +17,13 @@ public class PassengerController {
     }
 
     @GetMapping
-    public String listPassengers(Model model) {
+    public String index(Model model) {
         model.addAttribute("passengers", passengerService.findAll());
         return "passenger/index"; // încarcă templates/passenger/index.html
     }
 
     @GetMapping("/new")
-    public String showForm(Passenger passenger) {
+    public String form(Passenger passenger) {
         return "passenger/form";
     }
 
