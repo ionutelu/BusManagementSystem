@@ -16,12 +16,10 @@ public class Passenger implements Identifiable<String>{
     }
 
     public Passenger(String id, String name, String currency, List<Ticket> tickets) {
-        this.id = Objects.requireNonNull(id, "id is required");
-        this.name = Objects.requireNonNull(name, "name is required");
-        this.currency = Objects.requireNonNull(currency, "currency is required");
-        if (tickets != null) {
-            this.tickets = new ArrayList<>(tickets);
-        }
+        this.id = id;
+        this.name = name;
+        this.currency = currency;
+        this.tickets = new ArrayList<>(tickets);
     }
     @Override
     public String getId() {
@@ -29,7 +27,7 @@ public class Passenger implements Identifiable<String>{
     }
     @Override
     public void setId(String id) {
-        this.id = Objects.requireNonNull(id, "id is required");
+        this.id = id;
     }
 
     public String getName() {
@@ -37,7 +35,7 @@ public class Passenger implements Identifiable<String>{
     }
 
     public void setName(String name) {
-        this.name = Objects.requireNonNull(name, "name is required");
+        this.name = name;
     }
 
     public String getCurrency() {
@@ -45,7 +43,7 @@ public class Passenger implements Identifiable<String>{
     }
 
     public void setCurrency(String currency) {
-        this.currency = Objects.requireNonNull(currency, "currency is required");
+        this.currency = currency;
     }
 
     public List<Ticket> getTickets() {
@@ -53,11 +51,10 @@ public class Passenger implements Identifiable<String>{
     }
 
     public void setTickets(List<Ticket> tickets) {
-        this.tickets = (tickets != null) ? new ArrayList<>(tickets) : new ArrayList<>();
+        this.tickets = tickets;
     }
 
     public void addTicket(Ticket ticket) {
-        Objects.requireNonNull(ticket, "ticket is required");
         this.tickets.add(ticket);
     }
 

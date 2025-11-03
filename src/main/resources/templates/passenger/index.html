@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Passenger List</title>
+</head>
+<body>
+<h1>All Passengers</h1>
+
+<a th:href="@{/passengers/new}">Add New Passenger</a>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Currency</th>
+        <th>Tickets</th>
+    </tr>
+
+    <tr th:each="ps : ${passengers}">
+        <td th:text="${ps.id}">1</td>
+        <td th:text="${ps.name}">R1</td>
+        <td th:text="${ps.currency}">B1</td>
+        <td th:text="${ps.tickets}">idkreallytbh</td>
+        <td>
+            <form th:action="@{'/passengers/' + ${ps.id} + '/delete'}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
