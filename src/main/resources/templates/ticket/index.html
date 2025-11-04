@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Staff List</title>
+  <meta charset="UTF-8">
+  <title>Ticket List</title>
 </head>
 <body>
 
-<h1>All Staff</h1>
+<h1>All Tickets</h1>
 
-<a th:href="@{/staff/new}">Add New Staff</a>
+<a th:href="@{/tickets/new}">Add New Ticket</a>
 
 <table border="1">
   <tr>
     <th>ID</th>
-    <th>Name</th>
-    <th>Email</th>
+    <th>Trip ID</th>
+    <th>Passenger ID</th>
+    <th>Seat Number</th>
+    <th>Price</th>
     <th>Actions</th>
   </tr>
 
-  <tr th:each="staffMember : ${staff}">
-    <td th:text="${staffMember.id}">ID001</td>
-    <td th:text="${staffMember.name}">John Doe</td>
-    <td th:text="${staffMember.email}">john@example.com</td>
+  <tr th:each="ticket : ${tickets}">
+    <td th:text="${ticket.id}">ID001</td>
+    <td th:text="${ticket.tripId}">TR001</td>
+    <td th:text="${ticket.passengerId}">PS001</td>
+    <td th:text="${ticket.seatNumber}">12A</td>
+    <td th:text="${ticket.price}">20.00</td>
     <td>
-      <form th:action="@{'/staff/' + ${staffMember.id} + '/delete'}" method="post">
+      <form th:action="@{'/tickets/' + ${ticket.id} + '/delete'}" method="post">
         <button type="submit">Delete</button>
       </form>
     </td>
