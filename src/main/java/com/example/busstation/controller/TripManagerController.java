@@ -1,10 +1,6 @@
 package com.example.busstation.controller;
 
-import com.example.busstation.model.Route;
-import com.example.busstation.model.Staff;
 import com.example.busstation.model.TripManager;
-import com.example.busstation.service.RouteService;
-import com.example.busstation.service.StaffService;
 import com.example.busstation.service.TripManagerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
