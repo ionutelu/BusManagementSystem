@@ -2,7 +2,7 @@ package com.example.busstation.model;
 
 import java.util.Objects;
 
-public abstract class Staff implements Identifiable<String>{
+public class Staff implements Identifiable<String>{
 
     protected String id;
     protected String name;
