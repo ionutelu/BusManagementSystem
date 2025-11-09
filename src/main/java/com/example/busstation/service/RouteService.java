@@ -1,7 +1,7 @@
 package com.example.busstation.service;
 
 import com.example.busstation.model.Route;
-import com.example.busstation.repository.RouteRepo;
+import com.example.busstation.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +9,11 @@ import java.util.List;
 
 @Service
 public class RouteService {
-    private final RouteRepo routeRepo;
+    private final RouteRepository routeRepo;
 
     @Autowired
-    public RouteService(RouteRepo routeRepo) {
-        this.routeRepo = routeRepo;
+    public RouteService(RouteRepository routeRepository) {
+        this.routeRepo = routeRepository;
     }
 
     public void save(Route route){

@@ -1,7 +1,7 @@
 package com.example.busstation.service;
 
 import com.example.busstation.model.TripManager;
-import com.example.busstation.repository.TripManagerRepo;
+import com.example.busstation.repository.TripManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +9,9 @@ import java.util.List;
 
 @Service
 public class TripManagerService {
-    private final TripManagerRepo tripManagerRepo;
+    private final TripManagerRepository tripManagerRepo;
     @Autowired
-    public TripManagerService(TripManagerRepo tripManagerRepo) {
+    public TripManagerService(TripManagerRepository tripManagerRepo) {
         this.tripManagerRepo = tripManagerRepo;
     }
     public List<TripManager> findAll(){

@@ -1,7 +1,7 @@
 package com.example.busstation.service;
 
 import com.example.busstation.model.Driver;
-import com.example.busstation.repository.DriverRepo;
+import com.example.busstation.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,10 @@ import java.util.List;
 @Service
 public class DriverService {
 
-    private final DriverRepo driverRepo;
+    private final DriverRepository driverRepo;
 
     @Autowired
-    public DriverService(DriverRepo driverRepo) {
+    public DriverService(DriverRepository driverRepo) {
         this.driverRepo = driverRepo;
     }
 
