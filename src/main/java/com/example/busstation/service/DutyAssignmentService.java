@@ -1,7 +1,7 @@
 package com.example.busstation.service;
 
 import com.example.busstation.model.DutyAssignment;
-import com.example.busstation.repository.DutyAssignmentRepo;
+import com.example.busstation.repository.DutyAssignmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,9 @@ import java.util.List;
 public class DutyAssignmentService {
 
 
-    private final DutyAssignmentRepo dutyAssignmentRepo;
+    private final DutyAssignmentRepository dutyAssignmentRepo;
     @Autowired
-    public DutyAssignmentService(DutyAssignmentRepo dutyAssignmentRepo) {
+    public DutyAssignmentService(DutyAssignmentRepository dutyAssignmentRepo) {
         this.dutyAssignmentRepo = dutyAssignmentRepo;
     }
 

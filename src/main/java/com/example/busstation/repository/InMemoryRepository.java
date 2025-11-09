@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InMemoryRepository <ID, T extends Identifiable<ID>> implements AbstractRepository<ID, T>{
+public abstract class InMemoryRepository <ID, T extends Identifiable<ID>> implements AbstractRepository<ID, T>{
     private final Map<ID, T> storage = new HashMap<>();
     public T save(T t) {
         storage.put(t.getId(), t);

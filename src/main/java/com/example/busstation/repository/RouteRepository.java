@@ -3,6 +3,6 @@ import com.example.busstation.model.Route;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class RouteRepo extends InMemoryRepository<String, Route> {
+public class RouteRepository extends InMemoryRepository<String, Route> {
 
 }

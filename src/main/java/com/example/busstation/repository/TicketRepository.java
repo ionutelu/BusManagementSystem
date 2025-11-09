@@ -3,6 +3,6 @@ import com.example.busstation.model.Ticket;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TicketRepo extends InMemoryRepository<String, Ticket>{
+public class TicketRepository extends InMemoryRepository<String, Ticket>{
 
 }
