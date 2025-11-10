@@ -3,6 +3,10 @@ import com.example.busstation.model.BusTrip;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class BusTripRepository extends InMemoryRepository<String, BusTrip>{
+public class BusTripRepository extends InFileBusRepository<String, BusTrip>{
+
+    public BusTripRepository(){
+        super("src/main/resources/data/BusTrip.json", BusTrip[].class);
+    }
 
 }

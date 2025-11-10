@@ -1,7 +1,11 @@
 package com.example.busstation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Bus implements Identifiable<String> {
 
     private String id;
@@ -38,9 +42,12 @@ public class Bus implements Identifiable<String> {
     public int getCapacity() { return capacity; }
     public void setCapacity(int capacity) { this.capacity = capacity; }
 
+    @JsonProperty("statusEnum")
     public BusStatus getStatusEnum() { return status; }
+    @JsonProperty("statusDescription")
     public String getStatusDescription() { return status.getDescription(); }
-    public void setStatus(BusStatus status) { this.status = status; }
+    @JsonProperty("statusEnum")
+    public void setStatusEnum(BusStatus status) { this.status = status; }
 
     @Override
     public boolean equals(Object o) {
