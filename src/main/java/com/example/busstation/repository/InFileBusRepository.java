@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class InFileBusRepository <ID, T extends Identifiable<ID>> implements AbstractRepository<ID, T> {
@@ -16,13 +17,13 @@ public abstract class InFileBusRepository <ID, T extends Identifiable<ID>> imple
     private final ObjectMapper mapper = new ObjectMapper();
     private final ArrayList<T> storage;
     private final Class<T[]> entityArrayClass;
-    private final Class<T> entityClass;
+    //private final Class<T> entityClass;
 
-    public InFileBusRepository(String filePath, Class<T[]> entityClass, Class<T> entityClass1){
+    public InFileBusRepository(String filePath, Class<T[]> entityArrayClass){
         this.filePath = filePath;
-        this.entityClass = entityClass1;
+        //this.entityClass = entityClass;
         File file = new File(filePath);
-        this.entityArrayClass = entityClass;
+        this.entityArrayClass = entityArrayClass;
         this.storage = loadFromFile(file);
     }
 
@@ -33,10 +34,13 @@ public abstract class InFileBusRepository <ID, T extends Identifiable<ID>> imple
         try {
             System.out.println("here we load!");
             return new ArrayList<>(Arrays.asList(mapper.readValue(file, entityArrayClass)));
+
         } catch (IOException e) {
-            System.out.println("here we dont load!");
+            System.out.println("Eroare la load: " + e.getMessage());
+            e.printStackTrace();
             return new ArrayList<>();
         }
+
     }
 
     @Override
@@ -70,11 +74,13 @@ public abstract class InFileBusRepository <ID, T extends Identifiable<ID>> imple
 
     @Override
     public boolean deleteById(ID id) {
-        for (T obj : storage){
-            if(obj.getId() == id){
-                storage.remove(obj);
+        Iterator<T> iterator = storage.iterator();
+        while(iterator.hasNext()) {
+            T obj = iterator.next();
+            if(obj.getId().equals(id)) {
+                iterator.remove();
                 try {
-                    System.out.println("here we save in delete!");
+                    //System.out.println("here we save in delete!");
                     saveToFile();
                 } catch (IOException e) {
                     System.out.println("here we dont save in delete!");
@@ -86,14 +92,14 @@ public abstract class InFileBusRepository <ID, T extends Identifiable<ID>> imple
         return false;
     }
 
+
     private void saveToFile() throws IOException {
         try{
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), storage);
             System.out.println("here we save in file!");
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), entityClass);
         }
         catch (Exception e){
             System.out.println("here we dont save in file!");
-            e.printStackTrace();
         }
     }
 }
