@@ -38,4 +38,18 @@ public class BusController {
         busService.deleteById(id);
         return "redirect:/buses";
     }
+
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable String id, Model model){
+        Bus bus = busService.findById(id);
+        model.addAttribute("bus", bus);
+        return "bus/form";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable String id, Bus bus) {
+        busService.update(bus, id);
+        return "redirect:/buses";
+    }
+
 }

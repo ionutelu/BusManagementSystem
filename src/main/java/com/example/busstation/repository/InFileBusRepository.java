@@ -63,14 +63,14 @@ public abstract class InFileBusRepository <ID, T extends Identifiable<ID>> imple
 
     @Override
     public T findById(ID id) {
-        for (T obj : storage){
-            if(obj.getId() == id){
+        for (T obj : storage) {
+            if (obj.getId().equals(id)) { // equals!
                 return obj;
             }
         }
         return null;
-
     }
+
 
     @Override
     public boolean deleteById(ID id) {
@@ -102,4 +102,25 @@ public abstract class InFileBusRepository <ID, T extends Identifiable<ID>> imple
             System.out.println("here we dont save in file!");
         }
     }
+
+    @Override
+    public T update(T updatedEntity, ID id) {
+        for (int i = 0; i < storage.size(); i++) {
+            T existingEntity = storage.get(i);
+
+            if (existingEntity.getId().equals(id)) {
+                storage.set(i, updatedEntity);
+
+                try {
+                    saveToFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return updatedEntity;
+            }
+        }
+        return null;
+    }
+
 }

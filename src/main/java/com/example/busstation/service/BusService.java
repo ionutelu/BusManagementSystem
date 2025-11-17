@@ -33,4 +33,6 @@ public class BusService {
         return busRepo.deleteById(Id);
     }
 
+    public Bus update(Bus updatedEntity, String id) { return busRepo.update(updatedEntity, id);}
+
 }

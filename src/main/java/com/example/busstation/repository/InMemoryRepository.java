@@ -26,4 +26,8 @@ public abstract class InMemoryRepository <ID, T extends Identifiable<ID>> implem
     public boolean deleteById(ID id) {
         return storage.remove(id) != null;
     }
+    @Override
+    public T update(T entity, ID id){
+        return entity;//doesn t work
+    }
 }
