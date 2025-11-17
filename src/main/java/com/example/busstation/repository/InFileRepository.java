@@ -9,12 +9,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 
 public abstract class InFileRepository<ID, T extends Identifiable<ID>> implements AbstractRepository<ID, T> {
 
 
     private final String filePath;
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule())
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final ArrayList<T> storage;
     private final Class<T[]> entityArrayClass;
     //private final Class<T> entityClass;

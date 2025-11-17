@@ -21,20 +21,6 @@ public class BusTripController {
         this.busTripService = busTripService;
     }
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        binder.registerCustomEditor(LocalDateTime.class, new PropertyEditorSupport() {
-            @Override public void setAsText(String text) {
-                setValue((text == null || text.isBlank()) ? null : LocalDateTime.parse(text, f));
-            }
-            @Override public String getAsText() {
-                LocalDateTime v = (LocalDateTime) getValue();
-                return v == null ? "" : v.format(f);
-            }
-        });
-    }
-
     @GetMapping
     public String index(Model model) {
         model.addAttribute("busTrips", busTripService.findAll());

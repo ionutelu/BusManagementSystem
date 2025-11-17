@@ -1,5 +1,8 @@
 package com.example.busstation.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +14,8 @@ public class BusTrip implements Identifiable<String>{
     private String id;
     private String routeId;
     private String busId;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startTime;
     private List<Ticket> tickets = new ArrayList<>();
     private List<DutyAssignment> assignments = new ArrayList<>();
