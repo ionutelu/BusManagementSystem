@@ -27,8 +27,8 @@ public class TripManagerService {
         return tripManagerRepo.deleteById(id);
     }
 
-    public void findById(String id){
-        tripManagerRepo.findById(id);
+    public TripManager findById(String id){
+        return tripManagerRepo.findById(id);
     }
 
     public TripManager update(TripManager updatedEntity, String id) { return tripManagerRepo.update(updatedEntity, id);}

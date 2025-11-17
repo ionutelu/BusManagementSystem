@@ -1,5 +1,6 @@
 package com.example.busstation.controller;
 
+import com.example.busstation.model.DutyAssignment;
 import com.example.busstation.model.Route;
 import com.example.busstation.service.RouteService;
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,18 @@ public class RouteController {
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable String id) {
         routeService.deleteById(id);
+        return "redirect:/routes";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable String id, Model model) {
+        model.addAttribute("route", routeService.findById(id));
+        return "route/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable String id, @ModelAttribute Route route) {
+        routeService.save(route);
         return "redirect:/routes";
     }
 }

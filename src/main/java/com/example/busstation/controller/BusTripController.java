@@ -58,4 +58,16 @@ public class BusTripController {
         busTripService.deleteById(id);
         return "redirect:/busTrips";
     }
+
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable String id, Model model) {
+        model.addAttribute("busTrip", busTripService.findById(id));
+        return "busTrip/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable String id, @ModelAttribute BusTrip busTrip) {
+        busTripService.save(busTrip);
+        return "redirect:/busTrips";
+    }
 }
