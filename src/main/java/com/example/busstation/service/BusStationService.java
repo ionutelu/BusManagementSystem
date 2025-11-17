@@ -1,17 +1,17 @@
 package com.example.busstation.service;
 
 import com.example.busstation.model.BusStation;
-import com.example.busstation.repository.BusStationRepository;
+import com.example.busstation.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class BusStationService {
-    private final BusStationRepository busStationRepo;
+    private final StationRepository busStationRepo;
 
     @Autowired
-    BusStationService(BusStationRepository busStationRepo){
+    BusStationService(StationRepository busStationRepo){
         this.busStationRepo = busStationRepo;
     }
 

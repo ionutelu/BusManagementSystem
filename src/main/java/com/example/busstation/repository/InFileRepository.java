@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class InFileBusRepository <ID, T extends Identifiable<ID>> implements AbstractRepository<ID, T> {
+public abstract class InFileRepository<ID, T extends Identifiable<ID>> implements AbstractRepository<ID, T> {
 
 
     private final String filePath;
@@ -19,7 +19,7 @@ public abstract class InFileBusRepository <ID, T extends Identifiable<ID>> imple
     private final Class<T[]> entityArrayClass;
     //private final Class<T> entityClass;
 
-    public InFileBusRepository(String filePath, Class<T[]> entityArrayClass){
+    public InFileRepository(String filePath, Class<T[]> entityArrayClass){
         this.filePath = filePath;
         //this.entityClass = entityClass;
         File file = new File(filePath);

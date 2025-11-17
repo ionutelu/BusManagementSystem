@@ -3,9 +3,9 @@ import com.example.busstation.model.BusTrip;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class BusTripRepository extends InFileBusRepository<String, BusTrip>{
+public class TripRepository extends InFileRepository<String, BusTrip> {
 
-    public BusTripRepository(){
+    public TripRepository(){
         super("src/main/resources/data/BusTrip.json", BusTrip[].class);
     }
 
