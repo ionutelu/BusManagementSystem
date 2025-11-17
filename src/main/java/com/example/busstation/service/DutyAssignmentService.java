@@ -1,5 +1,6 @@
 package com.example.busstation.service;
 
+import com.example.busstation.model.Driver;
 import com.example.busstation.model.DutyAssignment;
 import com.example.busstation.repository.DutyAssignmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,4 +33,6 @@ public class DutyAssignmentService {
     public boolean deleteById(String id){
         return dutyAssignmentRepo.deleteById(id);
     }
+
+    public DutyAssignment update(DutyAssignment updatedEntity, String id) { return dutyAssignmentRepo.update(updatedEntity, id);}
 }
