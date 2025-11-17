@@ -1,8 +1,71 @@
 [ {
-  "id" : "9",
+  "id" : "1",
   "vin" : "WDD2470971J071787868",
   "registrationNumber" : "BH58SAF",
-  "capacity" : 5,
+  "capacity" : 30,
+  "statusEnum" : "DOWN",
+  "statusDescription" : "Down"
+}, {
+  "id" : "2",
+  "vin" : "WDD3470971J071787868",
+  "registrationNumber" : "CJ02CTP",
+  "capacity" : 45,
+  "statusEnum" : "DOWN",
+  "statusDescription" : "Down"
+}, {
+  "id" : "3",
+  "vin" : "WDD4470971J071787868",
+  "registrationNumber" : "CJ03CTP",
+  "capacity" : 50,
+  "statusEnum" : "DOWN",
+  "statusDescription" : "Down"
+}, {
+  "id" : "4",
+  "vin" : "WDD5470971J071787868",
+  "registrationNumber" : "CJ04CTP",
+  "capacity" : 38,
+  "statusEnum" : "DOWN",
+  "statusDescription" : "Down"
+}, {
+  "id" : "5",
+  "vin" : "WDD6470971J071787868",
+  "registrationNumber" : "CJ05CTP",
+  "capacity" : 60,
+  "statusEnum" : "DOWN",
+  "statusDescription" : "Down"
+}, {
+  "id" : "6",
+  "vin" : "WDD7470971J071787868",
+  "registrationNumber" : "CJ06CTP",
+  "capacity" : 35,
+  "statusEnum" : "DOWN",
+  "statusDescription" : "Down"
+}, {
+  "id" : "7",
+  "vin" : "WDD7470971J071787868",
+  "registrationNumber" : "CJ07CTP",
+  "capacity" : 50,
+  "statusEnum" : "DOWN",
+  "statusDescription" : "Down"
+}, {
+  "id" : "8",
+  "vin" : "WDD8470971J071787868",
+  "registrationNumber" : "CJ08CTP",
+  "capacity" : 45,
+  "statusEnum" : "DOWN",
+  "statusDescription" : "Down"
+}, {
+  "id" : "9",
+  "vin" : "WDD9470971J071787868",
+  "registrationNumber" : "CJ09CTP",
+  "capacity" : 60,
+  "statusEnum" : "DOWN",
+  "statusDescription" : "Down"
+}, {
+  "id" : "10",
+  "vin" : "WDD040971J071787868",
+  "registrationNumber" : "CJ10CTP",
+  "capacity" : 38,
   "statusEnum" : "DOWN",
   "statusDescription" : "Down"
 } ]

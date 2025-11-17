@@ -1,0 +1,181 @@
+[ {
+  "id" : "35",
+  "origin" : {
+    "id" : null,
+    "name" : "Cart. Zorilor",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "destination" : {
+    "id" : null,
+    "name" : "Piata Garii",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "distance" : 7.6,
+  "trips" : [ ]
+}, {
+  "id" : "46B",
+  "origin" : {
+    "id" : null,
+    "name" : "Cart. Zorilor",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "destination" : {
+    "id" : null,
+    "name" : "Aurel Vlaicu",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "distance" : 8.4,
+  "trips" : [ ]
+}, {
+  "id" : "24B",
+  "origin" : {
+    "id" : null,
+    "name" : "Strada Unirii",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "destination" : {
+    "id" : null,
+    "name" : "Vivo",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "distance" : 9.4,
+  "trips" : [ ]
+}, {
+  "id" : "30",
+  "origin" : {
+    "id" : null,
+    "name" : "Cart. Grigorescu",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "destination" : {
+    "id" : null,
+    "name" : "Str. Aurel Vlaicu",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "distance" : 6.4,
+  "trips" : [ ]
+}, {
+  "id" : "25",
+  "origin" : {
+    "id" : null,
+    "name" : "Str. Bucium",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "destination" : {
+    "id" : null,
+    "name" : "Str. Unirii",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "distance" : 8.3,
+  "trips" : [ ]
+}, {
+  "id" : "43P",
+  "origin" : {
+    "id" : null,
+    "name" : "Cart. Zorilor",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "destination" : {
+    "id" : null,
+    "name" : "Vivo",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "distance" : 8.9,
+  "trips" : [ ]
+}, {
+  "id" : "43B",
+  "origin" : {
+    "id" : null,
+    "name" : "Cart. Grigorescu",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "destination" : {
+    "id" : null,
+    "name" : "Calea Turzii",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "distance" : 11.2,
+  "trips" : [ ]
+}, {
+  "id" : "50D",
+  "origin" : {
+    "id" : null,
+    "name" : "Dispecerat Zorilor",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "destination" : {
+    "id" : null,
+    "name" : "Str.Panseluțelor",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "distance" : 7.3,
+  "trips" : [ ]
+}, {
+  "id" : "32",
+  "origin" : {
+    "id" : null,
+    "name" : "Str. C. Brancuşi",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "destination" : {
+    "id" : null,
+    "name" : "P-ţa M. Viteazul",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "distance" : 10.1,
+  "trips" : [ ]
+}, {
+  "id" : "31",
+  "origin" : {
+    "id" : null,
+    "name" : "P-ţa M. Viteazul",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "destination" : {
+    "id" : null,
+    "name" : "Calea Baciului",
+    "city" : null,
+    "trips" : [ ],
+    "damaged" : null
+  },
+  "distance" : 7.5,
+  "trips" : [ ]
+} ]

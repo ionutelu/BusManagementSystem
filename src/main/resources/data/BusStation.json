@@ -1,7 +1,61 @@
 [ {
-  "id" : "10",
-  "name" : "Sorin-Vasile Pop",
-  "city" : "Bihor County",
+  "id" : "1",
+  "name" : "Spitalul de Recuperare",
+  "city" : "Cluj",
   "trips" : [ ],
-  "damaged" : true
+  "damaged" : false
+}, {
+  "id" : "2",
+  "name" : "Observatorului",
+  "city" : "Cluj",
+  "trips" : [ ],
+  "damaged" : false
+}, {
+  "id" : "3",
+  "name" : "Gheorghe Doja",
+  "city" : "Cluj",
+  "trips" : [ ],
+  "damaged" : false
+}, {
+  "id" : "4",
+  "name" : "Piata Cipariu",
+  "city" : "Cluj",
+  "trips" : [ ],
+  "damaged" : false
+}, {
+  "id" : "5",
+  "name" : "Piata Avram Iancu",
+  "city" : "Cluj",
+  "trips" : [ ],
+  "damaged" : false
+}, {
+  "id" : "6",
+  "name" : "Sora",
+  "city" : "Cluj",
+  "trips" : [ ],
+  "damaged" : false
+}, {
+  "id" : "7",
+  "name" : "Central ",
+  "city" : "Cluj",
+  "trips" : [ ],
+  "damaged" : false
+}, {
+  "id" : "8",
+  "name" : "Closca",
+  "city" : "Cluj",
+  "trips" : [ ],
+  "damaged" : false
+}, {
+  "id" : "9",
+  "name" : "Piata Garii",
+  "city" : "Cluj",
+  "trips" : [ ],
+  "damaged" : false
+}, {
+  "id" : "10",
+  "name" : "Zorilor ",
+  "city" : "Cluj",
+  "trips" : [ ],
+  "damaged" : false
 } ]
