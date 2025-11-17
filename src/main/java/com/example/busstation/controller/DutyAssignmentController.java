@@ -1,6 +1,6 @@
 package com.example.busstation.controller;
 
-import com.example.busstation.model.BusTrip;
+
 import com.example.busstation.model.DutyAssignment;
 import com.example.busstation.service.DutyAssignmentService;
 import org.springframework.stereotype.Controller;
@@ -44,12 +44,12 @@ public class DutyAssignmentController {
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable String id, Model model) {
         model.addAttribute("dutyAssignment", dutyAssignmentService.findById(id));
-        return "dutyAssignment/edit";
+        return "dutyAssignment/form";
     }
 
     @PostMapping("/{id}")
     public String update(@PathVariable String id, @ModelAttribute DutyAssignment dutyAssignment) {
-        dutyAssignmentService.save(dutyAssignment);
+        dutyAssignmentService.update(dutyAssignment, id);
         return "redirect:/dutyAssignments";
     }
 }

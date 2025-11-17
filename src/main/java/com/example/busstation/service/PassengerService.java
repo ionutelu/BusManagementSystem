@@ -36,5 +36,6 @@ public class PassengerService {
         return passengerRepo.deleteById(id);
     }
 
+    public Passenger update(Passenger updatedEntity, String id) { return passengerRepo.update(updatedEntity, id);}
 
 }

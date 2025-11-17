@@ -1,5 +1,5 @@
 package com.example.busstation.controller;
-import com.example.busstation.model.BusTrip;
+
 import com.example.busstation.model.Driver;
 import com.example.busstation.service.DriverService;
 import org.springframework.stereotype.Controller;
@@ -41,12 +41,12 @@ public class DriverController {
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable String id, Model model) {
         model.addAttribute("driver", driverService.findById(id));
-        return "driver/edit";
+        return "driver/form";
     }
 
     @PostMapping("/{id}")
     public String update(@PathVariable String id, @ModelAttribute Driver driver) {
-        driverService.save(driver);
+        driverService.update(driver, id);
         return "redirect:/drivers";
     }
 }
