@@ -8,4 +8,5 @@ public interface AbstractRepository<ID,T>{
     List<T> findAll();
     T findById(ID id);
     boolean deleteById(ID id);
+    T update(T t, ID id);
 }

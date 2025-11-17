@@ -24,11 +24,15 @@
     <td th:text="${bus.registrationNumber}">B123</td>
     <td th:text="${bus.capacity}">50</td>
     <td th:text="${bus.statusDescription}">DOWN</td>
-    <td>
-      <form th:action="@{'/buses/' + ${bus.id} + '/delete'}" method="post">
-        <button type="submit">Delete</button>
-      </form>
-    </td>
+
+      <td>
+          <a th:href="@{'/buses/' + ${bus.id} + '/edit'}">Edit</a>
+
+          <form th:action="@{'/buses/' + ${bus.id} + '/delete'}"
+                method="post" style="display:inline;">
+              <button type="submit">Delete</button>
+          </form>
+      </td>
   </tr>
 </table>
 
