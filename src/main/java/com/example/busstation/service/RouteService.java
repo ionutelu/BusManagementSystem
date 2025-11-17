@@ -1,5 +1,6 @@
 package com.example.busstation.service;
 
+import com.example.busstation.model.DutyAssignment;
 import com.example.busstation.model.Route;
 import com.example.busstation.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,6 @@ public class RouteService {
     public boolean deleteById(String id){
         return routeRepo.deleteById(id);
     }
+
+    public Route update(Route updatedEntity, String id) { return routeRepo.update(updatedEntity, id);}
 }

@@ -1,5 +1,6 @@
 package com.example.busstation.service;
 
+import com.example.busstation.model.BusStation;
 import com.example.busstation.model.BusTrip;
 import com.example.busstation.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,6 @@ public class BusTripService {
     public boolean deleteById(String id) {
         return busTripRepo.deleteById(id);
     }
+
+    public BusTrip update(BusTrip updatedEntity, String id) { return busTripRepo.update(updatedEntity, id);}
 }

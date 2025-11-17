@@ -1,5 +1,6 @@
 package com.example.busstation.service;
 
+import com.example.busstation.model.BusStation;
 import com.example.busstation.model.Driver;
 import com.example.busstation.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,4 +33,6 @@ public class DriverService {
     public Driver findById(String id){
         return driverRepo.findById(id);
     }
+
+    public Driver update(Driver updatedEntity, String id) { return driverRepo.update(updatedEntity, id);}
 }

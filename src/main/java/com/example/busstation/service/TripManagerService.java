@@ -1,5 +1,6 @@
 package com.example.busstation.service;
 
+import com.example.busstation.model.Ticket;
 import com.example.busstation.model.TripManager;
 import com.example.busstation.repository.TripManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +30,6 @@ public class TripManagerService {
     public void findById(String id){
         tripManagerRepo.findById(id);
     }
+
+    public TripManager update(TripManager updatedEntity, String id) { return tripManagerRepo.update(updatedEntity, id);}
 }
