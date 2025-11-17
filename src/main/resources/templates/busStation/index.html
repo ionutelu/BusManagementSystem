@@ -22,11 +22,15 @@
     <td th:text="${station.name}">Central Station</td>
     <td th:text="${station.city}">Cluj</td>
     <td th:text="${station.damaged}">false</td>
-    <td>
-      <form th:action="@{'/busStations/' + ${station.id} + '/delete'}" method="post">
-        <button type="submit">Delete</button>
-      </form>
-    </td>
+      <td>
+          <a th:href="@{'/busStations/' + ${station.id} + '/edit'}">Edit</a>
+
+          <form th:action="@{'/busStations/' + ${station.id} + '/delete'}"
+                method="post" style="display:inline;">
+              <button type="submit">Delete</button>
+          </form>
+      </td>
+
   </tr>
 </table>
 
