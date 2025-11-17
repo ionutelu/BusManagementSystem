@@ -26,10 +26,14 @@
         <td th:text="${#temporals.format(bt.startTime, 'yyyy-MM-dd HH:mm')}">2025-11-03 10:00</td>
         <td th:text="${bt.status}">PLANNED</td>
         <td>
-            <form th:action="@{'/busTrips/' + ${bt.id} + '/delete'}" method="post">
+            <a th:href="@{'/busTrips/' + ${bt.id} + '/edit'}">Edit</a>
+
+            <form th:action="@{'/busTrips/' + ${bt.id} + '/delete'}"
+                  method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>
+
     </tr>
 </table>
 

@@ -22,11 +22,15 @@
     <td th:text="${driver.name}">John Doe</td>
     <td th:text="${driver.experienceYears}">5</td>
 
-    <td>
-      <form th:action="@{'/drivers/' + ${driver.id} + '/delete'}" method="post">
-        <button type="submit">Delete</button>
-      </form>
-    </td>
+      <td>
+          <a th:href="@{'/drivers/' + ${driver.id} + '/edit'}">Edit</a>
+
+          <form th:action="@{'/drivers/' + ${driver.id} + '/delete'}"
+                method="post" style="display:inline;">
+              <button type="submit">Delete</button>
+          </form>
+      </td>
+
   </tr>
 </table>
 

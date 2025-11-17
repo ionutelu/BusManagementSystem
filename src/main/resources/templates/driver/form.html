@@ -7,7 +7,10 @@
 
 <h1>Add Driver</h1>
 
-<form th:action="@{/drivers}" th:object="${driver}" method="post">
+<form th:action="@{${driver.id} != null ? '/drivers/' + ${driver.id} : '/drivers'}"
+      th:object="${driver}"
+      method="post">
+
 
   <label for="id">ID:</label>
   <input type="text" id="id" th:field="*{id}" required>
@@ -24,7 +27,11 @@
 
   <br><br>
 
-  <button type="submit">Save</button>
+    <button type="submit"
+            th:text="${driver.id == null} ? 'Add Driver' : 'Update Driver'">
+        Add Driver
+    </button>
+
 </form>
 
 <a th:href="@{/drivers}">Back to list</a>
