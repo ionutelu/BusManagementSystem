@@ -1,7 +1,10 @@
 package com.example.busstation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DutyAssignment implements Identifiable<String>{
 
     private String id;

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Duty Assignments</title>
+    <meta charset="UTF-8">
+    <title>Duty Assignments</title>
 </head>
 <body>
 <h1>Duty Assignments</h1>
@@ -10,30 +10,35 @@
 <a th:href="@{/assignments/new}">Add New Assignment</a>
 
 <table border="1">
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Trip ID</th>
-    <th>Staff ID</th>
-    <th>Role</th>
-    <th>Action</th>
-  </tr>
-  </thead>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Trip ID</th>
+        <th>Staff ID</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
 
-  <tbody>
-  <tr th:each="assignment : ${assignments}">
-    <td th:text="${assignment.id}"></td>
-    <td th:text="${assignment.tripId}"></td>
-    <td th:text="${assignment.staffId}"></td>
-    <td th:text="${assignment.role}"></td>
+    <tbody>
+    <tr th:each="assignment : ${assignments}">
+        <td th:text="${assignment.id}"></td>
+        <td th:text="${assignment.tripId}"></td>
+        <td th:text="${assignment.staffId}"></td>
+        <td th:text="${assignment.role}"></td>
 
-    <td>
-      <form th:action="@{'/assignments/' + ${assignment.id} + '/delete'}" method="post">
-        <button type="submit">Delete</button>
-      </form>
-    </td>
-  </tr>
-  </tbody>
+        <td>
+            <!-- EDIT -->
+            <a th:href="@{'/assignments/' + ${assignment.id} + '/edit'}">Edit</a>
+
+            <!-- DELETE -->
+            <form th:action="@{'/assignments/' + ${assignment.id} + '/delete'}"
+                  method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
 </table>
 
 </body>

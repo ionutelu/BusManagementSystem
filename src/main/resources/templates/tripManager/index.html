@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Trip Manager List</title>
+    <meta charset="UTF-8">
+    <title>Trip Manager List</title>
 </head>
 <body>
 
@@ -11,25 +11,34 @@
 <a th:href="@{/tripManagers/new}">Add New Trip Manager</a>
 
 <table border="1">
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Employee Code</th>
-    <th>Actions</th>
-  </tr>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Employee Code</th>
+        <th>Actions</th>
+    </tr>
 
-  <tr th:each="tripManager : ${tripManagers}">
-    <td th:text="${tripManager.id}">ID</td>
-    <td th:text="${tripManager.name}">Name</td>
-    <td th:text="${tripManager.email}">Email</td>
-    <td th:text="${tripManager.employeeCode}">Code</td>
-    <td>
-      <form th:action="@{'/tripManagers/' + ${tripManager.id} + '/delete'}" method="post">
-        <button type="submit">Delete</button>
-      </form>
-    </td>
-  </tr>
+    <tr th:each="tm : ${tripManagers}">
+        <td th:text="${tm.id}"></td>
+        <td th:text="${tm.name}"></td>
+        <td th:text="${tm.email}"></td>
+        <td th:text="${tm.employeeCode}"></td>
+
+        <td>
+
+            <!-- EDIT BUTTON -->
+            <a th:href="@{'/tripManagers/' + ${tm.id} + '/edit'}">Edit</a>
+
+            <!-- DELETE BUTTON -->
+            <form th:action="@{'/tripManagers/' + ${tm.id} + '/delete'}"
+                  method="post"
+                  style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+
+        </td>
+    </tr>
 </table>
 
 </body>

@@ -50,6 +50,6 @@ public class DutyAssignmentController {
     @PostMapping("/{id}")
     public String update(@PathVariable String id, @ModelAttribute DutyAssignment dutyAssignment) {
         dutyAssignmentService.update(dutyAssignment, id);
-        return "redirect:/dutyAssignments";
+        return "redirect:/assignments";
     }
 }

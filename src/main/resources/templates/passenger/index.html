@@ -5,6 +5,7 @@
     <title>Passenger List</title>
 </head>
 <body>
+
 <h1>All Passengers</h1>
 
 <a th:href="@{/passengers/new}">Add New Passenger</a>
@@ -15,15 +16,23 @@
         <th>Name</th>
         <th>Currency</th>
         <th>Tickets</th>
+        <th>Actions</th>
     </tr>
 
     <tr th:each="ps : ${passengers}">
-        <td th:text="${ps.id}">1</td>
-        <td th:text="${ps.name}">R1</td>
-        <td th:text="${ps.currency}">B1</td>
-        <td th:text="${ps.tickets}">idkreallytbh</td>
+        <td th:text="${ps.id}"></td>
+        <td th:text="${ps.name}"></td>
+        <td th:text="${ps.currency}"></td>
+        <td th:text="${ps.tickets}"></td>
+
         <td>
-            <form th:action="@{'/passengers/' + ${ps.id} + '/delete'}" method="post">
+            <!-- EDIT BUTTON -->
+            <a th:href="@{'/passengers/' + ${ps.id} + '/edit'}">Edit</a>
+
+            <!-- DELETE BUTTON -->
+            <form th:action="@{'/passengers/' + ${ps.id} + '/delete'}"
+                  method="post"
+                  style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

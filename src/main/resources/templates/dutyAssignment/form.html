@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Add Duty Assignment</title>
+    <meta charset="UTF-8">
+    <title th:text="${dutyAssignment.id} == null ? 'Add Duty Assignment' : 'Edit Duty Assignment'"></title>
 </head>
 <body>
-<h1>Add Duty Assignment</h1>
+<h1 th:text="${dutyAssignment.id} == null ? 'Add Duty Assignment' : 'Edit Duty Assignment'"></h1>
 
-<form th:action="@{/assignments}" th:object="${dutyAssignment}" method="post">
+<form th:action="@{${dutyAssignment.id} != null
+                    ? '/assignments/' + ${dutyAssignment.id}
+                    : '/assignments'}"
+      th:object="${dutyAssignment}"
+      method="post">
 
-  <label>ID:</label>
-  <input type="text" th:field="*{id}" required><br><br>
+    <label>ID:</label>
+    <input type="text" th:field="*{id}"
+           th:readonly="${dutyAssignment.id != null}"
+           required><br><br>
 
-  <label>Trip ID:</label>
-  <input type="text" th:field="*{tripId}" required><br><br>
+    <label>Trip ID:</label>
+    <input type="text" th:field="*{tripId}" required><br><br>
 
-  <label>Staff ID:</label>
-  <input type="text" th:field="*{staffId}" required><br><br>
+    <label>Staff ID:</label>
+    <input type="text" th:field="*{staffId}" required><br><br>
 
-  <label>Role:</label>
-  <select th:field="*{role}">
-    <option th:each="r : ${T(com.example.busstation.model.DriverRole).values()}"
-            th:value="${r}"
-            th:text="${r}">
-    </option>
-  </select><br><br>
+    <label>Role:</label>
+    <select th:field="*{role}">
+        <option th:each="r : ${T(com.example.busstation.model.DriverRole).values()}"
+                th:value="${r}"
+                th:text="${r}">
+        </option>
+    </select><br><br>
 
-  <button type="submit">Save</button>
+    <button type="submit"
+            th:text="${dutyAssignment.id} == null ? 'Save' : 'Update'">
+        Save
+    </button>
 </form>
 
 <br>

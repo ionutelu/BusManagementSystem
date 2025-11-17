@@ -2,25 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add New Passenger</title>
+    <title th:text="${passenger.id} == null ? 'Add New Passenger' : 'Edit Passenger'"></title>
 </head>
 <body>
-<h1>Add New Passenger</h1>
 
-<form th:action="@{/passengers}" method="post" th:object="${passenger}">
-    <label for="id">id:</label>
-    <input type="text" id="id" th:field="*{id}" required /><br/><br/>
+<h1 th:text="${passenger.id} == null ? 'Add New Passenger' : 'Edit Passenger'"></h1>
 
-    <label for="name">Route ID:</label>
-    <input type="text" id="name" th:field="*{name}" required /><br/><br/>
+<form th:action="@{${passenger.id} != null
+                    ? '/passengers/' + ${passenger.id}
+                    : '/passengers'}"
+      method="post"
+      th:object="${passenger}">
 
-    <label for="currency">Bus ID:</label>
-    <input type="text" id="currency" th:field="*{currency}" required /><br/><br/>
+    <label for="id">ID:</label>
+    <input type="text"
+           id="id"
+           th:field="*{id}"
+           th:readonly="${passenger.id != null}"
+           required />
+    <br/><br/>
 
-    <button type="submit">Add Passenger</button>
+    <label for="name">Name:</label>
+    <input type="text"
+           id="name"
+           th:field="*{name}"
+           required />
+    <br/><br/>
+
+    <label for="currency">Currency:</label>
+    <input type="text"
+           id="currency"
+           th:field="*{currency}"
+           required />
+    <br/><br/>
+
+    <button type="submit"
+            th:text="${passenger.id == null ? 'Add Passenger' : 'Update Passenger'}">
+        Add Passenger
+    </button>
 </form>
 
 <br/>
 <a th:href="@{/passengers}">Back to Passengers List</a>
+
 </body>
 </html>
