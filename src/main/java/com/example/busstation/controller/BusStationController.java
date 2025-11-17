@@ -1,5 +1,6 @@
 package com.example.busstation.controller;
 
+import com.example.busstation.model.Bus;
 import com.example.busstation.model.BusStation;
 import com.example.busstation.service.BusStationService;
 import org.springframework.stereotype.Controller;
@@ -40,4 +41,18 @@ public class BusStationController {
         busStationService.deleteById(id);
         return "redirect:/busStations";
     }
+
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable String id, Model model){
+        BusStation busStation = busStationService.findById(id);
+        model.addAttribute("busStation", busStation);
+        return "busStation/form";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable String id, BusStation busStation) {
+        busStationService.update(busStation, id);
+        return "redirect:/busStations";
+    }
+
 }

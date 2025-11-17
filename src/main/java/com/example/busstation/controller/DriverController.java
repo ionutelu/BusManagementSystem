@@ -1,12 +1,10 @@
 package com.example.busstation.controller;
+import com.example.busstation.model.BusTrip;
 import com.example.busstation.model.Driver;
 import com.example.busstation.service.DriverService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/drivers")
@@ -37,6 +35,18 @@ public class DriverController {
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable String id) {
         driverService.deleteById(id);
+        return "redirect:/drivers";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable String id, Model model) {
+        model.addAttribute("driver", driverService.findById(id));
+        return "driver/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@PathVariable String id, @ModelAttribute Driver driver) {
+        driverService.save(driver);
         return "redirect:/drivers";
     }
 }
