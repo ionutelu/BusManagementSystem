@@ -2,6 +2,60 @@
   "id" : "1",
   "tripId" : "1",
   "staffId" : "1",
-  "role" : "RESERVE_DRIVER",
-  "roleDescription" : "Reserve driver"
+  "role" : "PRIMARY_DRIVER",
+  "roleDescription" : "Primary driver"
+}, {
+  "id" : "2",
+  "tripId" : "2",
+  "staffId" : "2",
+  "role" : "PRIMARY_DRIVER",
+  "roleDescription" : "Primary driver"
+}, {
+  "id" : "3",
+  "tripId" : "3",
+  "staffId" : "3",
+  "role" : "PRIMARY_DRIVER",
+  "roleDescription" : "Primary driver"
+}, {
+  "id" : "4",
+  "tripId" : "4",
+  "staffId" : "4",
+  "role" : "PRIMARY_DRIVER",
+  "roleDescription" : "Primary driver"
+}, {
+  "id" : "5",
+  "tripId" : "5",
+  "staffId" : "5",
+  "role" : "PRIMARY_DRIVER",
+  "roleDescription" : "Primary driver"
+}, {
+  "id" : "6",
+  "tripId" : "6",
+  "staffId" : "6",
+  "role" : "PRIMARY_DRIVER",
+  "roleDescription" : "Primary driver"
+}, {
+  "id" : "7",
+  "tripId" : "7",
+  "staffId" : "7",
+  "role" : "PRIMARY_DRIVER",
+  "roleDescription" : "Primary driver"
+}, {
+  "id" : "8",
+  "tripId" : "8",
+  "staffId" : "8",
+  "role" : "PRIMARY_DRIVER",
+  "roleDescription" : "Primary driver"
+}, {
+  "id" : "9",
+  "tripId" : "9",
+  "staffId" : "9",
+  "role" : "PRIMARY_DRIVER",
+  "roleDescription" : "Primary driver"
+}, {
+  "id" : "10",
+  "tripId" : "10",
+  "staffId" : "10",
+  "role" : "PRIMARY_DRIVER",
+  "roleDescription" : "Primary driver"
 } ]

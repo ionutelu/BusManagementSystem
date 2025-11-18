@@ -1,0 +1,72 @@
+[
+  {
+    "id": "1",
+    "name": "Andrei Pop",
+    "email": "andrei.pop@ctpcj.ro",
+    "assignments": [],
+    "experienceYears": 3
+  },
+  {
+    "id": "2",
+    "name": "Mihai Ionescu",
+    "email": "mihai.ionescu@ctpcj.ro",
+    "assignments": [],
+    "experienceYears": 5
+  },
+  {
+    "id": "3",
+    "name": "Cristian Rusu",
+    "email": "cristian.rusu@ctpcj.ro",
+    "assignments": [],
+    "experienceYears": 8
+  },
+  {
+    "id": "4",
+    "name": "Alexandru Matei",
+    "email": "alex.matei@ctpcj.ro",
+    "assignments": [],
+    "experienceYears": 2
+  },
+  {
+    "id": "5",
+    "name": "Bogdan Stoica",
+    "email": "bogdan.stoica@ctpcj.ro",
+    "assignments": [],
+    "experienceYears": 4
+  },
+  {
+    "id": "6",
+    "name": "Vlad Rotaru",
+    "email": "vlad.rotaru@ctpcj.ro",
+    "assignments": [],
+    "experienceYears": 6
+  },
+  {
+    "id": "7",
+    "name": "Radu Dan",
+    "email": "radu.dan@ctpcj.ro",
+    "assignments": [],
+    "experienceYears": 7
+  },
+  {
+    "id": "8",
+    "name": "George Sava",
+    "email": "george.sava@ctpcj.ro",
+    "assignments": [],
+    "experienceYears": 1
+  },
+  {
+    "id": "9",
+    "name": "Paul Nistor",
+    "email": "paul.nistor@ctpcj.ro",
+    "assignments": [],
+    "experienceYears": 4
+  },
+  {
+    "id": "10",
+    "name": "Iulian Ardelean",
+    "email": "iulian.ardelean@ctpcj.ro",
+    "assignments": [],
+    "experienceYears": 9
+  }
+]

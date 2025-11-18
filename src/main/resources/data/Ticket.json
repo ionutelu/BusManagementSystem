@@ -1,0 +1,12 @@
+[
+  { "id": "1", "tripId": "1", "passengerId": "1", "seatNumber": "4", "price": 15.0 },
+  { "id": "2", "tripId": "1", "passengerId": "2", "seatNumber": "5", "price": 15.0 },
+  { "id": "3", "tripId": "1", "passengerId": "3", "seatNumber": "6", "price": 15.0 },
+  { "id": "4", "tripId": "2", "passengerId": "4", "seatNumber": "3", "price": 12.0 },
+  { "id": "5", "tripId": "2", "passengerId": "5", "seatNumber": "2", "price": 12.0 },
+  { "id": "6", "tripId": "3", "passengerId": "6", "seatNumber": "7", "price": 14.0 },
+  { "id": "7", "tripId": "3", "passengerId": "7", "seatNumber": "8", "price": 14.0 },
+  { "id": "8", "tripId": "4", "passengerId": "8", "seatNumber": "10", "price": 10.0 },
+  { "id": "9", "tripId": "4", "passengerId": "9", "seatNumber": "11", "price": 10.0 },
+  { "id": "10", "tripId": "5", "passengerId": "10", "seatNumber": "1", "price": 8.0 }
+]

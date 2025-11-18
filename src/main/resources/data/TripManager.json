@@ -1,0 +1,72 @@
+[
+  {
+    "id": "1",
+    "name": "Mihaela Dorin",
+    "email": "mihaela.dorin@gmail.com",
+    "assignments": [],
+    "employeeCode": "123"
+  },
+  {
+    "id": "2",
+    "name": "Andrei Farcas",
+    "email": "andrei.farcas@ctpcj.ro",
+    "assignments": [],
+    "employeeCode": "234"
+  },
+  {
+    "id": "3",
+    "name": "Raluca Bodea",
+    "email": "raluca.bodea@ctpcj.ro",
+    "assignments": [],
+    "employeeCode": "345"
+  },
+  {
+    "id": "4",
+    "name": "Calin Todea",
+    "email": "calin.todea@ctpcj.ro",
+    "assignments": [],
+    "employeeCode": "456"
+  },
+  {
+    "id": "5",
+    "name": "Maria Bucur",
+    "email": "maria.bucur@ctpcj.ro",
+    "assignments": [],
+    "employeeCode": "567"
+  },
+  {
+    "id": "6",
+    "name": "Diana Toma",
+    "email": "diana.toma@ctpcj.ro",
+    "assignments": [],
+    "employeeCode": "678"
+  },
+  {
+    "id": "7",
+    "name": "Bogdan Oprescu",
+    "email": "bogdan.oprescu@ctpcj.ro",
+    "assignments": [],
+    "employeeCode": "789"
+  },
+  {
+    "id": "8",
+    "name": "Ioana Petrean",
+    "email": "ioana.petrean@ctpcj.ro",
+    "assignments": [],
+    "employeeCode": "890"
+  },
+  {
+    "id": "9",
+    "name": "Lucia Matei",
+    "email": "lucia.matei@ctpcj.ro",
+    "assignments": [],
+    "employeeCode": "901"
+  },
+  {
+    "id": "10",
+    "name": "Ovidiu Bran",
+    "email": "ovidiu.bran@ctpcj.ro",
+    "assignments": [],
+    "employeeCode": "012"
+  }
+]
