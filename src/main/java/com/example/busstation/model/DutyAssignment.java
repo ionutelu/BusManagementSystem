@@ -1,54 +1,66 @@
 package com.example.busstation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
+@Entity
+@Table(name = "duty_assignments")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DutyAssignment implements Identifiable<String>{
+public class DutyAssignment{
 
-    private String id;
-    private String tripId;
-    private String staffId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "trip_id", nullable = false)
+    private BusTrip busTrip;
+
+    @ManyToOne
+    @JoinColumn(name = "staff_id", nullable = false)
+    private Staff staff;
+
     private DriverRole role;
 
     public DutyAssignment() {
         this.role = DriverRole.PRIMARY_DRIVER;
     }
 
-    public DutyAssignment(String id, String tripId, String staffId) {
-        this(id, tripId, staffId, DriverRole.PRIMARY_DRIVER);
+    public DutyAssignment(BusTrip busTrip, Staff staff) {
+        this(busTrip, staff, DriverRole.PRIMARY_DRIVER);
     }
 
-    public DutyAssignment(String id, String tripId, String staffId, DriverRole role) {
-        this.id = id;
-        this.tripId = tripId;
-        this.staffId = staffId;
+    public DutyAssignment(BusTrip busTrip, Staff staff, DriverRole role) {
+        this.busTrip = busTrip;
+        this.staff = staff;
         this.role = role;
     }
-    @Override
-    public String getId() {
+
+    public Long getId() {
         return id;
     }
-    @Override
-    public void setId(String id) {
-        this.id = id;
+
+//    @Override
+//    public void setId(String id) {
+//        this.id = id;
+//    }
+
+    public BusTrip getBusTrip() {
+        return busTrip;
     }
 
-    public String getTripId() {
-        return tripId;
+    public void setTripId(BusTrip busTrip) {
+        this.busTrip = busTrip;
     }
 
-    public void setTripId(String tripId) {
-        this.tripId = tripId;
+    public Staff getStaffId() {
+        return staff;
     }
 
-    public String getStaffId() {
-        return staffId;
-    }
-
-    public void setStaffId(String staffId) {
-        this.staffId = staffId;
+    public void setStaffId(Staff staff) {
+        this.staff = staff;
     }
 
     public DriverRole getRole() {
@@ -67,8 +79,8 @@ public class DutyAssignment implements Identifiable<String>{
     public String toString() {
         return "DutyAssignment{" +
                 "id='" + id + '\'' +
-                ", tripId='" + tripId + '\'' +
-                ", staffId='" + staffId + '\'' +
+                ", tripId='" + busTrip.getId() + '\'' +
+                ", staffId='" + staff.getId() + '\'' +
                 ", role=" + role +
                 '}';
     }

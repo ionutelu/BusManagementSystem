@@ -1,9 +1,9 @@
 package com.example.busstation.repository;
-import com.example.busstation.model.TripManager;
+import com.example.busstation.model.BusStation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TripManagerRepository extends JpaRepository<TripManager, Long> {
+public interface BusStationRepository extends JpaRepository<BusStation, Long> {
 
 }

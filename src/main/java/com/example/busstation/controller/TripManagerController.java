@@ -34,20 +34,20 @@ public class TripManagerController {
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
+    public String delete(@PathVariable long id) {
         tripManagerService.deleteById(id);
         return "redirect:/tripManagers";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable String id, Model model) {
+    public String edit(@PathVariable long id, Model model) {
         model.addAttribute("tripManager", tripManagerService.findById(id));
         return "tripManager/form";
     }
 
     @PostMapping("/{id}")
     public String update(@PathVariable String id, @ModelAttribute TripManager tripManager) {
-        tripManagerService.update(tripManager, id);
+
         return "redirect:/tripManagers";
     }
 }

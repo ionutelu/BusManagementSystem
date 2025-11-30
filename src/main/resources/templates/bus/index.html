@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Bus List</title>
+    <title>Bus List</title>
 </head>
 <body>
+
 <h1>All Buses</h1>
 
 <a th:href="@{/buses/new}">Add New Bus</a>
 
 <table border="1">
-  <tr>
-    <th>ID</th>
-    <th>VIN</th>
-    <th>Registration Number</th>
-    <th>Capacity</th>
-    <th>Status</th>
-    <th>Actions</th>
-  </tr>
+    <tr>
+        <th>ID</th>
+        <th>VIN</th>
+        <th>Registration Number</th>
+        <th>Capacity</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
 
-  <tr th:each="bus : ${buses}">
-    <td th:text="${bus.id}">1</td>
-    <td th:text="${bus.vin}">VIN123</td>
-    <td th:text="${bus.registrationNumber}">B123</td>
-    <td th:text="${bus.capacity}">50</td>
-    <td th:text="${bus.statusDescription}">DOWN</td>
+    <tr th:each="bus : ${buses}">
+        <td th:text="${bus.id}"></td>
+        <td th:text="${bus.vin}"></td>
+        <td th:text="${bus.registrationNumber}"></td>
+        <td th:text="${bus.capacity}"></td>
+        <td th:text="${bus.status}"></td>  <!-- sau statusDescription dacă îl ai -->
 
-      <td>
-          <a th:href="@{'/buses/' + ${bus.id} + '/edit'}">Edit</a>
+        <td>
+            <a th:href="@{'/buses/' + ${bus.id} + '/edit'}">Edit</a>
 
-          <form th:action="@{'/buses/' + ${bus.id} + '/delete'}"
-                method="post" style="display:inline;">
-              <button type="submit">Delete</button>
-          </form>
-      </td>
-  </tr>
+            <form th:action="@{'/buses/' + ${bus.id} + '/delete'}"
+                  method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+
 </table>
 
 </body>

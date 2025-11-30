@@ -1,48 +1,61 @@
 package com.example.busstation.model;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
+@Entity
+@Table(name = "tickets")
+public class Ticket{
 
-public class Ticket implements Identifiable<String>{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String id;
-    private String tripId;
-    private String passengerId;
+    @ManyToOne
+    @JoinColumn(name = "bus_trip_id", nullable = false)
+    private BusTrip busTrip;
+
+    @ManyToOne
+    @JoinColumn(name = "passenger_id", nullable = false)
+    private Passenger passenger;
+
     private String seatNumber;
+
     private double price;
 
     public Ticket() {
     }
 
-    public Ticket(String id, String tripId, String passengerId, String seatNumber, double price) {
-        this.id = id;
-        this.tripId = tripId;
-        this.passengerId = passengerId;
+    public Ticket(BusTrip busTrip, Passenger passenger, String seatNumber, double price) {
+
+        this.busTrip = busTrip;
+        this.passenger = passenger;
         this.seatNumber = seatNumber;
         this.price = price;
     }
-    @Override
-    public String getId() {
+
+    public Long getId() {
         return id;
     }
-    @Override
-    public void setId(String id) {
-        this.id = id;
+//    @Override
+//    public void setId(String id) {
+//        this.id = id;
+//    }
+
+    public BusTrip getBusTrip() {
+        return busTrip;
     }
 
-    public String getTripId() {
-        return tripId;
+    public void setTripId(BusTrip busTrip) {
+        this.busTrip = busTrip;
     }
 
-    public void setTripId(String tripId) {
-        this.tripId = tripId;
+    public Passenger getPassenger() {
+        return passenger;
     }
 
-    public String getPassengerId() {
-        return passengerId;
-    }
-
-    public void setPassengerId(String passengerId) {
-        this.passengerId = passengerId;
+    public void setPassengerId(Passenger passenger) {
+        this.passenger = passenger;
     }
 
     public String getSeatNumber() {
@@ -65,8 +78,8 @@ public class Ticket implements Identifiable<String>{
     public String toString() {
         return "Ticket{" +
                 "id='" + id + '\'' +
-                ", tripId='" + tripId + '\'' +
-                ", passengerId='" + passengerId + '\'' +
+                ", tripId='" + busTrip.getId() + '\'' +
+                ", passengerId='" + passenger.getId() + '\'' +
                 ", seatNumber='" + seatNumber + '\'' +
                 ", price=" + price +
                 '}';

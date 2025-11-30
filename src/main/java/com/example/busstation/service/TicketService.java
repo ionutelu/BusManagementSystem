@@ -25,13 +25,12 @@ public class TicketService {
         return ticketRepo.findAll();
     }
 
-    public Ticket findById(String id){
-        return ticketRepo.findById(id);
+    public Ticket findById(long id){
+        return ticketRepo.findById(id).orElseThrow(() -> new RuntimeException("Ticket not found: " + id));
     }
 
-    public boolean deleteById(String id){
-        return ticketRepo.deleteById(id);
+    public void deleteById(long id){
+        ticketRepo.deleteById(id);
     }
 
-    public Ticket update(Ticket updatedEntity, String id) { return ticketRepo.update(updatedEntity, id);}
 }

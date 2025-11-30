@@ -26,13 +26,13 @@ public class DriverService {
         driverRepo.save(driver);
     }
 
-    public boolean deleteById(String id){
-        return driverRepo.deleteById(id);
+    public void deleteById(long id){
+        driverRepo.deleteById(id);
     }
 
-    public Driver findById(String id){
-        return driverRepo.findById(id);
+    public Driver findById(long id){
+        return driverRepo.findById(id).orElseThrow(() -> new RuntimeException("Driver not found: " + id));
     }
 
-    public Driver update(Driver updatedEntity, String id) { return driverRepo.update(updatedEntity, id);}
+
 }

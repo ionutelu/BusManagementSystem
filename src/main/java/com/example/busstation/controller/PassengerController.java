@@ -34,20 +34,20 @@ public class PassengerController {
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
+    public String delete(@PathVariable long id) {
         passengerService.deleteById(id);
         return "redirect:/passengers";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable String id, Model model) {
+    public String edit(@PathVariable long id, Model model) {
         model.addAttribute("passenger", passengerService.findById(id));
         return "passenger/form";
     }
 
     @PostMapping("/{id}")
     public String update(@PathVariable String id, @ModelAttribute Passenger passenger) {
-        passengerService.update(passenger, id);
+
         return "redirect:/passengers";
     }
 

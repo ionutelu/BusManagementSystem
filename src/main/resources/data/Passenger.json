@@ -1,12 +1,51 @@
-[
-  { "id": "1", "name": "Mihai Pop", "currency": "LEU", "tickets": [] },
-  { "id": "2", "name": "Ana Muntean", "currency": "LEU", "tickets": [] },
-  { "id": "3", "name": "Maria Dumitru", "currency": "LEU", "tickets": [] },
-  { "id": "4", "name": "Robert Stan", "currency": "LEU", "tickets": [] },
-  { "id": "5", "name": "Elena Sima", "currency": "LEU", "tickets": [] },
-  { "id": "6", "name": "Ioana Dima", "currency": "LEU", "tickets": [] },
-  { "id": "7", "name": "George Pavel", "currency": "LEU", "tickets": [] },
-  { "id": "8", "name": "Vasile Cuc", "currency": "LEU", "tickets": [] },
-  { "id": "9", "name": "Adriana Lupu", "currency": "LEU", "tickets": [] },
-  { "id": "10", "name": "Cristina Moldovan", "currency": "LEU", "tickets": [] }
-]
+[ {
+  "id" : "1",
+  "name" : "Mihai Pop",
+  "currency" : "LEU",
+  "tickets" : [ ]
+}, {
+  "id" : "2",
+  "name" : "Ana Muntean",
+  "currency" : "LEU",
+  "tickets" : [ ]
+}, {
+  "id" : "3",
+  "name" : "Maria Dumitru",
+  "currency" : "LEU",
+  "tickets" : [ ]
+}, {
+  "id" : "4",
+  "name" : "Robert Stan",
+  "currency" : "LEU",
+  "tickets" : [ ]
+}, {
+  "id" : "5",
+  "name" : "Elena Sima",
+  "currency" : "LEU",
+  "tickets" : [ ]
+}, {
+  "id" : "6",
+  "name" : "Ioana Dima",
+  "currency" : "LEU",
+  "tickets" : [ ]
+}, {
+  "id" : "7",
+  "name" : "andrei Pavel",
+  "currency" : "LEU",
+  "tickets" : [ ]
+}, {
+  "id" : "8",
+  "name" : "Vasile Cuc",
+  "currency" : "LEU",
+  "tickets" : [ ]
+}, {
+  "id" : "9",
+  "name" : "Adriana Lupu",
+  "currency" : "LEU",
+  "tickets" : [ ]
+}, {
+  "id" : "10",
+  "name" : "Cristina Moldovan",
+  "currency" : "LEU",
+  "tickets" : [ ]
+} ]

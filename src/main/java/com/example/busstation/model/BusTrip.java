@@ -1,6 +1,7 @@
 package com.example.busstation.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -9,41 +10,58 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class BusTrip implements Identifiable<String>{
+@Entity
+@Table (name = "bus_trips")
+public class BusTrip{
 
-    private String id;
-    private String routeId;
-    private String busId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "route_id", nullable = false)
+    private Route route;
+
+    @ManyToOne
+    @JoinColumn(name = "bus_id", nullable = false)
+    private Bus bus;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startTime;
+
+    @OneToMany(mappedBy = "busTrip", cascade = CascadeType.ALL)
     private List<Ticket> tickets = new ArrayList<>();
+
+    @OneToMany(mappedBy = "busTrip", cascade = CascadeType.ALL)
     private List<DutyAssignment> assignments = new ArrayList<>();
+
     private BusTripStatus status = BusTripStatus.PLANNED;
 
     public BusTrip() {}
 
-    public BusTrip(String id, String routeId, String busId, LocalDateTime startTime,
+    public BusTrip(Route route, Bus bus, LocalDateTime startTime,
                    List<Ticket> tickets, List<DutyAssignment> assignments, BusTripStatus status) {
-        this.id = id;
-        this.routeId = routeId;
-        this.busId = busId;
+
+        this.route = route;
+        this.bus = bus;
         // this.startTime = Objects.requireNonNull(startTime, "startTime is required");
         this.startTime = startTime;
         this.tickets = tickets;
         this.assignments = assignments;
         this.status = status;
     }
-    @Override
-    public String getId() { return id; }
-    @Override
-    public void setId(String id) { this.id = id; }
 
-    public String getRouteId() { return routeId; }
-    public void setRouteId(String routeId) { this.routeId = routeId; }
+    public Long getId() { return id; }
 
-    public String getBusId() { return busId; }
-    public void setBusId(String busId) { this.busId = busId; }
+//    @Override
+//    public void setId(String id) { this.id = id; }
+
+    public Route getRoute() { return route; }
+    public void setRouteId(Route route) { this.route = route; }
+
+    public Bus getBusId() { return bus; }
+    public void setBus(Bus bus) { this.bus = bus; }
 
     public LocalDateTime getStartTime() { return startTime; }
     public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
@@ -76,8 +94,8 @@ public class BusTrip implements Identifiable<String>{
     public String toString() {
         return "BusTrip{" +
                 "id='" + id + '\'' +
-                ", routeId='" + routeId + '\'' +
-                ", busId='" + busId + '\'' +
+                ", routeId='" + route.getId() + '\'' +
+                ", busId='" + bus.getId() + '\'' +
                 ", startTime=" + startTime +
                 ", tickets=" + tickets +
                 ", assignments=" + assignments +

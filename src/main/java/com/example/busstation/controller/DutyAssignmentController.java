@@ -36,20 +36,20 @@ public class DutyAssignmentController {
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
+    public String delete(@PathVariable long id) {
         dutyAssignmentService.deleteById(id);
         return "redirect:/assignments";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable String id, Model model) {
+    public String edit(@PathVariable long id, Model model) {
         model.addAttribute("dutyAssignment", dutyAssignmentService.findById(id));
         return "dutyAssignment/form";
     }
 
     @PostMapping("/{id}")
     public String update(@PathVariable String id, @ModelAttribute DutyAssignment dutyAssignment) {
-        dutyAssignmentService.update(dutyAssignment, id);
+
         return "redirect:/assignments";
     }
 }

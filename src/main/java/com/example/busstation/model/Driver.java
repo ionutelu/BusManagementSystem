@@ -1,21 +1,27 @@
 package com.example.busstation.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
+@Entity
+@Table(name = "drivers")
+@PrimaryKeyJoinColumn(name = "staff_id")
 public class Driver extends Staff {
 
+    @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DutyAssignment> assignments = new ArrayList<>();
+
     private int experienceYears;
 
     public Driver() {
         super();
     }
 
-    public Driver(String id, String name, String email, int experienceYears) {
-        super(id, name, email);
+    public Driver(String name, String email, int experienceYears) {
+        super(name, email);
         this.experienceYears = experienceYears;
     }
 

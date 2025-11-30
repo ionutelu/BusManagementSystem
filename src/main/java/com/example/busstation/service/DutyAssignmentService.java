@@ -26,13 +26,11 @@ public class DutyAssignmentService {
         return dutyAssignmentRepo.findAll();
     }
 
-    public DutyAssignment findById(String id){
-        return dutyAssignmentRepo.findById(id);
+    public DutyAssignment findById(long id){
+        return dutyAssignmentRepo.findById(id).orElseThrow(() -> new RuntimeException("Duty Assignment not found: " + id));
     }
 
-    public boolean deleteById(String id){
-        return dutyAssignmentRepo.deleteById(id);
+    public void deleteById(long id){
+        dutyAssignmentRepo.deleteById(id);
     }
-
-    public DutyAssignment update(DutyAssignment updatedEntity, String id) { return dutyAssignmentRepo.update(updatedEntity, id);}
 }

@@ -21,9 +21,8 @@ public class PassengerService {
         return passengerRepo.findAll();
     }
 
-    public Passenger findById(String id)
-    {
-        return passengerRepo.findById(id);
+    public Passenger findById(long id) {
+        return passengerRepo.findById(id).orElseThrow(() -> new RuntimeException("Passenger not found: " + id));
     }
 
     public void save(Passenger passenger)
@@ -31,11 +30,8 @@ public class PassengerService {
         passengerRepo.save(passenger);
     }
 
-    public boolean deleteById(String id)
-    {
-        return passengerRepo.deleteById(id);
+    public void deleteById(long id) {
+        passengerRepo.deleteById(id);
     }
-
-    public Passenger update(Passenger updatedEntity, String id) { return passengerRepo.update(updatedEntity, id);}
 
 }

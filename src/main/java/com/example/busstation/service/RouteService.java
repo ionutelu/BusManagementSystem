@@ -25,13 +25,12 @@ public class RouteService {
         return routeRepo.findAll();
     }
 
-    public Route findById(String id){
-        return routeRepo.findById(id);
+    public Route findById(long id){
+        return routeRepo.findById(id).orElseThrow(() -> new RuntimeException("Route not found: " + id));
     }
 
-    public boolean deleteById(String id){
-        return routeRepo.deleteById(id);
+    public void deleteById(long id){
+        routeRepo.deleteById(id);
     }
 
-    public Route update(Route updatedEntity, String id) { return routeRepo.update(updatedEntity, id);}
 }

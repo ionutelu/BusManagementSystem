@@ -1,28 +1,30 @@
 package com.example.busstation.model;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
-public abstract class Staff implements Identifiable<String>{
+@Entity
+@Table(name = "staff")
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Staff{
 
-    protected String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
     protected String name;
     protected String email;
 
     public Staff() {
     }
 
-    public Staff(String id, String name, String email) {
-        this.id = id;
+    public Staff(String name, String email) {
         this.name = name;
         this.email = email;
     }
-    @Override
-    public String getId() {
+
+    public Long getId() {
         return id;
-    }
-    @Override
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {

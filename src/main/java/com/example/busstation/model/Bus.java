@@ -2,14 +2,19 @@ package com.example.busstation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 import java.util.Objects;
-
+@Entity
+@Table(name = "buses")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Bus implements Identifiable<String> {
+public class Bus{
 
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String vin;
+    @Column(name = "registration_number", nullable = false, unique = true)
     private String registrationNumber;
     private int capacity;
     private BusStatus status;
@@ -17,8 +22,7 @@ public class Bus implements Identifiable<String> {
     public Bus() {
         this.status = BusStatus.DOWN;
     }
-    public Bus(String id, String registrationNumber, int capacity, String vin) {
-        this.id = id;
+    public Bus(String registrationNumber, int capacity, String vin) {
         this.registrationNumber = registrationNumber;
         this.capacity = capacity;
         this.status = BusStatus.DOWN;
@@ -31,10 +35,8 @@ public class Bus implements Identifiable<String> {
     public String getVin() {
         return vin;
     }
-    @Override
-    public String getId() { return id; }
-    @Override
-    public void setId(String id) { this.id = id; }
+
+    public Long getId() { return id; }
 
     public String getRegistrationNumber() { return registrationNumber; }
     public void setRegistrationNumber(String registrationNumber) { this.registrationNumber = registrationNumber; }
@@ -43,11 +45,11 @@ public class Bus implements Identifiable<String> {
     public void setCapacity(int capacity) { this.capacity = capacity; }
 
     @JsonProperty("statusEnum")
-    public BusStatus getStatusEnum() { return status; }
+    public BusStatus getStatus() { return status; }
     @JsonProperty("statusDescription")
     public String getStatusDescription() { return status.getDescription(); }
     @JsonProperty("statusEnum")
-    public void setStatusEnum(BusStatus status) { this.status = status; }
+    public void setStatus(BusStatus status) { this.status = status; }
 
     @Override
     public boolean equals(Object o) {

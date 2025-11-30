@@ -34,20 +34,20 @@ public class TicketController {
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
+    public String delete(@PathVariable long id) {
         ticketService.deleteById(id);
         return "redirect:/tickets";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable String id, Model model) {
+    public String edit(@PathVariable long id, Model model) {
         model.addAttribute("ticket", ticketService.findById(id));
         return "ticket/form";
     }
 
     @PostMapping("/{id}")
     public String update(@PathVariable String id, @ModelAttribute Ticket ticket) {
-        ticketService.update(ticket, id);
+
         return "redirect:/tickets";
     }
 }
