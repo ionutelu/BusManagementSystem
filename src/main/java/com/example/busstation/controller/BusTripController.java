@@ -40,20 +40,20 @@ public class BusTripController {
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
+    public String delete(@PathVariable long id) {
         busTripService.deleteById(id);
         return "redirect:/busTrips";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable String id, Model model) {
+    public String edit(@PathVariable long id, Model model) {
         model.addAttribute("busTrip", busTripService.findById(id));
         return "busTrip/form";
     }
 
     @PostMapping("/{id}")
     public String update(@PathVariable String id, @ModelAttribute BusTrip busTrip) {
-        busTripService.update(busTrip, id);
+
         return "redirect:/busTrips";
     }
 }

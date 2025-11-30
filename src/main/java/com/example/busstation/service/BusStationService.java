@@ -1,18 +1,17 @@
 package com.example.busstation.service;
 
-import com.example.busstation.model.Bus;
 import com.example.busstation.model.BusStation;
-import com.example.busstation.repository.StationRepository;
+import com.example.busstation.repository.BusStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class BusStationService {
-    private final StationRepository busStationRepo;
+    private final BusStationRepository busStationRepo;
 
     @Autowired
-    BusStationService(StationRepository busStationRepo){
+    BusStationService(BusStationRepository busStationRepo){
         this.busStationRepo = busStationRepo;
     }
 
@@ -24,13 +23,12 @@ public class BusStationService {
         return busStationRepo.findAll();
     }
 
-    public BusStation findById(String Id){
-        return busStationRepo.findById(Id);
+    public BusStation findById(long id){
+        return busStationRepo.findById(id).orElseThrow(() -> new RuntimeException("Bus station not found: " + id));
     }
 
-    public boolean deleteById(String Id){
-        return busStationRepo.deleteById(Id);
+    public void deleteById(long id){
+        busStationRepo.deleteById(id);
     }
 
-    public BusStation update(BusStation updatedEntity, String id) { return busStationRepo.update(updatedEntity, id);}
 }

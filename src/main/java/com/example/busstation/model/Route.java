@@ -1,36 +1,51 @@
 package com.example.busstation.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Route implements Identifiable<String>{
+@Entity
+@Table(name = "routes")
+public class Route{
 
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne()
+    @JoinColumn(name = "origin_station_id", nullable = false)
     private BusStation origin;
+
+    @ManyToOne
+    @JoinColumn(name = "destination_station_id", nullable = false)
     private BusStation destination;
+
     private float distance;
+
+    @OneToMany(mappedBy = "route")
     private List<BusTrip> trips = new ArrayList<>();
 
     public Route() {
     }
 
     public Route(String id, BusStation origin, BusStation destination, float distance, List<BusTrip> trips) {
-        this.id = id;
         this.origin = origin;
         this.destination = destination;
         this.distance = distance;
         this.trips = new ArrayList<>(trips);
     }
-    @Override
-    public String getId() {
+
+    public Long getId() {
         return id;
     }
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
+
+//    @Override
+//    public void setId(String id) {
+//        this.id = id;
+//    }
 
     public BusStation getOrigin() {
         return origin;

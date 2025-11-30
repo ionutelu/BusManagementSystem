@@ -23,13 +23,12 @@ public class TripManagerService {
         tripManagerRepo.save(tripManager);
     }
 
-    public boolean deleteById(String id){
-        return tripManagerRepo.deleteById(id);
+    public void deleteById(long id){
+        tripManagerRepo.deleteById(id);
     }
 
-    public TripManager findById(String id){
-        return tripManagerRepo.findById(id);
+    public TripManager findById(long id){
+        return tripManagerRepo.findById(id).orElseThrow(() -> new RuntimeException("Trip manager not found: " + id));
     }
 
-    public TripManager update(TripManager updatedEntity, String id) { return tripManagerRepo.update(updatedEntity, id);}
 }

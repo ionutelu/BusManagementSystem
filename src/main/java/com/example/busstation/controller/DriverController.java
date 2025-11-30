@@ -33,20 +33,20 @@ public class DriverController {
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
+    public String delete(@PathVariable long id) {
         driverService.deleteById(id);
         return "redirect:/drivers";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable String id, Model model) {
+    public String edit(@PathVariable long id, Model model) {
         model.addAttribute("driver", driverService.findById(id));
         return "driver/form";
     }
 
     @PostMapping("/{id}")
     public String update(@PathVariable String id, @ModelAttribute Driver driver) {
-        driverService.update(driver, id);
+
         return "redirect:/drivers";
     }
 }

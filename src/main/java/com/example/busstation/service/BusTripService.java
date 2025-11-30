@@ -21,17 +21,17 @@ public class BusTripService {
         return busTripRepo.findAll();
     }
 
-    public BusTrip findById(String id) {
-        return busTripRepo.findById(id);
+    public BusTrip findById(long id) {
+        return busTripRepo.findById(id).orElseThrow(() -> new RuntimeException("Bus trip not found: " + id));
     }
 
     public void save(BusTrip busTrip) {
         busTripRepo.save(busTrip);
     }
 
-    public boolean deleteById(String id) {
-        return busTripRepo.deleteById(id);
+    public void deleteById(long id) {
+        busTripRepo.deleteById(id);
     }
 
-    public BusTrip update(BusTrip updatedEntity, String id) { return busTripRepo.update(updatedEntity, id);}
+
 }

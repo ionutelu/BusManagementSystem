@@ -35,20 +35,20 @@ public class RouteController {
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
+    public String delete(@PathVariable long id) {
         routeService.deleteById(id);
         return "redirect:/routes";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable String id, Model model) {
+    public String edit(@PathVariable long id, Model model) {
         model.addAttribute("route", routeService.findById(id));
         return "route/form";
     }
 
     @PostMapping("/{id}")
     public String update(@PathVariable String id, @ModelAttribute Route route) {
-        routeService.update(route, id);
+
         return "redirect:/routes";
     }
 }

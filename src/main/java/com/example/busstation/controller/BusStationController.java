@@ -37,21 +37,21 @@ public class BusStationController {
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable String id) {
+    public String delete(@PathVariable Long id) {
         busStationService.deleteById(id);
         return "redirect:/busStations";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable String id, Model model){
+    public String edit(@PathVariable Long id, Model model){
         BusStation busStation = busStationService.findById(id);
         model.addAttribute("busStation", busStation);
         return "busStation/form";
     }
 
     @PostMapping("/{id}")
-    public String update(@PathVariable String id, BusStation busStation) {
-        busStationService.update(busStation, id);
+    public String update(BusStation busStation) {
+        busStationService.save(busStation);
         return "redirect:/busStations";
     }
 
