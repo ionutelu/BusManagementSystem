@@ -5,10 +5,7 @@ import com.example.busstation.model.BusStation;
 import com.example.busstation.service.BusStationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/busStations")
@@ -50,8 +47,14 @@ public class BusStationController {
     }
 
     @PostMapping("/{id}")
-    public String update(BusStation busStation) {
-        busStationService.save(busStation);
+    public String update(@PathVariable Long id, @ModelAttribute BusStation busStation) {
+        BusStation existing = busStationService.findById(id);
+
+        existing.setCity(busStation.getCity());
+        existing.setName(busStation.getName());
+        existing.setDamaged(busStation.getDamaged());
+
+        busStationService.save(existing);
         return "redirect:/busStations";
     }
 

@@ -13,7 +13,10 @@ public class Bus{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "vin", nullable = false, unique = true)
     private String vin;
+
     @Column(name = "registration_number", nullable = false, unique = true)
     private String registrationNumber;
     private int capacity;

@@ -8,38 +8,49 @@
 
 <h1 th:text="${ticket.id} == null ? 'Add New Ticket' : 'Edit Ticket'"></h1>
 
-<form th:action="@{${ticket.id} != null
-                    ? '/tickets/' + ${ticket.id}
-                    : '/tickets'}"
-      method="post"
-      th:object="${ticket}">
+<form th:object="${ticket}"
+      th:action="${ticket.id} == null ?
+                 @{/tickets} :
+                 @{/tickets/{id}(id=${ticket.id})}"
+      method="post">
 
-    <label>ID:</label>
-    <input type="text"
-           th:field="*{id}"
-           th:readonly="${ticket.id != null}"
+    <!-- ID displayed but NOT editable -->
+    <div th:if="${ticket.id != null}">
+        <label>ID:</label>
+        <input type="text" th:value="${ticket.id}" readonly />
+        <br/><br/>
+    </div>
+
+    <label>Trip ID:</label>
+    <input type="number"
+           name="busTripId"
+           th:value="${ticket.busTrip != null ? ticket.busTrip.id : ''}"
            required />
     <br/><br/>
 
-    <label>Trip ID:</label>
-    <input type="text" th:field="*{tripId}" required /><br/><br/>
-
     <label>Passenger ID:</label>
-    <input type="text" th:field="*{passengerId}" required /><br/><br/>
+    <input type="number"
+           name="passengerId"
+           th:value="${ticket.passenger != null ? ticket.passenger.id : ''}"
+           required />
+    <br/><br/>
 
     <label>Seat Number:</label>
-    <input type="text" th:field="*{seatNumber}" required /><br/><br/>
+    <input type="text" th:field="*{seatNumber}" required />
+    <br/><br/>
 
     <label>Price:</label>
-    <input type="number" step="0.01" th:field="*{price}" required /><br/><br/>
+    <input type="number" step="0.01" th:field="*{price}" required />
+    <br/><br/>
 
     <button type="submit"
             th:text="${ticket.id == null ? 'Add Ticket' : 'Update Ticket'}">
-        Add Ticket
     </button>
+
 </form>
 
-<br/>
+
+<br>
 <a th:href="@{/tickets}">Back to Ticket List</a>
 
 </body>

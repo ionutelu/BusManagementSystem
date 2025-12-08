@@ -22,6 +22,10 @@
     <label>Damaged:</label>
     <input type="checkbox" th:field="*{damaged}" /><br/><br/>
 
+    <div th:if="${errorMessage}" style="color:#ff0000; font-weight:bold;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
     <button type="submit"
             th:text="${busStation.id == null} ? 'Add Bus Station' : 'Update Bus Station'">
     </button>

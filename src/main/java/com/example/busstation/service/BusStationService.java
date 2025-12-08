@@ -1,8 +1,10 @@
 package com.example.busstation.service;
 
+import com.example.busstation.exception.DuplicateBusStationException;
 import com.example.busstation.model.BusStation;
 import com.example.busstation.repository.BusStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +18,12 @@ public class BusStationService {
     }
 
     public BusStation save(BusStation busStation){
-        return busStationRepo.save(busStation);
+
+        try {
+            return busStationRepo.save(busStation);
+        }catch (DataIntegrityViolationException e){
+            throw new DuplicateBusStationException("Station with the same name already exists in this City");
+        }
     }
 
     public List<BusStation> findAll(){
