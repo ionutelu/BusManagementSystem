@@ -1,9 +1,7 @@
 package com.example.busstation.model;
 
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +11,7 @@ public class Passenger {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String name;
 
@@ -22,24 +20,17 @@ public class Passenger {
     @OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
     private List<Ticket> tickets = new ArrayList<>();
 
-    public Passenger() {
-    }
+    public Passenger() {}
 
-    public Passenger(long id, String name, String currency, List<Ticket> tickets) {
-        this.id = id;
+    public Passenger(String name, String currency, List<Ticket> tickets) {
         this.name = name;
         this.currency = currency;
         this.tickets = new ArrayList<>(tickets);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
-
-//    @Override
-//    public void setId(String id) {
-//        this.id = id;
-//    }
 
     public String getName() {
         return name;
@@ -58,29 +49,12 @@ public class Passenger {
     }
 
     public List<Ticket> getTickets() {
-        return Collections.unmodifiableList(tickets);
+        return tickets;
     }
 
     public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
-    public void addTicket(Ticket ticket) {
-        this.tickets.add(ticket);
-    }
-
-    public boolean removeTicket(Ticket ticket) {
-        return this.tickets.remove(ticket);
-    }
-
-    @Override
-    public String toString() {
-        return "Passenger{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", currency='" + currency + '\'' +
-                ", tickets=" + tickets +
-                '}';
+        this.tickets.clear();
+        if (tickets != null) this.tickets.addAll(tickets);
     }
 
     @Override

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title th:text="${passenger.id} == null ? 'Add New Passenger' : 'Edit Passenger'"></title>
@@ -8,41 +8,31 @@
 
 <h1 th:text="${passenger.id} == null ? 'Add New Passenger' : 'Edit Passenger'"></h1>
 
-<form th:action="@{${passenger.id} != null
-                    ? '/passengers/' + ${passenger.id}
-                    : '/passengers'}"
-      method="post"
-      th:object="${passenger}">
+<form th:object="${passenger}"
+      th:action="${passenger.id} == null ?
+                 @{/passengers} :
+                 @{/passengers/{id}(id=${passenger.id})}"
+      method="post">
 
-    <label for="id">ID:</label>
-    <input type="text"
-           id="id"
-           th:field="*{id}"
-           th:readonly="${passenger.id != null}"
-           required />
+
+    <input type="hidden" th:if="${passenger.id != null}" th:field="*{id}" />
+
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" required />
     <br/><br/>
 
-    <label for="name">Name:</label>
-    <input type="text"
-           id="name"
-           th:field="*{name}"
-           required />
-    <br/><br/>
-
-    <label for="currency">Currency:</label>
-    <input type="text"
-           id="currency"
-           th:field="*{currency}"
-           required />
+    <label>Currency:</label>
+    <input type="text" th:field="*{currency}" required />
     <br/><br/>
 
     <button type="submit"
-            th:text="${passenger.id == null ? 'Add Passenger' : 'Update Passenger'}">
-        Add Passenger
+            th:text="${passenger.id} == null ? 'Add Passenger' : 'Update Passenger'">
     </button>
+
 </form>
 
-<br/>
+
+<br>
 <a th:href="@{/passengers}">Back to Passengers List</a>
 
 </body>

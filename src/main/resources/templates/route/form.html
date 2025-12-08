@@ -14,14 +14,7 @@
       th:object="${route}"
       method="post">
 
-    <div>
-        <label for="id">Route ID:</label>
-        <input type="text"
-               th:field="*{id}"
-               id="id"
-               th:readonly="${route.id != null}"
-               required/>
-    </div>
+    <input type="hidden" th:field="*{id}" />
 
     <div>
         <label for="origin">Origin Station:</label>
@@ -48,16 +41,20 @@
                required/>
     </div>
 
+    <div th:if="${errorMessage}" style="color:#ff0000; font-weight:bold;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
     <div>
         <button type="submit"
                 th:text="${route.id == null ? 'Save' : 'Update'}">
-            Save
         </button>
 
         <a th:href="@{/routes}">Cancel</a>
     </div>
 
 </form>
+
 
 </body>
 </html>

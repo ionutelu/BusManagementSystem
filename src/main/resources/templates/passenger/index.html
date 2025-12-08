@@ -26,8 +26,13 @@
         <td th:text="${ps.tickets}"></td>
 
         <td>
+            <!-- VIEW TICKETS BUTTON -->
+            <a th:href="@{'/passengers/' + ${ps.id} + '/tickets'}">View Tickets</a>
+            &nbsp; | &nbsp;
+
             <!-- EDIT BUTTON -->
             <a th:href="@{'/passengers/' + ${ps.id} + '/edit'}">Edit</a>
+            &nbsp; | &nbsp;
 
             <!-- DELETE BUTTON -->
             <form th:action="@{'/passengers/' + ${ps.id} + '/delete'}"
@@ -36,6 +41,7 @@
                 <button type="submit">Delete</button>
             </form>
         </td>
+
     </tr>
 </table>
 

@@ -46,16 +46,16 @@ public class Ticket{
         return busTrip;
     }
 
-    public void setTripId(BusTrip busTrip) {
+    public void setBusTrip(BusTrip busTrip) {
         this.busTrip = busTrip;
+    }
+
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
     }
 
     public Passenger getPassenger() {
         return passenger;
-    }
-
-    public void setPassengerId(Passenger passenger) {
-        this.passenger = passenger;
     }
 
     public String getSeatNumber() {

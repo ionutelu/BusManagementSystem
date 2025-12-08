@@ -1,9 +1,12 @@
 package com.example.busstation.service;
 
+import com.example.busstation.exception.InvalidStationException;
 import com.example.busstation.model.DutyAssignment;
 import com.example.busstation.model.Route;
 import com.example.busstation.repository.RouteRepository;
+import jakarta.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +21,12 @@ public class RouteService {
     }
 
     public void save(Route route){
-        routeRepo.save(route);
+        try {
+            routeRepo.save(route);
+        }catch (PersistenceException ex){
+            throw new InvalidStationException("Invalid station");
+        }
+
     }
 
     public List<Route> findAll(){

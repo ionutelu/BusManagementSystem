@@ -19,11 +19,12 @@ public class PassengerController {
     @GetMapping
     public String index(Model model) {
         model.addAttribute("passengers", passengerService.findAll());
-        return "passenger/index"; // încarcă templates/passenger/index.html
+        return "passenger/index";
     }
 
     @GetMapping("/new")
-    public String form(Passenger passenger) {
+    public String newForm(Model model) {
+        model.addAttribute("passenger", new Passenger()); // id = null
         return "passenger/form";
     }
 
@@ -34,21 +35,35 @@ public class PassengerController {
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable long id) {
+    public String delete(@PathVariable Long id) {
         passengerService.deleteById(id);
         return "redirect:/passengers";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable long id, Model model) {
+    public String editForm(@PathVariable Long id, Model model) {
         model.addAttribute("passenger", passengerService.findById(id));
         return "passenger/form";
     }
 
     @PostMapping("/{id}")
-    public String update(@PathVariable String id, @ModelAttribute Passenger passenger) {
+    public String update(@PathVariable Long id, @ModelAttribute Passenger passenger) {
+        Passenger existing = passengerService.findById(id);
+
+        existing.setName(passenger.getName());
+        existing.setCurrency(passenger.getCurrency());
+
+        passengerService.save(existing);
 
         return "redirect:/passengers";
+    }
+
+    @GetMapping("/{id}/tickets")
+    public String viewTickets(@PathVariable Long id, Model model) {
+        Passenger passenger = passengerService.findById(id);
+        model.addAttribute("passenger", passenger);
+        model.addAttribute("tickets", passenger.getTickets());
+        return "passenger/tickets";
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.busstation.controller;
 
+import com.example.busstation.model.Passenger;
 import com.example.busstation.model.Ticket;
 import com.example.busstation.service.TicketService;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,8 @@ public class TicketController {
     }
 
     @GetMapping("/new")
-    public String form(Ticket ticket){
+    public String form(Model model){
+        model.addAttribute("ticket", new Ticket());
         return "ticket/form";
     }
 
@@ -46,8 +48,16 @@ public class TicketController {
     }
 
     @PostMapping("/{id}")
-    public String update(@PathVariable String id, @ModelAttribute Ticket ticket) {
+    public String update(@PathVariable Long id, @ModelAttribute Ticket ticket) {
 
+        Ticket existing = ticketService.findById(id);
+
+        existing.setBusTrip(ticket.getBusTrip());
+        existing.setPassenger(ticket.getPassenger());
+        existing.setPrice(ticket.getPrice());
+        existing.setSeatNumber(ticket.getSeatNumber());
+
+        ticketService.save(existing);
         return "redirect:/tickets";
     }
 }

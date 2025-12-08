@@ -1,5 +1,6 @@
 package com.example.busstation.controller;
 
+import com.example.busstation.model.BusStation;
 import com.example.busstation.model.Route;
 import com.example.busstation.service.RouteService;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,8 @@ public class RouteController {
         return "route/form";
     }
 
+
+
     @PostMapping
     public String create(@ModelAttribute Route route) {
         routeService.save(route);
@@ -46,8 +49,18 @@ public class RouteController {
         return "route/form";
     }
 
+
     @PostMapping("/{id}")
-    public String update(@PathVariable String id, @ModelAttribute Route route) {
+    public String update(@PathVariable Long id, @ModelAttribute Route route) {
+
+        Route existing = routeService.findById(id);
+
+        existing.setDestination(route.getDestination());
+        existing.setDistance(route.getDistance());
+        existing.setOrigin(route.getOrigin());
+        existing.setTrips(route.getTrips());
+
+        routeService.save(existing);
 
         return "redirect:/routes";
     }
