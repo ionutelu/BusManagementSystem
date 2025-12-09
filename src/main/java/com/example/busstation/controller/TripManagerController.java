@@ -46,8 +46,9 @@ public class TripManagerController {
     }
 
     @PostMapping("/{id}")
-    public String update(@PathVariable String id, @ModelAttribute TripManager tripManager) {
-
+    public String update(@PathVariable long id, @ModelAttribute TripManager tripManager) {
+        tripManager.setId(id);
+        tripManagerService.save(tripManager);
         return "redirect:/tripManagers";
     }
 }

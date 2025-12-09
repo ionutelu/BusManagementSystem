@@ -2,22 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add New BusTrip</title>
+    <title th:text="${busTrip.id} != null ? 'Edit BusTrip' : 'Add New BusTrip'">Add New BusTrip</title>
 </head>
 <body>
-<h1>Add New BusTrip</h1>
+<h1 th:text="${busTrip.id} != null ? 'Edit BusTrip' : 'Add New BusTrip'">Add New BusTrip</h1>
 
 <form th:action="@{${busTrip.id} != null ? '/busTrips/' + ${busTrip.id} : '/busTrips'}"
       method="post"
       th:object="${busTrip}">
-    <label for="id">id:</label>
-    <input type="text" id="id" th:field="*{id}" required /><br/><br/>
 
-    <label for="routeId">Route ID:</label>
-    <input type="text" id="routeId" th:field="*{routeId}" required /><br/><br/>
+    <input type="hidden" th:field="*{id}" th:if="${busTrip.id != null}" />
 
-    <label for="busId">Bus ID:</label>
-    <input type="text" id="busId" th:field="*{busId}" required /><br/><br/>
+    <label for="route">Route:</label>
+    <select id="route" th:field="*{route}" required>
+        <option th:each="r : ${routes}"
+                th:value="${r.id}"
+                th:text="${r.name} + ' (' + ${r.id} + ')'">Route Name (ID)</option>
+    </select><br/><br/>
+
+    <label for="bus">Bus:</label>
+    <select id="bus" th:field="*{bus}" required>
+        <option th:each="b : ${buses}"
+                th:value="${b.id}"
+                th:text="${b.plateNumber} + ' (' + ${b.id} + ')'">Bus Plate (ID)</option>
+    </select><br/><br/>
 
     <label for="startTime">Start Time:</label>
     <input type="datetime-local" id="startTime" th:field="*{startTime}" required /><br/><br/>

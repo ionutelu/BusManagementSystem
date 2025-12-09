@@ -57,11 +57,13 @@ public class BusTrip{
 //    @Override
 //    public void setId(String id) { this.id = id; }
 
-    public Route getRoute() { return route; }
-    public void setRouteId(Route route) { this.route = route; }
 
-    public Bus getBusId() { return bus; }
+    public Route getRoute() { return route; }
+    public void setRoute(Route route) { this.route = route; }
+
+    public Bus getBus() { return bus; }
     public void setBus(Bus bus) { this.bus = bus; }
+
 
     public LocalDateTime getStartTime() { return startTime; }
     public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }

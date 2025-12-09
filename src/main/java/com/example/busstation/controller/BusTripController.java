@@ -56,4 +56,19 @@ public class BusTripController {
 
         return "redirect:/busTrips";
     }
+
+    @GetMapping("/{id}/details")
+    public String viewDetails(@PathVariable Long id, Model model) {
+
+        BusTrip busTrip = busTripService.findById(id);
+        model.addAttribute("busTrip", busTrip);
+        model.addAttribute("tickets", busTrip.getTickets());
+        model.addAttribute("assignments", busTrip.getAssignments());
+
+        return "busTrip/details";
+    }
+
 }
+
+
+
