@@ -34,6 +34,14 @@
             </form>
         </td>
 
+        <td>
+            <a th:href="@{'/busTrips/' + ${bt.id} + '/edit'}">Edit</a> |
+            <a th:href="@{'/busTrips/' + ${bt.id} + '/details'}">View Details</a> | <form th:action="@{'/busTrips/' + ${bt.id} + '/delete'}"
+                                                                                          method="post" style="display:inline;">
+            <button type="submit">Delete</button>
+        </form>
+        </td>
+
     </tr>
 </table>
 

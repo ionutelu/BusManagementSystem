@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Details for BusTrip ' + ${busTrip.id}">Bus Trip Details</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h1 th:text="'Bus Trip Details (ID: ' + ${busTrip.id} + ')'">Bus Trip Details</h1>
+
+<h2>General Information</h2>
+<ul>
+    <li><strong>Route:</strong> <span th:text="${busTrip.route.id}">R1</span></li>
+    <li><strong>Bus:</strong> <span th:text="${busTrip.bus.registrationNumber}">B123XYZ</span></li>
+    <li><strong>Start Time:</strong> <span th:text="${#temporals.format(busTrip.startTime, 'yyyy-MM-dd HH:mm')}">2025-12-09 10:00</span></li>
+    <li><strong>Status:</strong> <span th:text="${busTrip.status}">PLANNED</span></li>
+</ul>
+
+---
+
+<h2>🎫 Tickets Sold (<span th:text="${tickets.size()}">0</span>)</h2>
+
+<div th:if="${#lists.isEmpty(tickets)}">
+    <p>No tickets have been sold for this trip yet.</p>
+</div>
+<div th:unless="${#lists.isEmpty(tickets)}">
+    <table>
+        <thead>
+        <tr>
+            <th>Ticket ID</th>
+            <th>Passenger Name</th>
+            <th>Seat Number</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ticket : ${tickets}">
+            <td th:text="${ticket.id}">T1</td>
+            <td th:text="${ticket.passenger.name}">John Doe</td>
+            <td th:text="${ticket.seatNumber}">5A</td>
+            <td th:text="${ticket.price}">25.00</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+---
+
+<h2>👷 Duty Assignments (<span th:text="${assignments.size()}">0</span>)</h2>
+
+<div th:if="${#lists.isEmpty(assignments)}">
+    <p>No duty assignments have been created for this trip yet.</p>
+</div>
+<div th:unless="${#lists.isEmpty(assignments)}">
+    <table>
+        <thead>
+        <tr>
+            <th>Assignment ID</th>
+            <th>Employee Name</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="assignment : ${assignments}">
+            <td th:text="${assignment.id}">A1</td>
+            <td th:text="${assignment.employee.name}">Driver Name</td>
+            <td th:text="${assignment.role}">Driver/Co-Driver</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<br/>
+<a th:href="@{/busTrips}">← Back to Bus Trip List</a>
+
+</body>
+</html>

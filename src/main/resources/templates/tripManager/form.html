@@ -8,40 +8,29 @@
 
 <h1 th:text="${tripManager.id} == null ? 'Add New Trip Manager' : 'Edit Trip Manager'"></h1>
 
-<form th:action="@{${tripManager.id} != null
-                    ? '/tripManagers/' + ${tripManager.id}
-                    : '/tripManagers'}"
+<form th:action="@{${tripManager.id} == null
+                    ? '/tripManagers'
+                    : '/tripManagers/' + ${tripManager.id}}"
       method="post"
       th:object="${tripManager}">
 
-    <label>ID:</label>
-    <input type="text"
-           th:field="*{id}"
-           th:readonly="${tripManager.id != null}"
-           required />
-    <br/><br/>
+    <!-- Hidden ID only for update -->
+    <input type="hidden" th:if="${tripManager.id != null}" th:field="*{id}" />
 
     <label>Name:</label>
-    <input type="text"
-           th:field="*{name}"
-           required />
+    <input type="text" th:field="*{name}" required />
     <br/><br/>
 
     <label>Email:</label>
-    <input type="email"
-           th:field="*{email}"
-           required />
+    <input type="email" th:field="*{email}" required />
     <br/><br/>
 
     <label>Employee Code:</label>
-    <input type="text"
-           th:field="*{employeeCode}"
-           required />
+    <input type="text" th:field="*{employeeCode}" required />
     <br/><br/>
 
     <button type="submit"
             th:text="${tripManager.id == null ? 'Add Trip Manager' : 'Update Trip Manager'}">
-        Add Trip Manager
     </button>
 
 </form>
