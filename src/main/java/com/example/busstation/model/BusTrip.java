@@ -5,10 +5,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table (name = "bus_trips")
@@ -36,6 +33,17 @@ public class BusTrip{
     @OneToMany(mappedBy = "busTrip", cascade = CascadeType.ALL)
     private List<DutyAssignment> assignments = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "trip_station",
+            joinColumns = @JoinColumn(name = "trip_id"),
+            inverseJoinColumns = @JoinColumn(name = "station_id")
+    )
+    private Set<BusStation> busStations = new HashSet<>();
+
+    public Set<BusStation> getBusStations(){
+        return busStations;
+    }
     private BusTripStatus status = BusTripStatus.PLANNED;
 
     public BusTrip() {}
@@ -54,8 +62,8 @@ public class BusTrip{
 
     public Long getId() { return id; }
 
-//    @Override
-//    public void setId(String id) { this.id = id; }
+
+    public void setId(Long id) { this.id = id; }
 
 
     public Route getRoute() { return route; }

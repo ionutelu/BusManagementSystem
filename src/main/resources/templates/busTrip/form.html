@@ -1,43 +1,68 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${busTrip.id} != null ? 'Edit BusTrip' : 'Add New BusTrip'">Add New BusTrip</title>
+    <title>Bus Trip Form</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
-<body>
-<h1 th:text="${busTrip.id} != null ? 'Edit BusTrip' : 'Add New BusTrip'">Add New BusTrip</h1>
 
-<form th:action="@{${busTrip.id} != null ? '/busTrips/' + ${busTrip.id} : '/busTrips'}"
+<body class="container mt-4">
+
+<h2 th:text="${busTrip.id == null} ? 'Create Bus Trip' : 'Edit Bus Trip'"></h2>
+
+<form th:action="${busTrip.id == null} ? @{/busTrips} : @{'/busTrips/' + ${busTrip.id}}"
+      th:object="${busTrip}"
       method="post"
-      th:object="${busTrip}">
+      class="card p-4 shadow-sm mt-3">
 
-    <input type="hidden" th:field="*{id}" th:if="${busTrip.id != null}" />
+    <!-- Hidden ID -->
+    <input type="hidden" th:if="${busTrip.id != null}" th:field="*{id}">
 
-    <label for="route">Route:</label>
-    <select id="route" th:field="*{route}" required>
-        <option th:each="r : ${routes}"
-                th:value="${r.id}"
-                th:text="${r.name} + ' (' + ${r.id} + ')'">Route Name (ID)</option>
-    </select><br/><br/>
+    <!-- ROUTE ID -->
+    <div class="mb-3">
+        <label class="form-label">Route ID</label>
+        <input type="number" class="form-control"
+               name="routeId" required
+               th:value="${busTrip.route != null ? busTrip.route.id : ''}">
+    </div>
 
-    <label for="bus">Bus:</label>
-    <select id="bus" th:field="*{bus}" required>
-        <option th:each="b : ${buses}"
-                th:value="${b.id}"
-                th:text="${b.plateNumber} + ' (' + ${b.id} + ')'">Bus Plate (ID)</option>
-    </select><br/><br/>
+    <!-- BUS ID -->
+    <div class="mb-3">
+        <label class="form-label">Bus ID</label>
+        <input type="number" class="form-control"
+               name="busId" required
+               th:value="${busTrip.bus != null ? busTrip.bus.id : ''}">
+    </div>
 
-    <label for="startTime">Start Time:</label>
-    <input type="datetime-local" id="startTime" th:field="*{startTime}" required /><br/><br/>
+    <!-- START TIME -->
+    <div class="mb-3">
+        <label class="form-label">Start Time</label>
+        <input type="datetime-local"
+               th:field="*{startTime}"
+               class="form-control"
+               required>
+    </div>
 
-    <button type="submit"
-            th:text="${busTrip.id == null} ? 'Add BusTrip' : 'Update BusTrip'">
-        Add BusTrip
-    </button>
+    <!-- STATUS -->
+    <div class="mb-3">
+        <label class="form-label">Status</label>
+        <select th:field="*{status}" class="form-select" required>
+            <option th:each="s : ${T(com.example.busstation.model.BusTripStatus).values()}"
+                    th:value="${s}"
+                    th:text="${s.status}">
+            </option>
+        </select>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="/busTrips" class="btn btn-secondary">Cancel</a>
+    </div>
 
 </form>
 
-<br/>
-<a th:href="@{/busTrips}">Back to BusTrip List</a>
 </body>
 </html>

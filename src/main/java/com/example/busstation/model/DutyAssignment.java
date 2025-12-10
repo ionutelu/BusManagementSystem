@@ -42,10 +42,7 @@ public class DutyAssignment{
         return id;
     }
 
-//    @Override
-//    public void setId(String id) {
-//        this.id = id;
-//    }
+    void setId(Long id){ this.id = id; }
 
     public BusTrip getBusTrip() {
         return busTrip;
@@ -55,11 +52,11 @@ public class DutyAssignment{
         this.busTrip = busTrip;
     }
 
-    public Staff getStaffId() {
+    public Staff getStaff() {
         return staff;
     }
 
-    public void setStaffId(Staff staff) {
+    public void setStaff(Staff staff) {
         this.staff = staff;
     }
 

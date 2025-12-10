@@ -1,10 +1,16 @@
 package com.example.busstation.controller;
 
 import com.example.busstation.model.BusStation;
+import com.example.busstation.model.BusTrip;
+import com.example.busstation.model.Passenger;
 import com.example.busstation.model.Route;
+import com.example.busstation.service.BusStationService;
+import com.example.busstation.service.BusTripService;
 import com.example.busstation.service.RouteService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -13,8 +19,10 @@ public class RouteController {
 
     private final RouteService routeService;
 
+
     public RouteController(RouteService routeService) {
         this.routeService = routeService;
+
     }
 
     @GetMapping
@@ -25,43 +33,66 @@ public class RouteController {
 
     @GetMapping("/new")
     public String form(Model model) {
-        model.addAttribute("route", new Route());
+        Route route = new Route();
+        model.addAttribute("route", route);
         return "route/form";
     }
 
 
+//    @PostMapping
+//    public String create(@ModelAttribute Route route) {
+//        routeService.save(route);
+//        return "redirect:/routes";
+//
+//    }
 
     @PostMapping
-    public String create(@ModelAttribute Route route) {
+    public String create(@Valid @ModelAttribute Route route, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "route/form";
+        }
         routeService.save(route);
         return "redirect:/routes";
     }
 
+
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable long id) {
+    public String delete(@PathVariable Long id) {
         routeService.deleteById(id);
         return "redirect:/routes";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable long id, Model model) {
-        model.addAttribute("route", routeService.findById(id));
+    public String edit(@PathVariable Long id, Model model) {
+        Route route = routeService.findById(id);
+        model.addAttribute("route", route);
         return "route/form";
     }
 
-
     @PostMapping("/{id}")
-    public String update(@PathVariable Long id, @ModelAttribute Route route) {
+    public String update(@PathVariable Long id, @ModelAttribute Route route, BindingResult bidingResult) {
+
+        if(bidingResult.hasErrors())
+            return "route/form";
 
         Route existing = routeService.findById(id);
 
+        existing.setOrigin(route.getOrigin());
         existing.setDestination(route.getDestination());
         existing.setDistance(route.getDistance());
-        existing.setOrigin(route.getOrigin());
-        existing.setTrips(route.getTrips());
 
         routeService.save(existing);
 
         return "redirect:/routes";
     }
+
+    @GetMapping("/{id}/trips")
+    public String viewTrips(@PathVariable Long id, Model model) {
+        Route route = routeService.findById(id);
+        model.addAttribute("route", route);
+        model.addAttribute("busTrips", route.getTrips());
+        return "route/busTrips";
+    }
+
+
 }

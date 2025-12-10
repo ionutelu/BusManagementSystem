@@ -3,43 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${dutyAssignment.id} == null ? 'Add Duty Assignment' : 'Edit Duty Assignment'"></title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<h1 th:text="${dutyAssignment.id} == null ? 'Add Duty Assignment' : 'Edit Duty Assignment'"></h1>
 
-<form th:action="@{${dutyAssignment.id} != null
-                    ? '/assignments/' + ${dutyAssignment.id}
-                    : '/assignments'}"
-      th:object="${dutyAssignment}"
-      method="post">
+<body class="container mt-4">
 
-    <label>ID:</label>
-    <input type="text" th:field="*{id}"
-           th:readonly="${dutyAssignment.id != null}"
-           required><br><br>
+<h2 th:text="${dutyAssignment.id} == null ? 'Add Duty Assignment' : 'Edit Duty Assignment'"></h2>
 
-    <label>Trip ID:</label>
-    <input type="text" th:field="*{tripId}" required><br><br>
+<form th:action="@{${dutyAssignment.id} == null ? '/assignments' : '/assignments/' + ${dutyAssignment.id}}"
+      method="post"
+      th:object="${dutyAssignment}">
 
-    <label>Staff ID:</label>
-    <input type="text" th:field="*{staffId}" required><br><br>
+    <!-- Trip ID -->
+    <div class="mb-3">
+        <label class="form-label">Trip ID</label>
+        <input type="number"
+               name="tripId"
+               class="form-control"
+               th:value="${dutyAssignment.busTrip != null ? dutyAssignment.busTrip.id : ''}"
+               required>
+    </div>
 
-    <label>Role:</label>
-    <select th:field="*{role}">
-        <option th:each="r : ${T(com.example.busstation.model.DriverRole).values()}"
-                th:value="${r}"
-                th:text="${r}">
-        </option>
-    </select><br><br>
+    <!-- Staff ID -->
+    <div class="mb-3">
+        <label class="form-label">Staff ID</label>
+        <input type="number"
+               name="staffId"
+               class="form-control"
+               th:value="${dutyAssignment.staff != null ? dutyAssignment.staff.id : ''}"
+               required>
+    </div>
+
+    <!-- Role -->
+    <div class="mb-3">
+        <label class="form-label">Role</label>
+        <select th:field="*{role}" class="form-select">
+            <option th:each="r : ${T(com.example.busstation.model.DriverRole).values()}"
+                    th:value="${r}"
+                    th:text="${r}">
+            </option>
+        </select>
+    </div>
 
     <button type="submit"
-            th:text="${dutyAssignment.id} == null ? 'Save' : 'Update'">
-        Save
-    </button>
+            class="btn btn-primary"
+            th:text="${dutyAssignment.id == null ? 'Add Assignment' : 'Update Assignment'}"></button>
 </form>
 
 <br>
-<a th:href="@{/assignments}">Back to list</a>
+<a th:href="@{/assignments}" class="btn btn-secondary">Back to List</a>
 
 </body>
 </html>
