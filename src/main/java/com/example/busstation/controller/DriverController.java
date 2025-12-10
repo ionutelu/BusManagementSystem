@@ -46,8 +46,8 @@ public class DriverController {
 
     @PostMapping("/{id}")
     public String update(@PathVariable long id, @ModelAttribute Driver driver) {
-        driver.setId(id);             // Ensure ID is set
-        driverService.save(driver);   // Save updated object
+        driver.setId(id);
+        driverService.save(driver);
         return "redirect:/drivers";
     }
 

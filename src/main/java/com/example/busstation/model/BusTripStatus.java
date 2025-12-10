@@ -11,7 +11,7 @@ public enum BusTripStatus {
         this.status = status;
     }
 
-    public String getstatus() {
+    public String getStatus() {
         return status;
     }
 }

@@ -40,6 +40,15 @@ public class BusController {
         return "redirect:/buses";
     }
 
+
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable Long id, Model model){
+        Bus bus = busService.findById(id);
+        model.addAttribute("bus", bus);
+        return "bus/form";
+    }
+
+
     @PostMapping("/{id}")
     public String update(@PathVariable Long id, @ModelAttribute Bus bus) {
 
@@ -56,12 +65,7 @@ public class BusController {
     }
 
 
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable Long id, Model model){
-        Bus bus = busService.findById(id);
-        model.addAttribute("bus", bus);
-        return "bus/form";
-    }
+
 
 //    @PostMapping("/{id}")
 //    public String update(@PathVariable Long id, @ModelAttribute Bus bus) {

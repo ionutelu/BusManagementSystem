@@ -1,7 +1,13 @@
 package com.example.busstation.controller;
 
+import com.example.busstation.model.Bus;
+import com.example.busstation.model.BusStation;
 import com.example.busstation.model.BusTrip;
+import com.example.busstation.model.Route;
+import com.example.busstation.service.BusService;
+import com.example.busstation.service.BusStationService;
 import com.example.busstation.service.BusTripService;
+import com.example.busstation.service.RouteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -16,9 +22,16 @@ import java.time.format.DateTimeFormatter;
 public class BusTripController {
 
     private final BusTripService busTripService;
+    private final RouteService routeService;
+    private final BusService busService;
+    private final BusStationService busStationService;
 
-    public BusTripController(BusTripService busTripService) {
+    public BusTripController(BusTripService busTripService, RouteService routeService,
+                             BusService busService, BusStationService busStationService) {
         this.busTripService = busTripService;
+        this.routeService = routeService;
+        this.busService = busService;
+        this.busStationService = busStationService;
     }
 
     @GetMapping
@@ -33,29 +46,75 @@ public class BusTripController {
         return "busTrip/form";
     }
 
+//    @PostMapping
+//    public String create(@ModelAttribute BusTrip busTrip) {
+//        busTripService.save(busTrip);
+//        return "redirect:/busTrips";
+//    }
+
     @PostMapping
-    public String create(@ModelAttribute BusTrip busTrip) {
+    public String create(@RequestParam Long routeId,
+                         @RequestParam Long busId,
+                         @ModelAttribute BusTrip busTrip) {
+
+        Route route = routeService.findById(routeId);
+        Bus bus = busService.findById(busId);
+
+        busTrip.setRoute(route);
+        busTrip.setBus(bus);
+
         busTripService.save(busTrip);
         return "redirect:/busTrips";
     }
 
+
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable long id) {
+    public String delete(@PathVariable Long id) {
         busTripService.deleteById(id);
         return "redirect:/busTrips";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable long id, Model model) {
+    public String edit(@PathVariable Long id, Model model) {
         model.addAttribute("busTrip", busTripService.findById(id));
         return "busTrip/form";
     }
 
+//    @PostMapping("/{id}")
+//    public String update(@PathVariable Long id, @ModelAttribute BusTrip busTrip) {
+//
+//        BusTrip existing = busTripService.findById(id);
+//
+//        existing.setBus(busTrip.getBus());
+//        existing.setRoute(busTrip.getRoute());
+//        existing.setStartTime(busTrip.getStartTime());
+//        existing.setStatus(busTrip.getStatus());
+//
+//        busTripService.save(existing);
+//
+//        return "redirect:/busTrips";
+//    }
+
     @PostMapping("/{id}")
-    public String update(@PathVariable String id, @ModelAttribute BusTrip busTrip) {
+    public String update(@PathVariable Long id,
+                         @RequestParam Long routeId,
+                         @RequestParam Long busId,
+                         @ModelAttribute BusTrip busTrip) {
+
+        BusTrip existing = busTripService.findById(id);
+        Route route = routeService.findById(routeId);
+        Bus bus = busService.findById(busId);
+
+        existing.setRoute(route);
+        existing.setBus(bus);
+        existing.setStartTime(busTrip.getStartTime());
+        existing.setStatus(busTrip.getStatus());
+
+        busTripService.save(existing);
 
         return "redirect:/busTrips";
     }
+
 
     @GetMapping("/{id}/details")
     public String viewDetails(@PathVariable Long id, Model model) {
@@ -67,6 +126,41 @@ public class BusTripController {
 
         return "busTrip/details";
     }
+
+    @GetMapping("/{id}/addStation")
+    public String addStationForm(@PathVariable Long id, Model model) {
+        BusTrip trip = busTripService.findById(id);
+
+        model.addAttribute("trip", trip);
+        model.addAttribute("stations", busStationService.findAll());
+
+        return "busTrip/addStation";
+    }
+
+
+    @PostMapping("/{tripId}/addStation")
+    public String addStation(
+            @PathVariable Long tripId,
+            @RequestParam Long stationId
+    ) {
+        BusTrip trip = busTripService.findById(tripId);
+        BusStation station = busStationService.findById(stationId);
+
+        trip.getBusStations().add(station);
+        station.getTrips().add(trip); // optional (owning side este trip)
+
+        busTripService.save(trip);
+
+        return "redirect:/busTrips/" + tripId;
+    }
+
+    @GetMapping("/{id}")
+    public String redirectDetails(@PathVariable Long id) {
+        return "redirect:/busTrips/" + id + "/details";
+    }
+
+
+
 
 }
 
