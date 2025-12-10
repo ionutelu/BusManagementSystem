@@ -2,10 +2,7 @@ package com.example.busstation.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "bus_stations", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "city"}))
@@ -19,7 +16,9 @@ public class BusStation{
     private String city;
     private Boolean isDamaged;
 
-    //private List<BusTrip> trips = new ArrayList<>();
+    @ManyToMany(mappedBy = "busStations")
+    private Set<BusTrip> trips = new HashSet<>();
+
 
     public BusStation() {
     }
@@ -29,7 +28,7 @@ public class BusStation{
         this.name = name;
         this.city = city;
         this.isDamaged = isDamaged;
-        //this.trips = trips;
+
     }
 
 
@@ -43,8 +42,7 @@ public class BusStation{
 
     public Long getId() { return id; }
 
-//    @Override
-//    public void setId(String id) { this.id = id; }
+    void setId(Long id){ this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -52,7 +50,7 @@ public class BusStation{
     public String getCity() { return city; }
     public void setCity(String city) { this.city = city; }
 
-//    public List<BusTrip> getTrips() { return Collections.unmodifiableList(trips); }
+    public Set<BusTrip> getTrips() { return trips; }
 //
 //    public void setTrips(List<BusTrip> trips) {
 //        if (trips == null) {

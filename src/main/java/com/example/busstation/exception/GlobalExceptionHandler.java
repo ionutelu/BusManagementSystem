@@ -40,4 +40,12 @@ public class GlobalExceptionHandler {
         model.addAttribute("route", new BusStation());
         return "route/form";
     }
+
+
+    @ExceptionHandler(RouteNotFoundException.class)
+    public String handleRouteNotFound(RouteNotFoundException ex, Model model){
+        model.addAttribute("errorMessage", ex.getMessage());
+        //model.addAttribute("routes", routeService.findAll());
+        return "redirect:/routes?error=" + ex.getMessage();
+    }
 }

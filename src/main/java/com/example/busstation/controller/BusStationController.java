@@ -3,6 +3,7 @@ package com.example.busstation.controller;
 import com.example.busstation.model.Bus;
 import com.example.busstation.model.BusStation;
 import com.example.busstation.service.BusStationService;
+import com.example.busstation.service.DutyAssignmentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +57,17 @@ public class BusStationController {
 
         busStationService.save(existing);
         return "redirect:/busStations";
+    }
+
+    @GetMapping("/{id}/trips")
+    public String viewTrips(@PathVariable Long id, Model model) {
+
+        BusStation busStation = busStationService.findById(id);
+
+        model.addAttribute("station", busStation);
+        model.addAttribute("trips", busStation.getTrips());
+
+        return "busStation/trips";  // templates/busStation/trips.html
     }
 
 }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trips for Station</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+
+<body class="container mt-4">
+
+<h2>
+    Trips for station:
+    <span class="text-primary" th:text="${station.name}"></span>
+    (<span th:text="${station.city}"></span>)
+</h2>
+
+<hr>
+
+<div th:if="${#lists.isEmpty(trips)}" class="alert alert-warning">
+    No trips are associated with this station.
+</div>
+
+<div th:unless="${#lists.isEmpty(trips)}">
+    <table class="table table-striped table-bordered mt-3">
+        <thead class="table-dark">
+        <tr>
+            <th>Trip ID</th>
+            <th>Route</th>
+            <th>Start Time</th>
+            <th>Status</th>
+            <th>Details</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="trip : ${trips}">
+            <td th:text="${trip.id}"></td>
+
+            <td>
+                <span th:text="${trip.route.origin.name}"></span> →
+                <span th:text="${trip.route.destination.name}"></span>
+            </td>
+
+            <td th:text="${#temporals.format(trip.startTime, 'yyyy-MM-dd HH:mm')}"></td>
+
+            <td th:text="${trip.status}"></td>
+
+            <td>
+                <a th:href="@{'/busTrips/' + ${trip.id}}" class="btn btn-sm btn-primary">View</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<a href="/busStations" class="btn btn-secondary mt-3">← Back to Stations</a>
+
+</body>
+</html>

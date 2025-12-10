@@ -1,37 +1,75 @@
 <!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Bus Station List</title>
+    <meta charset="UTF-8">
+    <title>Bus Station List</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
-<body>
-<h1>All Bus Stations</h1>
 
-<a th:href="@{/busStations/new}">Add New Bus Station</a>
+<body class="container mt-4">
 
-<table border="1">
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>City</th>
-    <th>Damaged</th>
-    <th>Actions</th>
-  </tr>
+<h2 class="mb-3">Bus Stations</h2>
 
-  <tr th:each="station : ${busStations}">
-    <td th:text="${station.id}">ID001</td>
-    <td th:text="${station.name}">Central Station</td>
-    <td th:text="${station.city}">Cluj</td>
-    <td th:text="${station.damaged}">false</td>
-      <td>
-          <a th:href="@{'/busStations/' + ${station.id} + '/edit'}">Edit</a>
+<div class="mb-3">
+    <a th:href="@{/busStations/new}" class="btn btn-primary">
+        Add New Bus Station
+    </a>
+</div>
 
-          <form th:action="@{'/busStations/' + ${station.id} + '/delete'}"
-                method="post" style="display:inline;">
-              <button type="submit">Delete</button>
-          </form>
-      </td>
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>Damaged</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
 
-  </tr>
+    <tbody>
+
+    <tr th:each="station : ${busStations}">
+        <td th:text="${station.id}"></td>
+        <td th:text="${station.name}"></td>
+        <td th:text="${station.city}"></td>
+
+        <!-- Show Damaged as Yes/No -->
+        <td>
+            <span th:if="${station.damaged}" class="badge bg-danger">Yes</span>
+            <span th:unless="${station.damaged}" class="badge bg-success">No</span>
+        </td>
+
+        <td class="d-flex gap-2">
+
+            <a th:href="@{'/busStations/' + ${station.id} + '/trips'}"
+               class="btn btn-info btn-sm">
+                Trips
+            </a>
+
+            <a th:href="@{'/busStations/' + ${station.id} + '/edit'}"
+               class="btn btn-warning btn-sm">
+                Edit
+            </a>
+
+            <form th:action="@{'/busStations/' + ${station.id} + '/delete'}"
+                  method="post" class="m-0 p-0">
+                <button type="submit" class="btn btn-danger btn-sm">
+                    Delete
+                </button>
+            </form>
+        </td>
+
+    </tr>
+
+    <tr th:if="${#lists.isEmpty(busStations)}">
+        <td colspan="5" class="text-center text-muted">No bus stations found.</td>
+    </tr>
+
+    </tbody>
 </table>
 
 </body>

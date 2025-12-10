@@ -12,7 +12,7 @@ public class Ticket{
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "bus_trip_id", nullable = false)
+    @JoinColumn(name = "bus_trip_id", nullable = true)
     private BusTrip busTrip;
 
     @ManyToOne
@@ -37,10 +37,8 @@ public class Ticket{
     public Long getId() {
         return id;
     }
-//    @Override
-//    public void setId(String id) {
-//        this.id = id;
-//    }
+
+    void setId(Long id){ this.id = id; }
 
     public BusTrip getBusTrip() {
         return busTrip;

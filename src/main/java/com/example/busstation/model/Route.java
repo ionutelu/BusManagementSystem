@@ -1,51 +1,42 @@
 package com.example.busstation.model;
 
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import jakarta.validation.constraints.*;
+import java.util.*;
 
 @Entity
 @Table(name = "routes")
-public class Route{
+public class Route {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne()
+    @NotNull(message = "Origin station is required.")
+    @ManyToOne
     @JoinColumn(name = "origin_station_id", nullable = false)
     private BusStation origin;
 
+    @NotNull(message = "Destination station is required.")
     @ManyToOne
     @JoinColumn(name = "destination_station_id", nullable = false)
     private BusStation destination;
 
+    @Positive(message = "Distance must be greater than 0.")
     private float distance;
 
     @OneToMany(mappedBy = "route")
     private List<BusTrip> trips = new ArrayList<>();
 
-    public Route() {
-    }
+    public Route() {}
 
-    public Route(String id, BusStation origin, BusStation destination, float distance, List<BusTrip> trips) {
-        this.origin = origin;
-        this.destination = destination;
-        this.distance = distance;
-        this.trips = new ArrayList<>(trips);
+    void setId(Long id){
+        this.id = id;
     }
 
     public Long getId() {
         return id;
     }
-
-//    @Override
-//    public void setId(String id) {
-//        this.id = id;
-//    }
 
     public BusStation getOrigin() {
         return origin;
@@ -88,17 +79,6 @@ public class Route{
     }
 
     @Override
-    public String toString() {
-        return "Route{" +
-                "id='" + id + '\'' +
-                ", origin=" + origin +
-                ", destination=" + destination +
-                ", distance=" + distance +
-                ", trips=" + trips +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Route)) return false;
@@ -111,4 +91,3 @@ public class Route{
         return Objects.hash(id);
     }
 }
-

@@ -1,48 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>BusTrip List</title>
+    <title>BusTrips List</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
-<body>
-<h1>All BusTrips</h1>
 
-<a th:href="@{/busTrips/new}">Add New BusTrip</a>
+<body class="container mt-4">
 
-<table border="1">
+<h2 class="mb-3">Bus Trips</h2>
+
+<!-- ADD NEW BUS TRIP BUTTON -->
+<div class="mb-3">
+    <a th:href="@{/busTrips/new}" class="btn btn-primary">
+        Add New BusTrip
+    </a>
+</div>
+
+<!-- BUS TRIP TABLE -->
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
     <tr>
         <th>ID</th>
-        <th>Route ID</th>
-        <th>Bus ID</th>
+        <th>Route</th>
+        <th>Bus</th>
         <th>Start Time</th>
         <th>Status</th>
         <th>Actions</th>
     </tr>
+    </thead>
+
+    <tbody>
 
     <tr th:each="bt : ${busTrips}">
-        <td th:text="${bt.id}">1</td>
-        <td th:text="${bt.routeId}">R1</td>
-        <td th:text="${bt.busId}">B1</td>
-        <td th:text="${#temporals.format(bt.startTime, 'yyyy-MM-dd HH:mm')}">2025-11-03 10:00</td>
-        <td th:text="${bt.status}">PLANNED</td>
-        <td>
-            <a th:href="@{'/busTrips/' + ${bt.id} + '/edit'}">Edit</a>
 
+        <!-- ID -->
+        <td th:text="${bt.id}"></td>
+
+        <!-- ROUTE -->
+        <td th:text="${bt.route.origin.name + ' → ' + bt.route.destination.name}"></td>
+
+        <!-- BUS -->
+        <td th:text="${bt.bus.registrationNumber}"></td>
+
+        <!-- START TIME -->
+        <td th:text="${#temporals.format(bt.startTime, 'yyyy-MM-dd HH:mm')}"></td>
+
+        <!-- STATUS -->
+        <td th:text="${bt.status}"></td>
+
+        <!-- ACTIONS -->
+        <td class="d-flex gap-2">
+
+            <!-- VIEW DETAILS -->
+            <a th:href="@{'/busTrips/' + ${bt.id} + '/details'}"
+               class="btn btn-info btn-sm text-white">
+                Details
+            </a>
+
+            <!-- EDIT -->
+            <a th:href="@{'/busTrips/' + ${bt.id} + '/edit'}"
+               class="btn btn-warning btn-sm">
+                Edit
+            </a>
+
+            <!-- DELETE -->
             <form th:action="@{'/busTrips/' + ${bt.id} + '/delete'}"
-                  method="post" style="display:inline;">
-                <button type="submit">Delete</button>
+                  method="post" class="m-0 p-0">
+                <button type="submit" class="btn btn-danger btn-sm">
+                    Delete
+                </button>
             </form>
-        </td>
 
-        <td>
-            <a th:href="@{'/busTrips/' + ${bt.id} + '/edit'}">Edit</a> |
-            <a th:href="@{'/busTrips/' + ${bt.id} + '/details'}">View Details</a> | <form th:action="@{'/busTrips/' + ${bt.id} + '/delete'}"
-                                                                                          method="post" style="display:inline;">
-            <button type="submit">Delete</button>
-        </form>
         </td>
 
     </tr>
+
+    <!-- If no bus trips -->
+    <tr th:if="${#lists.isEmpty(busTrips)}">
+        <td colspan="6" class="text-center text-muted">No bus trips found.</td>
+    </tr>
+
+    </tbody>
 </table>
 
 </body>

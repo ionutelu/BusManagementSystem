@@ -1,5 +1,7 @@
 package com.example.busstation.controller;
 
+import com.example.busstation.model.BusTrip;
+import com.example.busstation.model.Staff;
 import com.example.busstation.model.TripManager;
 import com.example.busstation.service.TripManagerService;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class TripManagerController {
 
     private final TripManagerService tripManagerService;
+
 
     public TripManagerController(TripManagerService tripManagerService) {
         this.tripManagerService = tripManagerService;
