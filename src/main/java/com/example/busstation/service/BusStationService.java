@@ -1,6 +1,7 @@
 package com.example.busstation.service;
 
 import com.example.busstation.exception.DuplicateBusStationException;
+import com.example.busstation.exception.EmptyFieldException;
 import com.example.busstation.model.BusStation;
 import com.example.busstation.repository.BusStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,21 @@ public class BusStationService {
 
     public BusStation save(BusStation busStation){
 
+        if (busStation.getName() == null || busStation.getName().isBlank()) {
+            throw new EmptyFieldException("Name cannot be empty.");
+        }
+
+        if (busStation.getCity() == null || busStation.getCity().isBlank()) {
+            throw new EmptyFieldException("City cannot be empty.");
+        }
+
         try {
             return busStationRepo.save(busStation);
-        }catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new DuplicateBusStationException("Station with the same name already exists in this City");
         }
     }
+
 
     public List<BusStation> findAll(){
         return busStationRepo.findAll();

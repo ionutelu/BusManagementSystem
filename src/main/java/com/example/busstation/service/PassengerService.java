@@ -25,8 +25,10 @@ public class PassengerService {
         return passengerRepo.findById(id).orElseThrow(() -> new RuntimeException("Passenger not found: " + id));
     }
 
-    public void save(Passenger passenger) {
-        passengerRepo.save(passenger);
+    public Passenger save(Passenger passenger) {
+
+        return passengerRepo.save(passenger);
+
     }
 
     public void deleteById(long id) {

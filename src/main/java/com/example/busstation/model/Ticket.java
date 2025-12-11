@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 @Entity
-@Table(name = "tickets")
+@Table(name = "tickets", uniqueConstraints = @UniqueConstraint(columnNames = {"seat_number", "bus_trip_id"}))
 public class Ticket{
 
     @Id

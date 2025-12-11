@@ -5,7 +5,7 @@ import jakarta.validation.constraints.*;
 import java.util.*;
 
 @Entity
-@Table(name = "routes")
+@Table(name = "routes", uniqueConstraints = @UniqueConstraint(columnNames = {"destination_station_id", "origin_station_id"}))
 public class Route {
 
     @Id
