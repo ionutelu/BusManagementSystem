@@ -1,9 +1,12 @@
 package com.example.busstation.service;
 
+import com.example.busstation.exception.DuplicateRouteException;
+import com.example.busstation.exception.DuplicateSeatException;
 import com.example.busstation.model.Route;
 import com.example.busstation.model.Ticket;
 import com.example.busstation.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +20,13 @@ public class TicketService {
         this.ticketRepo = ticketRepo;
     }
 
-    public void save(Ticket ticket){
-        ticketRepo.save(ticket);
+    public Ticket save(Ticket ticket){
+        try {
+            return ticketRepo.save(ticket);
+        }catch (DataIntegrityViolationException e){
+            throw new DuplicateSeatException("Seat already exists!");
+        }
+
     }
 
     public List<Ticket> findAll(){

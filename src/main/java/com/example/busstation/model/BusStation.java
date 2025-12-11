@@ -1,6 +1,7 @@
 package com.example.busstation.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.*;
 
@@ -12,8 +13,12 @@ public class BusStation{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name is required")
     private String name;
+
+    @NotBlank(message = "City is required")
     private String city;
+
     private Boolean isDamaged;
 
     @ManyToMany(mappedBy = "busStations")

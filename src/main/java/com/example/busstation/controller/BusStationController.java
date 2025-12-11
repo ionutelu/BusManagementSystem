@@ -4,8 +4,10 @@ import com.example.busstation.model.Bus;
 import com.example.busstation.model.BusStation;
 import com.example.busstation.service.BusStationService;
 import com.example.busstation.service.DutyAssignmentService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -28,11 +30,27 @@ public class BusStationController {
         return "busStation/form";
     }
 
+//    @PostMapping
+//    public String create(BusStation busStation) {
+//        busStationService.save(busStation);
+//        return "redirect:/busStations";
+//    }
+
     @PostMapping
-    public String create(BusStation busStation) {
+    public String create(
+            @Valid @ModelAttribute("busStation") BusStation busStation,
+            BindingResult bindingResult,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "busStation/form";  // rămâne pe pagină și afișează erorile
+        }
+
         busStationService.save(busStation);
         return "redirect:/busStations";
     }
+
+
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long id) {
@@ -47,17 +65,41 @@ public class BusStationController {
         return "busStation/form";
     }
 
+//    @PostMapping("/{id}")
+//    public String update(@PathVariable Long id, @ModelAttribute BusStation busStation) {
+//        BusStation existing = busStationService.findById(id);
+//
+//        existing.setCity(busStation.getCity());
+//        existing.setName(busStation.getName());
+//        existing.setDamaged(busStation.getDamaged());
+//
+//        busStationService.save(existing);
+//
+//        return "redirect:/busStations";
+//    }
+
     @PostMapping("/{id}")
-    public String update(@PathVariable Long id, @ModelAttribute BusStation busStation) {
+    public String update(
+            @PathVariable Long id,
+            @Valid @ModelAttribute("busStation") BusStation busStation,
+            BindingResult bindingResult,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "busStation/form";
+        }
+
         BusStation existing = busStationService.findById(id);
 
-        existing.setCity(busStation.getCity());
         existing.setName(busStation.getName());
+        existing.setCity(busStation.getCity());
         existing.setDamaged(busStation.getDamaged());
 
         busStationService.save(existing);
         return "redirect:/busStations";
     }
+
+
 
     @GetMapping("/{id}/trips")
     public String viewTrips(@PathVariable Long id, Model model) {
