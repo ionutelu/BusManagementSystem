@@ -1,13 +1,20 @@
 package com.example.busstation.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
+// import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+// import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.*;
 import java.util.Objects;
+
 @Entity
-@Table(name = "buses")
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Table(
+        name = "buses",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uq_vin", columnNames = "vin"),
+                @UniqueConstraint(name = "uq_registration_number", columnNames = "registrationNumber")
+        }
+)
+// @JsonIgnoreProperties(ignoreUnknown = true)
 public class Bus{
 
     @Id
@@ -19,12 +26,15 @@ public class Bus{
 
     @Column(name = "registration_number", nullable = false, unique = true)
     private String registrationNumber;
+
     private int capacity;
+
     private BusStatus status;
 
     public Bus() {
         this.status = BusStatus.DOWN;
     }
+
     public Bus(String registrationNumber, int capacity, String vin) {
         this.registrationNumber = registrationNumber;
         this.capacity = capacity;
@@ -35,6 +45,7 @@ public class Bus{
     public void setVin(String vin) {
         this.vin = vin;
     }
+
     public String getVin() {
         return vin;
     }
@@ -48,11 +59,13 @@ public class Bus{
     public int getCapacity() { return capacity; }
     public void setCapacity(int capacity) { this.capacity = capacity; }
 
-    @JsonProperty("statusEnum")
+    // @JsonProperty("statusEnum")
     public BusStatus getStatus() { return status; }
-    @JsonProperty("statusDescription")
+
+    // @JsonProperty("statusDescription")
     public String getStatusDescription() { return status.getDescription(); }
-    @JsonProperty("statusEnum")
+
+    // @JsonProperty("statusEnum")
     public void setStatus(BusStatus status) { this.status = status; }
 
     @Override
