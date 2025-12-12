@@ -77,5 +77,19 @@ public class GlobalExceptionHandler {
         return "ticket/form";
     }
 
+    @ExceptionHandler(BusTripNotFoundException.class)
+    public String handleBusTripNotFoundException(BusTripNotFoundException ex, Model model){
+        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("ticket", new Ticket());
+        return "ticket/form";
+    }
+
+    @ExceptionHandler(PassengerNotFoundException.class)
+    public String handlePassengerNotFoundException(PassengerNotFoundException ex, Model model){
+        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("ticket", new Ticket());
+        return "ticket/form";
+    }
+
 
 }

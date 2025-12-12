@@ -1,13 +1,16 @@
 package com.example.busstation.controller;
 
+import com.example.busstation.exception.PassengerNotFoundException;
 import com.example.busstation.model.BusTrip;
 import com.example.busstation.model.Passenger;
 import com.example.busstation.model.Ticket;
 import com.example.busstation.service.BusTripService;
 import com.example.busstation.service.PassengerService;
 import com.example.busstation.service.TicketService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -36,8 +39,44 @@ public class TicketController {
         return "ticket/form";
     }
 
+//    @PostMapping
+//    public String create(@RequestParam Long busTripId,
+//                         @RequestParam Long passengerId,
+//                         @Valid @ModelAttribute Ticket ticket,
+//                         BindingResult result,
+//                         Model model){
+//
+//        if (result.hasErrors()) {
+//            return "busStation/form";
+//        }
+//
+//        BusTrip busTrip = busTripService.findById(busTripId);
+//        Passenger passenger = passengerService.findById(passengerId);
+//
+//
+//
+//
+//        ticket.setBusTrip(busTrip);
+//
+//        ticket.setPassenger(passenger);
+//
+//        ticketService.save(ticket);
+//
+//        return "redirect:/tickets";
+//    }
+
     @PostMapping
-    public String create(@RequestParam Long busTripId, @RequestParam Long passengerId, @ModelAttribute Ticket ticket){
+    public String create(@RequestParam Long busTripId,
+                         @RequestParam Long passengerId,
+                         @Valid @ModelAttribute Ticket ticket,
+                         BindingResult result,
+                         Model model) {
+
+
+        if (result.hasErrors()) {
+            return "ticket/form";
+        }
+
 
         BusTrip busTrip = busTripService.findById(busTripId);
         Passenger passenger = passengerService.findById(passengerId);
@@ -49,6 +88,7 @@ public class TicketController {
 
         return "redirect:/tickets";
     }
+
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable long id) {
@@ -63,7 +103,16 @@ public class TicketController {
     }
 
     @PostMapping("/{id}")
-    public String update(@RequestParam Long busTripId, @RequestParam Long passengerId, @PathVariable Long id, @ModelAttribute Ticket ticket) {
+    public String update(@PathVariable Long id,
+                         @RequestParam Long busTripId,
+                         @RequestParam Long passengerId,
+                         @Valid @ModelAttribute Ticket ticket,
+                         BindingResult result,
+                         Model model) {
+
+        if (result.hasErrors()) {
+            return "ticket/form";
+        }
 
         BusTrip busTrip = busTripService.findById(busTripId);
         Passenger passenger = passengerService.findById(passengerId);
