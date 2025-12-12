@@ -1,5 +1,6 @@
 package com.example.busstation.service;
 
+import com.example.busstation.exception.PassengerNotFoundException;
 import com.example.busstation.model.Passenger;
 import com.example.busstation.repository.PassengerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class PassengerService {
     }
 
     public Passenger findById(long id) {
-        return passengerRepo.findById(id).orElseThrow(() -> new RuntimeException("Passenger not found: " + id));
+        return passengerRepo.findById(id).orElseThrow(() -> new PassengerNotFoundException("Passenger not found!"));
     }
 
     public Passenger save(Passenger passenger) {

@@ -1,5 +1,6 @@
 package com.example.busstation.service;
 
+import com.example.busstation.exception.BusTripNotFoundException;
 import com.example.busstation.model.BusStation;
 import com.example.busstation.model.BusTrip;
 import com.example.busstation.repository.TripRepository;
@@ -22,7 +23,7 @@ public class BusTripService {
     }
 
     public BusTrip findById(long id) {
-        return busTripRepo.findById(id).orElseThrow(() -> new RuntimeException("Bus trip not found: " + id));
+        return busTripRepo.findById(id).orElseThrow(() -> new BusTripNotFoundException("BusTrip not found"));
     }
 
     public void save(BusTrip busTrip) {

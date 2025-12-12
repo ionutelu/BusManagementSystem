@@ -43,7 +43,7 @@ public class BusStationController {
             Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "busStation/form";  // rămâne pe pagină și afișează erorile
+            return "busStation/form";
         }
 
         busStationService.save(busStation);
