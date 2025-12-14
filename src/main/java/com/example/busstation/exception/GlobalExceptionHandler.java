@@ -8,23 +8,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(DuplicateRegistrationException.class)
-    public String handleDuplicateRegistration(
-            DuplicateRegistrationException ex,
-            Model model)
-    {
-        model.addAttribute("errorMessage", ex.getMessage());
-        model.addAttribute("bus", new Bus());
+//    @ExceptionHandler(DuplicateRegistrationException.class)
+//    public String handleDuplicateRegistration(
+//            DuplicateRegistrationException ex,
+//            Model model)
+//    {
+//        model.addAttribute("errorMessage", ex.getMessage());
+//        model.addAttribute("bus", new Bus());
+//
+//        return "bus/form";
+//    }
 
-        return "bus/form";
-    }
-
-    @ExceptionHandler(DuplicateVinException.class)
-    public String handleDuplicateVin(DuplicateVinException ex, Model model){
-        model.addAttribute("errorMessage", ex.getMessage());
-        model.addAttribute("bus", new Bus());
-        return "bus/form";
-    }
+//    @ExceptionHandler(DuplicateVinException.class)
+//    public String handleDuplicateVin(DuplicateVinException ex, Model model){
+//        model.addAttribute("errorMessage", ex.getMessage());
+//        model.addAttribute("bus", new Bus());
+//        return "bus/form";
+//    }
 
     @ExceptionHandler(DuplicateBusStationException.class)
     public String handleDuplicateBusStationException(DuplicateBusStationException ex, Model model){
@@ -109,6 +109,32 @@ public class GlobalExceptionHandler {
         return "busTrip/form";
     }
 
+    // handler pentru exceptiile legate de Bus (VIN duplicat, număr înmatriculare duplicat, capacitate invalidă)
+    @ExceptionHandler({
+            DuplicateRegistrationException.class,
+            DuplicateVinException.class,
+            BusCapacityInvalid.class
+    })
+    public String handleBusErrors(RuntimeException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("bus", new Bus());
+        return "bus/form";
+    }
+
+    // handler pentru situațiile în care un Bus nu este găsit
+    @ExceptionHandler(BusNotFoundException.class)
+    public String handleBusNotFound(BusNotFoundException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("bus", new Bus());
+        return "bus/form";
+    }
+
+    @ExceptionHandler(InvalidBusStatusException.class)
+    public String handleInvalidBusStatusException(InvalidBusStatusException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("bus", new Bus());
+        return "bus/form";
+    }
 
 
 }

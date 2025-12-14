@@ -1,14 +1,17 @@
 package com.example.busstation.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-
 import java.util.Objects;
+
 @Entity
-@Table(name = "buses")
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Bus{
+@Table(
+        name = "buses",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uq_vin", columnNames = "vin"),
+                @UniqueConstraint(name = "uq_registration_number", columnNames = "registrationNumber")
+        }
+)
+public class Bus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,41 +22,64 @@ public class Bus{
 
     @Column(name = "registration_number", nullable = false, unique = true)
     private String registrationNumber;
+
+    @Column(nullable = false)
     private int capacity;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private BusStatus status;
 
     public Bus() {
         this.status = BusStatus.DOWN;
     }
+
     public Bus(String registrationNumber, int capacity, String vin) {
         this.registrationNumber = registrationNumber;
         this.capacity = capacity;
-        this.status = BusStatus.DOWN;
         this.vin = vin;
+        this.status = BusStatus.DOWN;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getVin() {
+        return vin;
     }
 
     public void setVin(String vin) {
         this.vin = vin;
     }
-    public String getVin() {
-        return vin;
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
     }
 
-    public Long getId() { return id; }
-    void setId(Long id){ this.id = id; }
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
 
-    public String getRegistrationNumber() { return registrationNumber; }
-    public void setRegistrationNumber(String registrationNumber) { this.registrationNumber = registrationNumber; }
+    public int getCapacity() {
+        return capacity;
+    }
 
-    public int getCapacity() { return capacity; }
-    public void setCapacity(int capacity) { this.capacity = capacity; }
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
 
-    @JsonProperty("statusEnum")
-    public BusStatus getStatus() { return status; }
-    @JsonProperty("statusDescription")
-    public String getStatusDescription() { return status.getDescription(); }
-    @JsonProperty("statusEnum")
-    public void setStatus(BusStatus status) { this.status = status; }
+    public BusStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BusStatus status) {
+        this.status = status;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -71,7 +97,7 @@ public class Bus{
     @Override
     public String toString() {
         return "Bus{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", registrationNumber='" + registrationNumber + '\'' +
                 ", capacity=" + capacity +
                 ", status=" + status +
