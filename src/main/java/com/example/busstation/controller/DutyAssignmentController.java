@@ -42,20 +42,39 @@ public class DutyAssignmentController {
 //    }
 
     @PostMapping
-    public String create(@RequestParam Long tripId,
-                         @RequestParam Long staffId,
-                         @ModelAttribute DutyAssignment dutyAssignment) {
+    public String create(@RequestParam(required = false) Long tripId,
+                         @RequestParam(required = false) Long staffId,
+                         @ModelAttribute DutyAssignment dutyAssignment, Model model) {
 
-        BusTrip trip = busTripService.findById(tripId);
+        if(tripId == null){
+            model.addAttribute("errorMessage", "Bus trip required");
+            return "dutyAssignment/form";
+        }
 
+        if(staffId == null){
+            model.addAttribute("errorMessage", "Staff required");
+            return "dutyAssignment/form";
+        }
 
-        Staff staff = new Staff() {};
-        staff.setId(staffId);
+        try{
+            BusTrip trip = busTripService.findById(tripId);
+            Staff staff = new Staff() {};
 
-        dutyAssignment.setTripId(trip);
-        dutyAssignment.setStaff(staff);
+            staff.setId(staffId);
+            dutyAssignment.setTripId(trip);
+            dutyAssignment.setStaff(staff);
 
-        dutyAssignmentService.save(dutyAssignment);
+            dutyAssignmentService.save(dutyAssignment);
+        }catch(RuntimeException e){
+
+            if(e.getMessage().contains("busTrip"))
+                model.addAttribute("errorMessage", "Bus trip not found");
+            else
+                model.addAttribute("errorMessage", "Staff id not found");
+
+            return "dutyAssignment/form";
+        }
+
 
         return "redirect:/assignments";
     }

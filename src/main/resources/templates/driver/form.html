@@ -12,24 +12,32 @@
 
 <h2 th:text="${driver.id == null} ? 'Add New Driver' : 'Edit Driver'"></h2>
 
+<!-- ERROR MESSAGE -->
+<div th:if="${errorMessage != null}" class="alert alert-danger" role="alert">
+    <strong>Eroare:</strong>
+    <span th:text="${errorMessage}"></span>
+</div>
+
 <form th:object="${driver}"
       th:action="${driver.id == null} ? @{/drivers} : @{'/drivers/' + ${driver.id}}"
       method="post"
       class="card p-4 shadow-sm mt-3">
 
-    <!-- Hidden ID for editing -->
     <input type="hidden" th:if="${driver.id != null}" th:field="*{id}"/>
 
-    <!-- NAME -->
     <div class="mb-3">
         <label class="form-label">Name</label>
-        <input type="text" th:field="*{name}" class="form-control" required>
+        <input type="text" th:field="*{name}" class="form-control">
     </div>
 
-    <!-- EXPERIENCE -->
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="text" th:field="*{email}" class="form-control">
+    </div>
+
     <div class="mb-3">
         <label class="form-label">Experience (Years)</label>
-        <input type="number" th:field="*{experienceYears}" class="form-control" min="0" required>
+        <input type="text" th:field="*{experienceYears}" class="form-control">
     </div>
 
     <div class="d-flex gap-2">

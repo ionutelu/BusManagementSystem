@@ -1,6 +1,8 @@
 package com.example.busstation.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +16,7 @@ public class TripManager extends Staff {
     @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DutyAssignment> assignments = new ArrayList<>();
 
+    @NotBlank(message = "Code is required.")
     private String employeeCode;
 
     public TripManager() {

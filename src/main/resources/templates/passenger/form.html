@@ -12,6 +12,12 @@
 
 <h2 th:text="${passenger.id == null} ? 'Add New Passenger' : 'Edit Passenger'"></h2>
 
+<!-- ERROR MESSAGE -->
+<div th:if="${errorMessage != null}" class="alert alert-danger" role="alert">
+    <strong>Eroare:</strong>
+    <span th:text="${errorMessage}"></span>
+</div>
+
 <form th:object="${passenger}"
       th:action="${passenger.id == null} ? @{/passengers} : @{/passengers/{id}(id=${passenger.id})}"
       method="post"
@@ -22,13 +28,13 @@
     <!-- Name -->
     <div class="mb-3">
         <label class="form-label">Name</label>
-        <input type="text" th:field="*{name}" class="form-control" required>
+        <input type="text" th:field="*{name}" class="form-control">
     </div>
 
     <!-- Currency -->
     <div class="mb-3">
         <label class="form-label">Currency</label>
-        <input type="text" th:field="*{currency}" class="form-control" required>
+        <input type="text" th:field="*{currency}" class="form-control">
     </div>
 
     <div class="d-flex gap-2">

@@ -1,6 +1,9 @@
 package com.example.busstation.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -12,7 +15,12 @@ public abstract class Staff{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+
+    @NotBlank(message = "Name is required")
     protected String name;
+
+    @NotBlank(message = "Email is required.")
+    @Email(message = "Email should be valid")
     protected String email;
 
     public Staff() {

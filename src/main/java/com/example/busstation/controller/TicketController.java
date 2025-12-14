@@ -1,6 +1,5 @@
 package com.example.busstation.controller;
 
-import com.example.busstation.exception.PassengerNotFoundException;
 import com.example.busstation.model.BusTrip;
 import com.example.busstation.model.Passenger;
 import com.example.busstation.model.Ticket;
@@ -66,23 +65,50 @@ public class TicketController {
 //    }
 
     @PostMapping
-    public String create(@RequestParam Long busTripId,
-                         @RequestParam Long passengerId,
-                         @Valid @ModelAttribute Ticket ticket,
-                         BindingResult result,
+    public String create(@RequestParam(required = false) Long busTripId,
+                         @RequestParam(required = false) Long passengerId,
+                         @Valid @ModelAttribute("ticket") Ticket ticket,
+                         BindingResult bindingResult,
                          Model model) {
 
 
-        if (result.hasErrors()) {
+
+
+//        if(bindingResult.hasErrors()) {
+//            bindingResult.getAllErrors().forEach(e->model.addAttribute("errorMessage", e.getDefaultMessage()));
+//            model.addAttribute("busTripId", busTripId);
+//            model.addAttribute("passengerId", passengerId);
+//            return "ticket/form";
+//        }
+
+        if(busTripId == null){
+            model.addAttribute("errorMessage", "Bus trip required");
             return "ticket/form";
         }
 
+        if(passengerId == null){
+            model.addAttribute("errorMessage", "Passenger required");
+            return "ticket/form";
+        }
 
-        BusTrip busTrip = busTripService.findById(busTripId);
-        Passenger passenger = passengerService.findById(passengerId);
+        if(bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(e->model.addAttribute("errorMessage", e.getDefaultMessage()));
+            return "ticket/form";
+        }
 
-        ticket.setBusTrip(busTrip);
-        ticket.setPassenger(passenger);
+        try{
+            BusTrip busTrip = busTripService.findById(busTripId);
+            Passenger passenger = passengerService.findById(passengerId);
+            ticket.setBusTrip(busTrip);
+            ticket.setPassenger(passenger);
+        }catch(RuntimeException e){
+            if(e.getMessage().contains("busTrip"))
+                model.addAttribute("errorMessage", "Bus trip not found");
+            else
+                model.addAttribute("errorMessage", "Passenger id not found");
+
+            return "ticket/form";
+        }
 
         ticketService.save(ticket);
 
@@ -104,13 +130,24 @@ public class TicketController {
 
     @PostMapping("/{id}")
     public String update(@PathVariable Long id,
-                         @RequestParam Long busTripId,
-                         @RequestParam Long passengerId,
-                         @Valid @ModelAttribute Ticket ticket,
-                         BindingResult result,
+                         @RequestParam(required = false) Long busTripId,
+                         @RequestParam(required = false) Long passengerId,
+                         @Valid @ModelAttribute("ticket") Ticket ticket,
+                         BindingResult bindingResult,
                          Model model) {
 
-        if (result.hasErrors()) {
+        if(busTripId == null){
+            model.addAttribute("errorMessage", "Bus trip required");
+            return "ticket/form";
+        }
+
+        if(passengerId == null){
+            model.addAttribute("errorMessage", "Passenger required");
+            return "ticket/form";
+        }
+
+        if(bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(e->model.addAttribute("errorMessage", e.getDefaultMessage()));
             return "ticket/form";
         }
 

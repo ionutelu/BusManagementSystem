@@ -2,8 +2,10 @@ package com.example.busstation.controller;
 
 import com.example.busstation.model.Driver;
 import com.example.busstation.service.DriverService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -27,7 +29,12 @@ public class DriverController {
     }
 
     @PostMapping
-    public String create(Driver driver) {
+    public String create(@Valid @ModelAttribute("driver") Driver driver, BindingResult bindingResult, Model model) {
+
+        if(bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(e->model.addAttribute("errorMessage", e.getDefaultMessage()));
+            return "driver/form";
+        }
         driverService.save(driver);
         return "redirect:/drivers";
     }

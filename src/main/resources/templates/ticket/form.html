@@ -16,10 +16,9 @@
              'Edit Ticket' : 'Create Ticket'">
 </h2>
 
-<!-- ======================================== -->
-<!--       BACKEND ERROR FROM EXCEPTION       -->
-<!-- ======================================== -->
-<div th:if="${errorMessage}" class="alert alert-danger mt-3">
+<!-- ================= ERROR MESSAGE ================= -->
+<div th:if="${errorMessage != null}" class="alert alert-danger mt-3" role="alert">
+    <strong>Eroare:</strong>
     <span th:text="${errorMessage}"></span>
 </div>
 
@@ -36,19 +35,21 @@
     <!-- BUS TRIP ID -->
     <div class="mb-3">
         <label class="form-label">Bus Trip ID</label>
-        <input type="number"
+        <input type="text"
                class="form-control"
                name="busTripId"
-               th:value="${ticket.busTrip != null ? ticket.busTrip.id : ''}">
+               th:value="${busTripId != null ? busTripId :
+                         (ticket.busTrip != null ? ticket.busTrip.id : '')}">
     </div>
 
     <!-- PASSENGER ID -->
     <div class="mb-3">
         <label class="form-label">Passenger ID</label>
-        <input type="number"
+        <input type="text"
                class="form-control"
                name="passengerId"
-               th:value="${ticket.passenger != null ? ticket.passenger.id : ''}">
+               th:value="${passengerId != null ? passengerId :
+                         (ticket.passenger != null ? ticket.passenger.id : '')}">
     </div>
 
     <!-- SEAT NUMBER -->
@@ -63,10 +64,9 @@
     <!-- PRICE -->
     <div class="mb-3">
         <label class="form-label">Price (€)</label>
-        <input type="number"
+        <input type="text"
                th:field="*{price}"
-               class="form-control"
-               min="0" step="0.01">
+               class="form-control">
     </div>
 
     <!-- BUTTONS -->
