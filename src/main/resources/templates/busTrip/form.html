@@ -12,40 +12,38 @@
 
 <h2 th:text="${busTrip.id == null} ? 'Create Bus Trip' : 'Edit Bus Trip'"></h2>
 
+<div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+    <strong th:text="${errorMessage}"></strong>
+</div>
 <form th:action="${busTrip.id == null} ? @{/busTrips} : @{'/busTrips/' + ${busTrip.id}}"
       th:object="${busTrip}"
       method="post"
       class="card p-4 shadow-sm mt-3">
 
-    <!-- Hidden ID -->
     <input type="hidden" th:if="${busTrip.id != null}" th:field="*{id}">
 
-    <!-- ROUTE ID -->
     <div class="mb-3">
         <label class="form-label">Route ID</label>
         <input type="number" class="form-control"
-               name="routeId" required
-               th:value="${busTrip.route != null ? busTrip.route.id : ''}">
+               name="routeId"
+               th:value="${routeId != null} ? ${routeId} : (${busTrip.route != null ? busTrip.route.id : ''})">
     </div>
 
-    <!-- BUS ID -->
     <div class="mb-3">
         <label class="form-label">Bus ID</label>
         <input type="number" class="form-control"
-               name="busId" required
-               th:value="${busTrip.bus != null ? busTrip.bus.id : ''}">
+               name="busId"
+               th:value="${busId != null} ? ${busId} : (${busTrip.bus != null ? busTrip.bus.id : ''})">
     </div>
 
-    <!-- START TIME -->
     <div class="mb-3">
         <label class="form-label">Start Time</label>
         <input type="datetime-local"
                th:field="*{startTime}"
                class="form-control"
-               required>
+        >
     </div>
 
-    <!-- STATUS -->
     <div class="mb-3">
         <label class="form-label">Status</label>
         <select th:field="*{status}" class="form-select" required>
@@ -56,7 +54,6 @@
         </select>
     </div>
 
-    <!-- BUTTONS -->
     <div class="d-flex gap-2">
         <button type="submit" class="btn btn-success">Save</button>
         <a href="/busTrips" class="btn btn-secondary">Cancel</a>

@@ -37,14 +37,7 @@ public class BusStationController {
 //    }
 
     @PostMapping
-    public String create(
-            @Valid @ModelAttribute("busStation") BusStation busStation,
-            BindingResult bindingResult,
-            Model model) {
-
-        if (bindingResult.hasErrors()) {
-            return "busStation/form";
-        }
+    public String create(@ModelAttribute BusStation busStation) {
 
         busStationService.save(busStation);
         return "redirect:/busStations";

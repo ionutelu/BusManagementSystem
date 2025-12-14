@@ -1,6 +1,7 @@
 package com.example.busstation.service;
 
 import com.example.busstation.exception.DuplicateBusStationException;
+import com.example.busstation.exception.EmptyFieldBusStationException;
 import com.example.busstation.exception.EmptyFieldException;
 import com.example.busstation.model.BusStation;
 import com.example.busstation.repository.BusStationRepository;
@@ -21,11 +22,11 @@ public class BusStationService {
     public BusStation save(BusStation busStation){
 
         if (busStation.getName() == null || busStation.getName().isBlank()) {
-            throw new EmptyFieldException("Name cannot be empty.");
+            throw new EmptyFieldBusStationException("Name cannot be empty.");
         }
 
         if (busStation.getCity() == null || busStation.getCity().isBlank()) {
-            throw new EmptyFieldException("City cannot be empty.");
+            throw new EmptyFieldBusStationException("City cannot be empty.");
         }
 
         try {
