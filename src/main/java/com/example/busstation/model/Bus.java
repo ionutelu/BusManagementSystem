@@ -4,7 +4,13 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "buses")
+@Table(
+        name = "buses",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uq_vin", columnNames = "vin"),
+                @UniqueConstraint(name = "uq_registration_number", columnNames = "registrationNumber")
+        }
+)
 public class Bus {
 
     @Id
