@@ -1,9 +1,6 @@
 package com.example.busstation.exception;
 
-import com.example.busstation.model.Bus;
-import com.example.busstation.model.BusStation;
-import com.example.busstation.model.Route;
-import com.example.busstation.model.Ticket;
+import com.example.busstation.model.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -56,9 +53,9 @@ public class GlobalExceptionHandler {
     public String handleEmptyFieldException(EmptyFieldException ex, Model model) {
 
         model.addAttribute("errorMessage", ex.getMessage());
-        model.addAttribute("busStation", new BusStation());
+        model.addAttribute("busTrip", new BusTrip());
 
-        return "busStation/form";
+        return "busTrip/form";
     }
 
     @ExceptionHandler(DuplicateRouteException.class)
@@ -73,8 +70,8 @@ public class GlobalExceptionHandler {
     public String handleDuplicateSeatException(DuplicateSeatException ex, Model model)
     {
         model.addAttribute("errorMessage", ex.getMessage());
-        model.addAttribute("ticket", new Ticket());
-        return "ticket/form";
+        model.addAttribute("busTrip", new BusTrip());
+        return "busTrip/form";
     }
 
     @ExceptionHandler(BusTripNotFoundException.class)
@@ -90,6 +87,28 @@ public class GlobalExceptionHandler {
         model.addAttribute("ticket", new Ticket());
         return "ticket/form";
     }
+
+    @ExceptionHandler(EmptyFieldBusStationException.class)
+    public String handleEmptyFieldBusStationException(EmptyFieldBusStationException ex, Model model){
+        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("busStation", new BusStation());
+        return "busStation/form";
+    }
+
+    @ExceptionHandler(RouteNotFoundForTripException.class)
+    public String handleRouteNotFoundForTripException(RouteNotFoundForTripException ex, Model model){
+        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("busTrip", new BusTrip());
+        return "busTrip/form";
+    }
+
+    @ExceptionHandler(BusNotFoundForTripException.class)
+    public String handleBusNotFoundForTripException(BusNotFoundForTripException ex, Model model){
+        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("busTrip", new BusTrip());
+        return "busTrip/form";
+    }
+
 
 
 }

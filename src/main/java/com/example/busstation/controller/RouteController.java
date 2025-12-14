@@ -10,6 +10,7 @@ import com.example.busstation.service.RouteService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.RouteMatcher;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +49,12 @@ public class RouteController {
 
     @PostMapping
     public String create(@Valid @ModelAttribute Route route, BindingResult bindingResult, Model model) {
+
         if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors()
+                    .forEach(e -> model.addAttribute("errorMessage", e.getDefaultMessage()));
+//            model.addAttribute("route", new Route());
+//            model.addAttribute("errorMessage", "Distance must be greater than 1");
             return "route/form";
         }
         routeService.save(route);
@@ -70,10 +76,15 @@ public class RouteController {
     }
 
     @PostMapping("/{id}")
-    public String update(@PathVariable Long id, @ModelAttribute Route route, BindingResult bidingResult) {
+    public String update(@PathVariable Long id, @Valid @ModelAttribute("route") Route route, BindingResult bindingResult, Model model) {
 
-        if(bidingResult.hasErrors())
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors()
+                    .forEach(e -> model.addAttribute("errorMessage", e.getDefaultMessage()));
+//            model.addAttribute("route", new Route());
+//            model.addAttribute("errorMessage", "Distance must be greater than 1");
             return "route/form";
+        }
 
         Route existing = routeService.findById(id);
 

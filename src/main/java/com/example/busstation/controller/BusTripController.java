@@ -1,17 +1,19 @@
 package com.example.busstation.controller;
 
-import com.example.busstation.model.Bus;
-import com.example.busstation.model.BusStation;
-import com.example.busstation.model.BusTrip;
-import com.example.busstation.model.Route;
+import com.example.busstation.exception.BusNotFoundForTripException;
+import com.example.busstation.exception.EmptyFieldException;
+import com.example.busstation.exception.RouteNotFoundForTripException;
+import com.example.busstation.model.*;
 import com.example.busstation.service.BusService;
 import com.example.busstation.service.BusStationService;
 import com.example.busstation.service.BusTripService;
 import com.example.busstation.service.RouteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDateTime;
@@ -52,17 +54,32 @@ public class BusTripController {
 //        return "redirect:/busTrips";
 //    }
 
+
     @PostMapping
-    public String create(@RequestParam Long routeId,
-                         @RequestParam Long busId,
-                         @ModelAttribute BusTrip busTrip) {
+    public String create(@RequestParam (required = false) Long routeId,
+                         @RequestParam (required = false) Long busId,
+                         @ModelAttribute BusTrip busTrip, Model model) {
 
-        Route route = routeService.findById(routeId);
-        Bus bus = busService.findById(busId);
+        if (routeId == null || busId == null || busTrip.getStartTime() == null) {
 
-        busTrip.setRoute(route);
-        busTrip.setBus(bus);
-
+            model.addAttribute("errorMessage", "Toate datele sunt necesare!!");
+            //model.addAttribute("busTrip", new BusTrip());
+            model.addAttribute("routeId", routeId);
+            model.addAttribute("busId", busId);
+            return "busTrip/form";
+            //throw new EmptyFieldException("Route ID și Bus ID are mandatory");
+        }
+        try{
+            Route route = routeService.findById(routeId);
+            Bus bus = busService.findById(busId);
+            busTrip.setRoute(route);
+            busTrip.setBus(bus);
+        }catch(RuntimeException e){
+            if(e.getMessage().contains("Route"))
+                throw new RouteNotFoundForTripException("Route not found");
+            if(e.getMessage().contains("Bus"))
+                throw new BusNotFoundForTripException("Bus not found");
+        }
         busTripService.save(busTrip);
         return "redirect:/busTrips";
     }
@@ -97,21 +114,35 @@ public class BusTripController {
 
     @PostMapping("/{id}")
     public String update(@PathVariable Long id,
-                         @RequestParam Long routeId,
-                         @RequestParam Long busId,
-                         @ModelAttribute BusTrip busTrip) {
+                         @RequestParam(required = false) Long routeId,
+                         @RequestParam(required = false) Long busId,
+                         @ModelAttribute BusTrip busTrip, Model model) {
+
+        if (routeId == null || busId == null || busTrip.getStartTime() == null) {
+
+            model.addAttribute("errorMessage", "Toate datele sunt necesare!!");
+            //model.addAttribute("busTrip", new BusTrip());
+            model.addAttribute("routeId", routeId);
+            model.addAttribute("busId", busId);
+            return "busTrip/form";
+            //throw new EmptyFieldException("Route ID și Bus ID are mandatory");
+        }
+
 
         BusTrip existing = busTripService.findById(id);
-        Route route = routeService.findById(routeId);
-        Bus bus = busService.findById(busId);
+        try{
+            Route route = routeService.findById(routeId);
+            Bus bus = busService.findById(busId);
 
-        existing.setRoute(route);
-        existing.setBus(bus);
-        existing.setStartTime(busTrip.getStartTime());
-        existing.setStatus(busTrip.getStatus());
+            existing.setRoute(route);
+            existing.setBus(bus);
+            existing.setStartTime(busTrip.getStartTime());
+            existing.setStatus(busTrip.getStatus());
 
+        }catch(RuntimeException e){
+            throw new RouteNotFoundForTripException("Route not found");
+        }
         busTripService.save(existing);
-
         return "redirect:/busTrips";
     }
 
@@ -147,7 +178,7 @@ public class BusTripController {
         BusStation station = busStationService.findById(stationId);
 
         trip.getBusStations().add(station);
-        station.getTrips().add(trip); // optional (owning side este trip)
+        station.getTrips().add(trip);
 
         busTripService.save(trip);
 

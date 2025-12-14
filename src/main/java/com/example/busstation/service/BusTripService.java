@@ -1,8 +1,10 @@
 package com.example.busstation.service;
 
 import com.example.busstation.exception.BusTripNotFoundException;
+import com.example.busstation.exception.RouteNotFoundForTripException;
 import com.example.busstation.model.BusStation;
 import com.example.busstation.model.BusTrip;
+import com.example.busstation.model.Route;
 import com.example.busstation.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +28,14 @@ public class BusTripService {
         return busTripRepo.findById(id).orElseThrow(() -> new BusTripNotFoundException("BusTrip not found"));
     }
 
-    public void save(BusTrip busTrip) {
-        busTripRepo.save(busTrip);
+    public BusTrip save(BusTrip busTrip) {
+
+        try{
+            return busTripRepo.save(busTrip);
+        }catch (RuntimeException e){
+            throw new RouteNotFoundForTripException("Trip not found");
+        }
+
     }
 
     public void deleteById(long id) {
