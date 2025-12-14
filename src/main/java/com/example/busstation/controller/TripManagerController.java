@@ -4,8 +4,10 @@ import com.example.busstation.model.BusTrip;
 import com.example.busstation.model.Staff;
 import com.example.busstation.model.TripManager;
 import com.example.busstation.service.TripManagerService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -31,7 +33,13 @@ public class TripManagerController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute TripManager tripManager) {
+    public String create(@Valid @ModelAttribute("tripManager") TripManager tripManager, BindingResult bindingResult, Model model) {
+
+        if(bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(e->model.addAttribute("errorMessage", e.getDefaultMessage()));
+            return "tripManager/form";
+        }
+
         tripManagerService.save(tripManager);
         return "redirect:/tripManagers";
     }
@@ -49,7 +57,11 @@ public class TripManagerController {
     }
 
     @PostMapping("/{id}")
-    public String update(@PathVariable long id, @ModelAttribute TripManager tripManager) {
+    public String update(@PathVariable long id, @ModelAttribute TripManager tripManager, Model model, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(e->model.addAttribute("errorMessage", e.getDefaultMessage()));
+            return "tripManager/form";
+        }
         tripManager.setId(id);
         tripManagerService.save(tripManager);
         return "redirect:/tripManagers";

@@ -2,18 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${dutyAssignment.id} == null ? 'Add Duty Assignment' : 'Edit Duty Assignment'"></title>
+    <title th:text="${dutyAssignment.id == null ? 'Add Duty Assignment' : 'Edit Duty Assignment'}"></title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="container mt-4">
 
-<h2 th:text="${dutyAssignment.id} == null ? 'Add Duty Assignment' : 'Edit Duty Assignment'"></h2>
+<h2 th:text="${dutyAssignment.id == null ? 'Add Duty Assignment' : 'Edit Duty Assignment'}"></h2>
 
-<form th:action="@{${dutyAssignment.id} == null ? '/assignments' : '/assignments/' + ${dutyAssignment.id}}"
-      method="post"
-      th:object="${dutyAssignment}">
+<!-- ERROR MESSAGE -->
+<div th:if="${errorMessage != null}" class="alert alert-danger mt-3" role="alert">
+    <strong>Eroare:</strong> <span th:text="${errorMessage}"></span>
+</div>
+
+<form th:object="${dutyAssignment}"
+      th:action="${dutyAssignment.id == null} ? @{/assignments} : @{'/assignments/' + ${dutyAssignment.id}}"
+      method="post">
 
     <!-- Trip ID -->
     <div class="mb-3">
@@ -21,8 +26,7 @@
         <input type="number"
                name="tripId"
                class="form-control"
-               th:value="${dutyAssignment.busTrip != null ? dutyAssignment.busTrip.id : ''}"
-               required>
+               th:value="${dutyAssignment.busTrip != null ? dutyAssignment.busTrip.id : ''}">
     </div>
 
     <!-- Staff ID -->
@@ -31,8 +35,7 @@
         <input type="number"
                name="staffId"
                class="form-control"
-               th:value="${dutyAssignment.staff != null ? dutyAssignment.staff.id : ''}"
-               required>
+               th:value="${dutyAssignment.staff != null ? dutyAssignment.staff.id : ''}">
     </div>
 
     <!-- Role -->
@@ -48,7 +51,8 @@
 
     <button type="submit"
             class="btn btn-primary"
-            th:text="${dutyAssignment.id == null ? 'Add Assignment' : 'Update Assignment'}"></button>
+            th:text="${dutyAssignment.id == null ? 'Add Assignment' : 'Update Assignment'}">
+    </button>
 </form>
 
 <br>

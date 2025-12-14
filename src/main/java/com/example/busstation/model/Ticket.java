@@ -3,6 +3,8 @@ package com.example.busstation.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Positive;
 
 import java.util.Objects;
 @Entity
@@ -13,21 +15,24 @@ public class Ticket{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Trip is required.")
+
     @ManyToOne
     @JoinColumn(name = "bus_trip_id", nullable = false)
+    //@NotNull(message = "Trip is required.")
     private BusTrip busTrip;
 
-    @NotNull(message = "Passenger is required")
+
     @ManyToOne
     @JoinColumn(name = "passenger_id", nullable = false)
+    //@NotNull(message = "Passenger is required")
     private Passenger passenger;
 
 
     @NotBlank(message = "Seat is required")
     private String seatNumber;
 
-    @NotNull
+    @NotNull(message = "Price required")
+    @Positive(message = "Price must be positive")
     private double price;
 
     public Ticket() {

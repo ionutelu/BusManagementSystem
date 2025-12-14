@@ -2,8 +2,10 @@ package com.example.busstation.controller;
 
 import com.example.busstation.model.Passenger;
 import com.example.busstation.service.PassengerService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -29,7 +31,15 @@ public class PassengerController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute Passenger passenger) {
+    public String create(@Valid @ModelAttribute("passenger") Passenger passenger, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors()
+                    .forEach(e -> model.addAttribute("errorMessage", e.getDefaultMessage()));
+//            model.addAttribute("route", new Route());
+//            model.addAttribute("errorMessage", "Distance must be greater than 1");
+            return "passenger/form";
+        }
         passengerService.save(passenger);
         return "redirect:/passengers";
     }
@@ -47,7 +57,16 @@ public class PassengerController {
     }
 
     @PostMapping("/{id}")
-    public String update(@PathVariable Long id, @ModelAttribute Passenger passenger) {
+    public String update( @PathVariable Long id, @Valid @ModelAttribute("passenger") Passenger passenger, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors()
+                    .forEach(e -> model.addAttribute("errorMessage", e.getDefaultMessage()));
+//            model.addAttribute("route", new Route());
+//            model.addAttribute("errorMessage", "Distance must be greater than 1");
+            return "passenger/form";
+        }
+
         Passenger existing = passengerService.findById(id);
 
         existing.setName(passenger.getName());

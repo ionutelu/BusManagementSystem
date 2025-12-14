@@ -23,7 +23,7 @@
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Experience</th>
+        <th>Email</th> <th>Experience</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -33,7 +33,7 @@
     <tr th:each="driver : ${drivers}">
         <td th:text="${driver.id}"></td>
         <td th:text="${driver.name}"></td>
-        <td th:text="${driver.experienceYears} + ' years'"></td>
+        <td th:text="${driver.email}"></td> <td th:text="${driver.experienceYears} + ' years'"></td>
 
         <td class="d-flex gap-2">
             <a th:href="@{'/drivers/' + ${driver.id} + '/edit'}"
@@ -49,7 +49,7 @@
     </tr>
 
     <tr th:if="${#lists.isEmpty(drivers)}">
-        <td colspan="4" class="text-center text-muted">No drivers found.</td>
+        <td colspan="5" class="text-center text-muted">No drivers found.</td>
     </tr>
 
     </tbody>

@@ -1,6 +1,8 @@
 package com.example.busstation.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +16,8 @@ public class Driver extends Staff {
     @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DutyAssignment> assignments = new ArrayList<>();
 
+    @Positive(message = "Experience must be greater than 0")
+    @NotNull(message = "Experience is required.")
     private int experienceYears;
 
     public Driver() {
