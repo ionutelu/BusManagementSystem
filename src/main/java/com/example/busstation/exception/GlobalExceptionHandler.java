@@ -129,6 +129,12 @@ public class GlobalExceptionHandler {
         return "bus/form";
     }
 
+    @ExceptionHandler(InvalidBusStatusException.class)
+    public String handleInvalidBusStatusException(InvalidBusStatusException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("bus", new Bus());
+        return "bus/form";
+    }
 
 
 }

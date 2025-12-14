@@ -1,9 +1,13 @@
 package com.example.busstation.controller;
 
+import com.example.busstation.exception.InvalidBusStatusException;
 import com.example.busstation.model.Bus;
+import com.example.busstation.model.BusStatus;
 import com.example.busstation.service.BusService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -29,7 +33,25 @@ public class BusController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute Bus bus) {
+    public String create(@RequestParam(required = false) String status,
+                         @Valid @ModelAttribute Bus bus,
+                         BindingResult bindingResult,
+                         Model model)
+    {
+        String value = status;
+        if (value == null || value.isBlank()) {
+            throw new InvalidBusStatusException(value);
+        }
+
+        try{
+            BusStatus.fromString(value);
+        }
+        catch (InvalidBusStatusException e){
+            throw new InvalidBusStatusException("From controller <3 : " + e.getMessage());
+        }
+
+        bus.setStatus(BusStatus.fromString(value));
+        
         busService.save(bus);
         return "redirect:/buses";
     }
