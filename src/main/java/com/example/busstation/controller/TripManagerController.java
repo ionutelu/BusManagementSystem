@@ -27,15 +27,33 @@ public class TripManagerController {
 //        return "tripManager/index";
 //    }
 
+//    @GetMapping
+//    public String index(
+//            @RequestParam(required = false) String sortField,
+//            @RequestParam(required = false) String sortDirection,
+//            Model model
+//    ) {
+//        model.addAttribute(
+//                "tripManagers",
+//                tripManagerService.findAllSorted(sortField, sortDirection)
+//        );
+//        return "tripManager/index";
+//    }
+
     @GetMapping
     public String index(
-            @RequestParam(required = false) String sortField,
-            @RequestParam(required = false) String sortDirection,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String employeeCode,
+            @RequestParam(required = false, defaultValue = "id") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
             Model model
     ) {
         model.addAttribute(
                 "tripManagers",
-                tripManagerService.findAllSorted(sortField, sortDirection)
+                tripManagerService.findFilteredAndSorted(
+                        name, email, employeeCode, sortField, sortDirection
+                )
         );
         return "tripManager/index";
     }

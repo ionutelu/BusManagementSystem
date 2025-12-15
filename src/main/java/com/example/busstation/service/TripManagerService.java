@@ -45,4 +45,35 @@ public class TripManagerService {
         return tripManagerRepo.findAll(sort);
     }
 
+    public List<TripManager> findFilteredAndSorted(
+            String name,
+            String email,
+            String employeeCode,
+            String sortField,
+            String sortDirection
+    ) {
+        if (name != null && name.isBlank()) name = null;
+        if (email != null && email.isBlank()) email = null;
+        if (employeeCode != null && employeeCode.isBlank()) employeeCode = null;
+
+        if (sortField == null || sortField.isBlank()) sortField = "id";
+
+        // whitelist pentru sort
+        switch (sortField) {
+            case "id":
+            case "name":
+            case "email":
+            case "employeeCode":
+                break;
+            default:
+                sortField = "id";
+        }
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return tripManagerRepo.findFiltered(name, email, employeeCode, sort);
+    }
+
 }

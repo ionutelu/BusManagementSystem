@@ -32,18 +32,37 @@ public class RouteController {
 //        return "route/index";
 //    }
 
+//    @GetMapping
+//    public String index(
+//            @RequestParam(required = false) String sortField,
+//            @RequestParam(required = false) String sortDirection,
+//            Model model
+//    ) {
+//        model.addAttribute(
+//                "routes",
+//                routeService.findAllSorted(sortField, sortDirection)
+//        );
+//        return "route/index";
+//    }
+
     @GetMapping
     public String index(
-            @RequestParam(required = false) String sortField,
-            @RequestParam(required = false) String sortDirection,
+            @RequestParam(required = false) String origin,
+            @RequestParam(required = false) String destination,
+            @RequestParam(required = false) Float maxDistance,
+            @RequestParam(required = false, defaultValue = "id") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
             Model model
     ) {
         model.addAttribute(
                 "routes",
-                routeService.findAllSorted(sortField, sortDirection)
+                routeService.findFilteredAndSorted(
+                        origin, destination, maxDistance, sortField, sortDirection
+                )
         );
         return "route/index";
     }
+
 
 
     @GetMapping("/new")
