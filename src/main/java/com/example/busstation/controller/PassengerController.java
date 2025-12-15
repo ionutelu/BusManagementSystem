@@ -19,8 +19,10 @@ public class PassengerController {
     }
 
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("passengers", passengerService.findAll());
+    public String index(@RequestParam(required = false) String sortField,
+                        @RequestParam(required = false) String sortDirection,
+                        Model model) {
+        model.addAttribute("passengers", passengerService.findAllSorted(sortField, sortDirection));
         return "passenger/index";
     }
 
