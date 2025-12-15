@@ -10,52 +10,137 @@
 
 <body class="container mt-4">
 
-<h2 class="mb-3">Trip Managers</h2>
+<h2 class="mb-4">Trip Managers (List, Sorting & Filtering)</h2>
+
+<!-- FILTER -->
+<div class="card mb-4 p-3 bg-light">
+    <h5 class="card-title">🔍 Filter & Search</h5>
+
+    <form method="get" th:action="@{/tripManagers}" class="row g-3 align-items-end">
+
+        <div class="col-md-3">
+            <label class="form-label">Name:</label>
+            <input type="text" class="form-control" name="name"
+                   th:value="${param.name}">
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Email:</label>
+            <input type="text" class="form-control" name="email"
+                   th:value="${param.email}">
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Employee Code:</label>
+            <input type="text" class="form-control" name="employeeCode"
+                   th:value="${param.employeeCode}">
+        </div>
+
+        <input type="hidden" name="sortField" th:value="${param.sortField}">
+        <input type="hidden" name="sortDirection" th:value="${param.sortDirection}">
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button class="btn btn-primary me-2">Apply</button>
+            <a th:href="@{/tripManagers}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
+</div>
 
 <div class="mb-3">
-    <a th:href="@{/tripManagers/new}" class="btn btn-primary">
-        Add New Trip Manager
+    <a th:href="@{/tripManagers/new}" class="btn btn-success">
+        + Add New Trip Manager
     </a>
 </div>
 
-<table class="table table-striped table-bordered">
+<table class="table table-striped table-hover table-bordered">
     <thead class="table-dark">
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Employee Code</th>
+
+        <!-- ID -->
+        <th th:with="
+            url=@{/tripManagers(
+                sortField='id',
+                sortDirection=${param.sortDirection != null and param.sortDirection[0] == 'asc' ? 'desc' : 'asc'},
+                name=${param.name},
+                email=${param.email},
+                employeeCode=${param.employeeCode}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                ID
+            </a>
+        </th>
+
+        <!-- NAME -->
+        <th th:with="
+            url=@{/tripManagers(
+                sortField='name',
+                sortDirection=${param.sortDirection != null and param.sortDirection[0] == 'asc' ? 'desc' : 'asc'},
+                name=${param.name},
+                email=${param.email},
+                employeeCode=${param.employeeCode}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Name
+            </a>
+        </th>
+
+        <!-- EMAIL -->
+        <th th:with="
+            url=@{/tripManagers(
+                sortField='email',
+                sortDirection=${param.sortDirection != null and param.sortDirection[0] == 'asc' ? 'desc' : 'asc'},
+                name=${param.name},
+                email=${param.email},
+                employeeCode=${param.employeeCode}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Email
+            </a>
+        </th>
+
+        <!-- CODE -->
+        <th th:with="
+            url=@{/tripManagers(
+                sortField='employeeCode',
+                sortDirection=${param.sortDirection != null and param.sortDirection[0] == 'asc' ? 'desc' : 'asc'},
+                name=${param.name},
+                email=${param.email},
+                employeeCode=${param.employeeCode}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Employee Code
+            </a>
+        </th>
+
         <th>Actions</th>
     </tr>
     </thead>
 
     <tbody>
-
     <tr th:each="tm : ${tripManagers}">
         <td th:text="${tm.id}"></td>
         <td th:text="${tm.name}"></td>
         <td th:text="${tm.email}"></td>
-        <td th:text="${tm.employeeCode}"></td>
+        <td>
+            <span class="badge bg-info" th:text="${tm.employeeCode}"></span>
+        </td>
 
         <td class="d-flex gap-2">
-
             <a th:href="@{'/tripManagers/' + ${tm.id} + '/edit'}"
                class="btn btn-warning btn-sm">Edit</a>
 
             <form th:action="@{'/tripManagers/' + ${tm.id} + '/delete'}"
-                  method="post" class="m-0 p-0">
-                <button type="submit" class="btn btn-danger btn-sm">
-                    Delete
-                </button>
+                  method="post">
+                <button class="btn btn-danger btn-sm">Delete</button>
             </form>
-
         </td>
     </tr>
 
     <tr th:if="${#lists.isEmpty(tripManagers)}">
-        <td colspan="5" class="text-center text-muted">No trip managers found.</td>
+        <td colspan="5" class="text-center text-muted">
+            No trip managers found.
+        </td>
     </tr>
-
     </tbody>
 </table>
 
