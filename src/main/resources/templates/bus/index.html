@@ -3,61 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <title>Bus List</title>
-
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 
 <body class="container mt-4">
 
-<h2 class="mb-3">Buses</h2>
+<h2 class="mb-4">Buses (List, Sorting & Filtering)</h2>
 
-<div class="mb-3">
-    <a th:href="@{/buses/new}" class="btn btn-primary">
-        Add New Bus
-    </a>
+<!-- 🔍 FILTERS -->
+<div class="card mb-4 p-3 bg-light">
+    <h5 class="card-title">🔍 Filter & Search</h5>
+
+    <form method="get" th:action="@{/buses}" class="row g-3 align-items-end">
+
+        <div class="col-md-4">
+            <label class="form-label">VIN:</label>
+            <input type="text" class="form-control" name="vin"
+                   th:value="${param.vin}">
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Status:</label>
+            <select name="status" class="form-select">
+                <option value="">-- All Statuses --</option>
+                <option th:each="s : ${T(com.example.busstation.model.BusStatus).values()}"
+                        th:value="${s.name()}"
+                        th:text="${s.description}"
+                        th:selected="${param.status != null and param.status[0] == s.name()}">
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label class="form-label">Min Capacity:</label>
+            <input type="number" class="form-control" name="minCapacity"
+                   th:value="${param.minCapacity}">
+        </div>
+
+        <!-- păstrăm sortarea -->
+        <input type="hidden" name="sortField" th:value="${param.sortField}">
+        <input type="hidden" name="sortDirection" th:value="${param.sortDirection}">
+
+        <div class="col-md-3">
+            <button class="btn btn-primary me-2">Apply Filters</button>
+            <a th:href="@{/buses}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
 </div>
 
-<table class="table table-striped table-bordered">
+<div class="mb-3">
+    <a th:href="@{/buses/new}" class="btn btn-success">+ Add New Bus</a>
+</div>
+
+<!-- 📊 TABLE -->
+<table class="table table-striped table-hover table-bordered">
     <thead class="table-dark">
     <tr>
-        <th>ID</th>
-        <th>VIN</th>
-        <th>Registration Number</th>
-        <th>Capacity</th>
-        <th>Status</th>
+
+        <!-- ID -->
+        <th th:with="
+            url=@{/buses(
+                sortField='id',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'id'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                vin=${param.vin},
+                status=${param.status},
+                minCapacity=${param.minCapacity}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                ID
+                <span th:if="${param.sortField != null and param.sortField[0] == 'id'}"
+                      th:text="${param.sortDirection != null and param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}">
+                </span>
+            </a>
+        </th>
+
+        <!-- VIN -->
+        <th th:with="
+            url=@{/buses(
+                sortField='vin',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'vin'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                vin=${param.vin},
+                status=${param.status},
+                minCapacity=${param.minCapacity}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                VIN
+                <span th:if="${param.sortField != null and param.sortField[0] == 'vin'}"
+                      th:text="${param.sortDirection != null and param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}">
+                </span>
+            </a>
+        </th>
+
+        <!-- Registration Number -->
+        <th th:with="
+            url=@{/buses(
+                sortField='registrationNumber',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'registrationNumber'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                vin=${param.vin},
+                status=${param.status},
+                minCapacity=${param.minCapacity}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Registration
+                <span th:if="${param.sortField != null and param.sortField[0] == 'registrationNumber'}"
+                      th:text="${param.sortDirection != null and param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}">
+                </span>
+            </a>
+        </th>
+
+        <!-- Capacity -->
+        <th th:with="
+            url=@{/buses(
+                sortField='capacity',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'capacity'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                vin=${param.vin},
+                status=${param.status},
+                minCapacity=${param.minCapacity}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Capacity
+                <span th:if="${param.sortField != null and param.sortField[0] == 'capacity'}"
+                      th:text="${param.sortDirection != null and param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}">
+                </span>
+            </a>
+        </th>
+
+        <!-- Status -->
+        <th th:with="
+            url=@{/buses(
+                sortField='status',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'status'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                vin=${param.vin},
+                status=${param.status},
+                minCapacity=${param.minCapacity}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Status
+                <span th:if="${param.sortField != null and param.sortField[0] == 'status'}"
+                      th:text="${param.sortDirection != null and param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}">
+                </span>
+            </a>
+        </th>
+
         <th>Actions</th>
     </tr>
     </thead>
 
     <tbody>
-
     <tr th:each="bus : ${buses}">
         <td th:text="${bus.id}"></td>
         <td th:text="${bus.vin}"></td>
         <td th:text="${bus.registrationNumber}"></td>
         <td th:text="${bus.capacity}"></td>
-        <td th:text="${bus.status}"></td>
-
+        <td th:text="${bus.status.description}"></td>
         <td class="d-flex gap-2">
             <a th:href="@{'/buses/' + ${bus.id} + '/edit'}"
                class="btn btn-warning btn-sm">Edit</a>
-
             <form th:action="@{'/buses/' + ${bus.id} + '/delete'}"
-                  method="post" class="m-0 p-0">
-                <button type="submit" class="btn btn-danger btn-sm">
-                    Delete
-                </button>
+                  method="post">
+                <button class="btn btn-danger btn-sm">Delete</button>
             </form>
         </td>
     </tr>
-
-    <tr th:if="${#lists.isEmpty(buses)}">
-        <td colspan="6" class="text-center text-muted">No buses found.</td>
-    </tr>
-
     </tbody>
 </table>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
