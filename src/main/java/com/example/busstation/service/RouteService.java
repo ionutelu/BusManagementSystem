@@ -57,4 +57,25 @@ public class RouteService {
         return routeRepo.findAll(sort);
     }
 
+    public List<Route> findFilteredAndSorted(
+            String origin,
+            String destination,
+            Float maxDistance,
+            String sortField,
+            String sortDirection
+    ) {
+        if (sortField == null || sortField.isBlank()) {
+            sortField = "id";
+        }
+
+        if (origin != null && origin.isBlank()) origin = null;
+        if (destination != null && destination.isBlank()) destination = null;
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return routeRepo.findFiltered(origin, destination, maxDistance, sort);
+    }
+
 }
