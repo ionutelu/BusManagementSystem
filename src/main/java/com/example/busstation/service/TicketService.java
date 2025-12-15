@@ -54,4 +54,44 @@ public class TicketService {
 
         return ticketRepo.findAll(sort);
     }
+
+    public List<Ticket> findFilteredAndSorted(
+            Long busTripId,
+            String passengerName,
+            Double maxPrice,
+            String sortField,
+            String sortDirection
+    ) {
+        if (passengerName != null && passengerName.isBlank()) passengerName = null;
+
+        if (sortField == null || sortField.isBlank()) sortField = "id";
+
+        // mapare sigură pentru relații
+        switch (sortField) {
+            case "id":
+                sortField = "id";
+                break;
+            case "busTrip":
+                sortField = "busTrip.id";
+                break;
+            case "passenger":
+                sortField = "passenger.name";
+                break;
+            case "seatNumber":
+                sortField = "seatNumber";
+                break;
+            case "price":
+                sortField = "price";
+                break;
+            default:
+                sortField = "id";
+        }
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return ticketRepo.findFiltered(busTripId, passengerName, maxPrice, sort);
+    }
+
 }

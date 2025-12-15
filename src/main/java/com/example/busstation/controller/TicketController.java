@@ -32,18 +32,35 @@ public class TicketController {
 //        return "ticket/index";
 //    }
 
+//    @GetMapping
+//    public String index(
+//            @RequestParam(required = false) String sortField,
+//            @RequestParam(required = false) String sortDirection,
+//            Model model
+//    ) {
+//        model.addAttribute(
+//                "tickets",
+//                ticketService.findAllSorted(sortField, sortDirection)
+//        );
+//        return "ticket/index";
+//    }
+
     @GetMapping
     public String index(
-            @RequestParam(required = false) String sortField,
-            @RequestParam(required = false) String sortDirection,
+            @RequestParam(required = false) Long busTripId,
+            @RequestParam(required = false) String passengerName,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false, defaultValue = "id") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
             Model model
     ) {
         model.addAttribute(
                 "tickets",
-                ticketService.findAllSorted(sortField, sortDirection)
+                ticketService.findFilteredAndSorted(busTripId, passengerName, maxPrice, sortField, sortDirection)
         );
         return "ticket/index";
     }
+
 
 
     @GetMapping("/new")
