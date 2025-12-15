@@ -19,11 +19,23 @@ public class BusStationController {
         this.busStationService = busStationService;
     }
 
+//    @GetMapping
+//    public String index(Model model) {
+//        model.addAttribute("busStations", busStationService.findAll());
+//        return "busStation/index";
+//    }
+
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("busStations", busStationService.findAll());
+    public String index(
+            @RequestParam(required = false) String sortField,
+            @RequestParam(required = false) String sortDirection,
+            Model model
+    ) {
+        model.addAttribute("busStations",
+                busStationService.findAllSorted(sortField, sortDirection));
         return "busStation/index";
     }
+
 
     @GetMapping("/new")
     public String form(BusStation busStation) {

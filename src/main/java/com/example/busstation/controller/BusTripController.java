@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Controller
 @RequestMapping("/busTrips")
@@ -41,6 +42,7 @@ public class BusTripController {
         model.addAttribute("busTrips", busTripService.findAll());
         return "busTrip/index";
     }
+
 
     @GetMapping("/new")
     public String form(Model model) {

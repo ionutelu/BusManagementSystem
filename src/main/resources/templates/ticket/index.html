@@ -10,23 +10,150 @@
 
 <body class="container mt-4">
 
-<h2 class="mb-3">Tickets</h2>
+<h2 class="mb-4">Tickets (List, Sorting & Filtering)</h2>
+
+<!-- FILTER & SEARCH -->
+<div class="card mb-4 p-3 bg-light">
+    <h5 class="card-title">🔍 Filter & Search</h5>
+
+    <form method="get" th:action="@{/tickets}" class="row g-3 align-items-end">
+
+        <!-- BUS TRIP ID -->
+        <div class="col-md-3">
+            <label class="form-label">BusTrip ID:</label>
+            <input type="number" class="form-control" name="busTripId"
+                   th:value="${param.busTripId}" min="1">
+        </div>
+
+        <!-- PASSENGER NAME -->
+        <div class="col-md-3">
+            <label class="form-label">Passenger:</label>
+            <input type="text" class="form-control" name="passengerName"
+                   th:value="${param.passengerName}"
+                   placeholder="Ex: Ion Popescu">
+        </div>
+
+        <!-- MAX PRICE -->
+        <div class="col-md-3">
+            <label class="form-label">Max Price:</label>
+            <input type="number" step="0.01" class="form-control" name="maxPrice"
+                   th:value="${param.maxPrice}">
+        </div>
+
+        <!-- KEEP SORT -->
+        <input type="hidden" name="sortField" th:value="${param.sortField}">
+        <input type="hidden" name="sortDirection" th:value="${param.sortDirection}">
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
+            <a th:href="@{/tickets}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
+</div>
 
 <!-- ADD NEW -->
 <div class="mb-3">
-    <a th:href="@{/tickets/new}" class="btn btn-primary">
-        Add New Ticket
+    <a th:href="@{/tickets/new}" class="btn btn-success">
+        + Add New Ticket
     </a>
 </div>
 
-<table class="table table-striped table-bordered">
+<!-- TABLE -->
+<table class="table table-striped table-hover table-bordered">
     <thead class="table-dark">
     <tr>
-        <th>ID</th>
-        <th>BusTrip</th>
-        <th>Passenger</th>
-        <th>Seat</th>
-        <th>Price</th>
+
+        <!-- ID -->
+        <th th:with="
+            url=@{/tickets(
+                sortField='id',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'id'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                busTripId=${param.busTripId},
+                passengerName=${param.passengerName},
+                maxPrice=${param.maxPrice}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                ID
+                <span th:if="${param.sortField != null and param.sortField[0] == 'id'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <!-- BUS TRIP -->
+        <th th:with="
+            url=@{/tickets(
+                sortField='busTrip',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'busTrip'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                busTripId=${param.busTripId},
+                passengerName=${param.passengerName},
+                maxPrice=${param.maxPrice}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                BusTrip
+            </a>
+        </th>
+
+        <!-- PASSENGER -->
+        <th th:with="
+            url=@{/tickets(
+                sortField='passenger',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'passenger'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                busTripId=${param.busTripId},
+                passengerName=${param.passengerName},
+                maxPrice=${param.maxPrice}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Passenger
+            </a>
+        </th>
+
+        <!-- SEAT -->
+        <th th:with="
+            url=@{/tickets(
+                sortField='seatNumber',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'seatNumber'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                busTripId=${param.busTripId},
+                passengerName=${param.passengerName},
+                maxPrice=${param.maxPrice}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Seat
+                <span th:if="${param.sortField != null and param.sortField[0] == 'seatNumber'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <!-- PRICE -->
+        <th th:with="
+            url=@{/tickets(
+                sortField='price',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'price'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                busTripId=${param.busTripId},
+                passengerName=${param.passengerName},
+                maxPrice=${param.maxPrice}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Price
+                <span th:if="${param.sortField != null and param.sortField[0] == 'price'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
         <th>Actions</th>
     </tr>
     </thead>
@@ -34,39 +161,37 @@
     <tbody>
     <tr th:each="ticket : ${tickets}">
         <td th:text="${ticket.id}"></td>
-
-        <!-- BusTrip ID -->
         <td th:text="${ticket.busTrip.id}"></td>
-
-        <!-- Passenger name -->
         <td th:text="${ticket.passenger.name}"></td>
-
-        <td th:text="${ticket.seatNumber}"></td>
-
-        <td th:text="${ticket.price}"></td>
+        <td>
+            <span class="badge bg-secondary" th:text="${ticket.seatNumber}"></span>
+        </td>
+        <td>
+            <span class="badge bg-success" th:text="${ticket.price}"></span>
+        </td>
 
         <td class="d-flex gap-2">
-
-            <!-- EDIT -->
             <a th:href="@{'/tickets/' + ${ticket.id} + '/edit'}"
                class="btn btn-warning btn-sm">Edit</a>
 
-            <!-- DELETE -->
             <form th:action="@{'/tickets/' + ${ticket.id} + '/delete'}"
-                  method="post" class="m-0 p-0">
-                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                  method="post"
+                  onsubmit="return confirm('Sigur doriți să ștergeți acest bilet?');">
+                <button type="submit" class="btn btn-danger btn-sm">
+                    Delete
+                </button>
             </form>
-
         </td>
     </tr>
 
-    <!-- EMPTY LIST -->
     <tr th:if="${#lists.isEmpty(tickets)}">
-        <td colspan="6" class="text-center text-muted">No tickets found.</td>
+        <td colspan="6" class="text-center text-muted">
+            No tickets found.
+        </td>
     </tr>
-
     </tbody>
 </table>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

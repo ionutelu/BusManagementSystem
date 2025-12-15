@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>BusTrips List</title>
+    <title>Bus Trips List</title>
 
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
@@ -10,81 +10,181 @@
 
 <body class="container mt-4">
 
-<h2 class="mb-3">Bus Trips</h2>
+<h2 class="mb-4">Bus Trips (List, Sorting & Filtering)</h2>
 
-<!-- ADD NEW BUS TRIP BUTTON -->
+<!-- FILTER & SEARCH -->
+<div class="card mb-4 p-3 bg-light">
+    <h5 class="card-title">🔍 Filter & Search</h5>
+
+    <form method="get" th:action="@{/busTrips}" class="row g-3 align-items-end">
+
+        <!-- ROUTE -->
+        <div class="col-md-4">
+            <label class="form-label">Route (Origin or Destination):</label>
+            <input type="text" class="form-control" name="route"
+                   th:value="${param.route}"
+                   placeholder="Ex: București">
+        </div>
+
+        <!-- STATUS -->
+        <div class="col-md-3">
+            <label class="form-label">Status:</label>
+            <select name="status" class="form-select">
+                <option value="">-- All Statuses --</option>
+                <option th:value="PLANNED"
+                        th:selected="${param.status != null and param.status[0] == 'PLANNED'}">
+                    Planned
+                </option>
+                <option th:value="IN_PROGRESS"
+                        th:selected="${param.status != null and param.status[0] == 'IN_PROGRESS'}">
+                    In Progress
+                </option>
+                <option th:value="FINISHED"
+                        th:selected="${param.status != null and param.status[0] == 'FINISHED'}">
+                    Finished
+                </option>
+            </select>
+        </div>
+
+        <!-- KEEP SORT -->
+        <input type="hidden" name="sortField" th:value="${param.sortField}">
+        <input type="hidden" name="sortDirection" th:value="${param.sortDirection}">
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
+            <a th:href="@{/busTrips}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
+</div>
+
+<!-- ADD NEW -->
 <div class="mb-3">
-    <a th:href="@{/busTrips/new}" class="btn btn-primary">
-        Add New BusTrip
+    <a th:href="@{/busTrips/new}" class="btn btn-success">
+        + Add New Bus Trip
     </a>
 </div>
 
-<!-- BUS TRIP TABLE -->
-<table class="table table-striped table-bordered">
+<!-- TABLE -->
+<table class="table table-striped table-hover table-bordered">
     <thead class="table-dark">
     <tr>
-        <th>ID</th>
-        <th>Route</th>
+
+        <!-- ID -->
+        <th th:with="
+            url=@{/busTrips(
+                sortField='id',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'id'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                route=${param.route},
+                status=${param.status}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                ID
+                <span th:if="${param.sortField != null and param.sortField[0] == 'id'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <!-- ROUTE -->
+        <th th:with="
+            url=@{/busTrips(
+                sortField='route',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'route'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                route=${param.route},
+                status=${param.status}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Route
+                <span th:if="${param.sortField != null and param.sortField[0] == 'route'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <!-- BUS -->
         <th>Bus</th>
-        <th>Start Time</th>
-        <th>Status</th>
+
+        <!-- START TIME -->
+        <th th:with="
+            url=@{/busTrips(
+                sortField='startTime',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'startTime'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                route=${param.route},
+                status=${param.status}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Start Time
+                <span th:if="${param.sortField != null and param.sortField[0] == 'startTime'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <!-- STATUS -->
+        <th th:with="
+            url=@{/busTrips(
+                sortField='status',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'status'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                route=${param.route},
+                status=${param.status}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Status
+                <span th:if="${param.sortField != null and param.sortField[0] == 'status'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
         <th>Actions</th>
     </tr>
     </thead>
 
     <tbody>
-
     <tr th:each="bt : ${busTrips}">
-
-        <!-- ID -->
         <td th:text="${bt.id}"></td>
 
-        <!-- ROUTE -->
         <td th:text="${bt.route.origin.name + ' → ' + bt.route.destination.name}"></td>
 
-        <!-- BUS -->
         <td th:text="${bt.bus.registrationNumber}"></td>
 
-        <!-- START TIME -->
         <td th:text="${#temporals.format(bt.startTime, 'yyyy-MM-dd HH:mm')}"></td>
 
-        <!-- STATUS -->
-        <td th:text="${bt.status}"></td>
-
-        <!-- ACTIONS -->
-        <td class="d-flex gap-2">
-
-            <!-- VIEW DETAILS -->
-            <a th:href="@{'/busTrips/' + ${bt.id} + '/details'}"
-               class="btn btn-info btn-sm text-white">
-                Details
-            </a>
-
-            <!-- EDIT -->
-            <a th:href="@{'/busTrips/' + ${bt.id} + '/edit'}"
-               class="btn btn-warning btn-sm">
-                Edit
-            </a>
-
-            <!-- DELETE -->
-            <form th:action="@{'/busTrips/' + ${bt.id} + '/delete'}"
-                  method="post" class="m-0 p-0">
-                <button type="submit" class="btn btn-danger btn-sm">
-                    Delete
-                </button>
-            </form>
-
+        <td>
+            <span class="badge bg-info" th:text="${bt.status}"></span>
         </td>
 
+        <td class="d-flex gap-2">
+            <a th:href="@{'/busTrips/' + ${bt.id} + '/details'}"
+               class="btn btn-info btn-sm text-white">Details</a>
+
+            <a th:href="@{'/busTrips/' + ${bt.id} + '/edit'}"
+               class="btn btn-warning btn-sm">Edit</a>
+
+            <form th:action="@{'/busTrips/' + ${bt.id} + '/delete'}"
+                  method="post"
+                  onsubmit="return confirm('Sigur doriți să ștergeți această cursă?');">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </td>
     </tr>
 
-    <!-- If no bus trips -->
     <tr th:if="${#lists.isEmpty(busTrips)}">
-        <td colspan="6" class="text-center text-muted">No bus trips found.</td>
+        <td colspan="6" class="text-center text-muted">
+            No bus trips found.
+        </td>
     </tr>
-
     </tbody>
 </table>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -10,23 +10,137 @@
 
 <body class="container mt-4">
 
-<h2 class="mb-3">Routes</h2>
+<h2 class="mb-4">Routes (List, Sorting & Filtering)</h2>
 
-<!-- ADD NEW ROUTE BUTTON -->
+<!-- FILTER & SEARCH -->
+<div class="card mb-4 p-3 bg-light">
+    <h5 class="card-title">🔍 Filter & Search</h5>
+
+    <form method="get" th:action="@{/routes}" class="row g-3 align-items-end">
+
+        <!-- ORIGIN -->
+        <div class="col-md-3">
+            <label class="form-label">Origin:</label>
+            <input type="text" class="form-control" name="origin"
+                   th:value="${param.origin}"
+                   placeholder="Ex: București">
+        </div>
+
+        <!-- DESTINATION -->
+        <div class="col-md-3">
+            <label class="form-label">Destination:</label>
+            <input type="text" class="form-control" name="destination"
+                   th:value="${param.destination}"
+                   placeholder="Ex: Cluj">
+        </div>
+
+        <!-- MAX DISTANCE -->
+        <div class="col-md-3">
+            <label class="form-label">Max Distance (km):</label>
+            <input type="number" class="form-control" name="maxDistance"
+                   th:value="${param.maxDistance}"
+                   min="0">
+        </div>
+
+        <!-- KEEP SORT -->
+        <input type="hidden" name="sortField" th:value="${param.sortField}">
+        <input type="hidden" name="sortDirection" th:value="${param.sortDirection}">
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
+            <a th:href="@{/routes}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
+</div>
+
+<!-- ADD NEW -->
 <div class="mb-3">
-    <a th:href="@{/routes/new}" class="btn btn-primary">
-        Add New Route
+    <a th:href="@{/routes/new}" class="btn btn-success">
+        + Add New Route
     </a>
 </div>
 
-<!-- ROUTES TABLE -->
-<table class="table table-striped table-bordered">
+<!-- TABLE -->
+<table class="table table-striped table-hover table-bordered">
     <thead class="table-dark">
     <tr>
-        <th>ID</th>
-        <th>Origin</th>
-        <th>Destination</th>
-        <th>Distance (km)</th>
+
+        <!-- ID -->
+        <th th:with="
+            url=@{/routes(
+                sortField='id',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'id'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                origin=${param.origin},
+                destination=${param.destination},
+                maxDistance=${param.maxDistance}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                ID
+                <span th:if="${param.sortField != null and param.sortField[0] == 'id'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <!-- ORIGIN -->
+        <th th:with="
+            url=@{/routes(
+                sortField='origin',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'origin'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                origin=${param.origin},
+                destination=${param.destination},
+                maxDistance=${param.maxDistance}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Origin
+                <span th:if="${param.sortField != null and param.sortField[0] == 'origin'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <!-- DESTINATION -->
+        <th th:with="
+            url=@{/routes(
+                sortField='destination',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'destination'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                origin=${param.origin},
+                destination=${param.destination},
+                maxDistance=${param.maxDistance}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Destination
+                <span th:if="${param.sortField != null and param.sortField[0] == 'destination'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <!-- DISTANCE -->
+        <th th:with="
+            url=@{/routes(
+                sortField='distance',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'distance'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                origin=${param.origin},
+                destination=${param.destination},
+                maxDistance=${param.maxDistance}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Distance (km)
+                <span th:if="${param.sortField != null and param.sortField[0] == 'distance'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
         <th>Actions</th>
     </tr>
     </thead>
@@ -36,39 +150,39 @@
         <td th:text="${route.id}"></td>
         <td th:text="${route.origin != null ? route.origin.name : 'N/A'}"></td>
         <td th:text="${route.destination != null ? route.destination.name : 'N/A'}"></td>
-        <td th:text="${route.distance}"></td>
+        <td>
+            <span class="badge bg-info" th:text="${route.distance + ' km'}"></span>
+        </td>
 
         <td class="d-flex gap-2">
-
-            <!-- VIEW TRIPS -->
             <a th:href="@{'/routes/' + ${route.id} + '/trips'}"
                class="btn btn-info btn-sm text-white">
                 View Trips
             </a>
 
-            <!-- EDIT -->
             <a th:href="@{'/routes/' + ${route.id} + '/edit'}"
                class="btn btn-warning btn-sm">
                 Edit
             </a>
 
-            <!-- DELETE -->
             <form th:action="@{'/routes/' + ${route.id} + '/delete'}"
-                  method="post" class="m-0 p-0">
+                  method="post"
+                  onsubmit="return confirm('Sigur doriți să ștergeți această rută?');">
                 <button type="submit" class="btn btn-danger btn-sm">
                     Delete
                 </button>
             </form>
-
         </td>
     </tr>
 
-    <!-- If no routes -->
     <tr th:if="${#lists.isEmpty(routes)}">
-        <td colspan="5" class="text-center text-muted">No routes found.</td>
+        <td colspan="5" class="text-center text-muted">
+            No routes found.
+        </td>
     </tr>
     </tbody>
 </table>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

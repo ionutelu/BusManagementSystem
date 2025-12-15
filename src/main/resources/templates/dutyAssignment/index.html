@@ -4,25 +4,144 @@
     <meta charset="UTF-8">
     <title>Duty Assignments</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 
 <body class="container mt-4">
 
-<h2 class="mb-3">Duty Assignments</h2>
+<h2 class="mb-4">Duty Assignments (List, Sorting & Filtering)</h2>
 
-<!-- Add New -->
-<div class="mb-3">
-    <a th:href="@{/assignments/new}" class="btn btn-primary">Add Duty Assignment</a>
+<!-- FILTER & SEARCH -->
+<div class="card mb-4 p-3 bg-light">
+    <h5 class="card-title">🔍 Filter & Search</h5>
+
+    <form method="get" th:action="@{/assignments}" class="row g-3 align-items-end">
+
+        <!-- TRIP ID -->
+        <div class="col-md-3">
+            <label class="form-label">Trip ID:</label>
+            <input type="number" class="form-control" name="tripId"
+                   th:value="${param.tripId}" min="1">
+        </div>
+
+        <!-- STAFF NAME -->
+        <div class="col-md-4">
+            <label class="form-label">Staff Name:</label>
+            <input type="text" class="form-control" name="staffName"
+                   th:value="${param.staffName}"
+                   placeholder="Ex: Ion Popescu">
+        </div>
+
+        <!-- ROLE -->
+        <div class="col-md-3">
+            <label class="form-label">Role:</label>
+            <select name="role" class="form-select">
+                <option value="">-- All Roles --</option>
+                <option th:selected="${param.role != null and param.role[0] == 'DRIVER'}"
+                        value="DRIVER">Driver</option>
+                <option th:selected="${param.role != null and param.role[0] == 'CONDUCTOR'}"
+                        value="CONDUCTOR">Conductor</option>
+                <option th:selected="${param.role != null and param.role[0] == 'MECHANIC'}"
+                        value="MECHANIC">Mechanic</option>
+            </select>
+        </div>
+
+        <!-- KEEP SORT -->
+        <input type="hidden" name="sortField" th:value="${param.sortField}">
+        <input type="hidden" name="sortDirection" th:value="${param.sortDirection}">
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
+            <a th:href="@{/assignments}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
 </div>
 
-<table class="table table-striped table-bordered">
+<!-- ADD NEW -->
+<div class="mb-3">
+    <a th:href="@{/assignments/new}" class="btn btn-success">
+        + Add Duty Assignment
+    </a>
+</div>
+
+<!-- TABLE -->
+<table class="table table-striped table-hover table-bordered">
     <thead class="table-dark">
     <tr>
-        <th>ID</th>
-        <th>Trip</th>
-        <th>Staff</th>
-        <th>Role</th>
+
+        <!-- ID -->
+        <th th:with="
+            url=@{/assignments(
+                sortField='id',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'id'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                tripId=${param.tripId},
+                staffName=${param.staffName},
+                role=${param.role}
+            )}">
+            <a th:href='${url}' class="text-white text-decoration-none">
+                ID
+                <span th:if="${param.sortField != null and param.sortField[0] == 'id'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <!-- TRIP -->
+        <th th:with="
+            url=@{/assignments(
+                sortField='busTrip',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'busTrip'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                tripId=${param.tripId},
+                staffName=${param.staffName},
+                role=${param.role}
+            )}">
+            <a th:href='${url}' class="text-white text-decoration-none">
+                Trip
+            </a>
+        </th>
+
+        <!-- STAFF -->
+        <th th:with="
+            url=@{/assignments(
+                sortField='staff',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'staff'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                tripId=${param.tripId},
+                staffName=${param.staffName},
+                role=${param.role}
+            )}">
+            <a th:href='${url}' class="text-white text-decoration-none">
+                Staff
+            </a>
+        </th>
+
+        <!-- ROLE -->
+        <th th:with="
+            url=@{/assignments(
+                sortField='role',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'role'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                tripId=${param.tripId},
+                staffName=${param.staffName},
+                role=${param.role}
+            )}">
+            <a th:href='${url}' class="text-white text-decoration-none">
+                Role
+                <span th:if="${param.sortField != null and param.sortField[0] == 'role'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
         <th>Actions</th>
     </tr>
     </thead>
@@ -35,26 +154,32 @@
 
         <td th:text="${a.staff != null ? a.staff.name : 'N/A'}"></td>
 
-        <td th:text="${a.role}"></td>
+        <td>
+            <span class="badge bg-info" th:text="${a.role}"></span>
+        </td>
 
         <td class="d-flex gap-2">
-
             <a th:href="@{'/assignments/' + ${a.id} + '/edit'}"
                class="btn btn-warning btn-sm">Edit</a>
 
             <form th:action="@{'/assignments/' + ${a.id} + '/delete'}"
-                  method="post" class="m-0 p-0">
-                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                  method="post"
+                  onsubmit="return confirm('Sigur doriți să ștergeți această alocare?');">
+                <button type="submit" class="btn btn-danger btn-sm">
+                    Delete
+                </button>
             </form>
-
         </td>
     </tr>
 
     <tr th:if="${#lists.isEmpty(assignments)}">
-        <td colspan="5" class="text-center text-muted">No duty assignments found.</td>
+        <td colspan="5" class="text-center text-muted">
+            No duty assignments found.
+        </td>
     </tr>
     </tbody>
 </table>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
