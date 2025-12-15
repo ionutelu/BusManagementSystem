@@ -5,6 +5,7 @@ import com.example.busstation.exception.BusNotFoundException;
 import com.example.busstation.exception.DuplicateRegistrationException;
 import com.example.busstation.exception.DuplicateVinException;
 import com.example.busstation.model.Bus;
+import com.example.busstation.model.BusStatus;
 import com.example.busstation.repository.BusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -80,6 +81,31 @@ public class BusService {
                 : Sort.by(sortField).ascending();
 
         return busRepo.findAll(sort);
+    }
+
+    public List<Bus> findAllFilteredAndSorted(
+            String vin,
+            BusStatus status,
+            Integer minCapacity,
+            String sortField,
+            String sortDirection
+    ) {
+
+        // fallback sort
+        if (sortField == null || sortField.isBlank()) {
+            sortField = "id";
+        }
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return busRepo.findFiltered(
+                vin,
+                status,
+                minCapacity,
+                sort
+        );
     }
 
 }
