@@ -1,6 +1,7 @@
 package com.example.busstation.service;
 
 import com.example.busstation.model.Driver;
+import com.example.busstation.model.DriverRole;
 import com.example.busstation.model.DutyAssignment;
 import com.example.busstation.repository.DutyAssignmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +48,42 @@ public class DutyAssignmentService {
 
         return dutyAssignmentRepo.findAll(sort);
     }
+
+    public List<DutyAssignment> findFilteredAndSorted(
+            Long tripId,
+            String staffName,
+            DriverRole role,
+            String sortField,
+            String sortDirection
+    ) {
+
+        if (sortField == null || sortField.isBlank()) {
+            sortField = "id";
+        }
+
+        // mapare sigură pentru sortare
+        switch (sortField) {
+            case "id":
+                sortField = "id";
+                break;
+            case "busTrip":
+                sortField = "busTrip.id";
+                break;
+            case "staff":
+                sortField = "staff.name";
+                break;
+            case "role":
+                sortField = "role";
+                break;
+            default:
+                sortField = "id";
+        }
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return dutyAssignmentRepo.findFiltered(tripId, staffName, role, sort);
+    }
+
 }

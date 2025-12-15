@@ -21,16 +21,21 @@
         <!-- TRIP ID -->
         <div class="col-md-3">
             <label class="form-label">Trip ID:</label>
-            <input type="number" class="form-control" name="tripId"
-                   th:value="${param.tripId}" min="1">
+            <input type="number"
+                   class="form-control"
+                   name="tripId"
+                   min="1"
+                   th:value="${param.tripId}">
         </div>
 
         <!-- STAFF NAME -->
         <div class="col-md-4">
             <label class="form-label">Staff Name:</label>
-            <input type="text" class="form-control" name="staffName"
-                   th:value="${param.staffName}"
-                   placeholder="Ex: Ion Popescu">
+            <input type="text"
+                   class="form-control"
+                   name="staffName"
+                   placeholder="Ex: Ion Popescu"
+                   th:value="${param.staffName}">
         </div>
 
         <!-- ROLE -->
@@ -38,12 +43,16 @@
             <label class="form-label">Role:</label>
             <select name="role" class="form-select">
                 <option value="">-- All Roles --</option>
-                <option th:selected="${param.role != null and param.role[0] == 'DRIVER'}"
-                        value="DRIVER">Driver</option>
-                <option th:selected="${param.role != null and param.role[0] == 'CONDUCTOR'}"
-                        value="CONDUCTOR">Conductor</option>
-                <option th:selected="${param.role != null and param.role[0] == 'MECHANIC'}"
-                        value="MECHANIC">Mechanic</option>
+
+                <option value="PRIMARY_DRIVER"
+                        th:selected="${param.role != null and param.role[0] == 'PRIMARY_DRIVER'}">
+                    Primary driver
+                </option>
+
+                <option value="RESERVE_DRIVER"
+                        th:selected="${param.role != null and param.role[0] == 'RESERVE_DRIVER'}">
+                    Reserve driver
+                </option>
             </select>
         </div>
 
@@ -52,8 +61,12 @@
         <input type="hidden" name="sortDirection" th:value="${param.sortDirection}">
 
         <div class="col-md-3 d-flex align-items-end">
-            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
-            <a th:href="@{/assignments}" class="btn btn-secondary">Reset</a>
+            <button type="submit" class="btn btn-primary me-2">
+                Apply Filters
+            </button>
+            <a th:href="@{/assignments}" class="btn btn-secondary">
+                Reset
+            </a>
         </div>
     </form>
 </div>
@@ -155,12 +168,15 @@
         <td th:text="${a.staff != null ? a.staff.name : 'N/A'}"></td>
 
         <td>
-            <span class="badge bg-info" th:text="${a.role}"></span>
+            <span class="badge bg-info"
+                  th:text="${a.role.description}"></span>
         </td>
 
         <td class="d-flex gap-2">
             <a th:href="@{'/assignments/' + ${a.id} + '/edit'}"
-               class="btn btn-warning btn-sm">Edit</a>
+               class="btn btn-warning btn-sm">
+                Edit
+            </a>
 
             <form th:action="@{'/assignments/' + ${a.id} + '/delete'}"
                   method="post"
