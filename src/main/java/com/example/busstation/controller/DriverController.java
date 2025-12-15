@@ -17,9 +17,22 @@ public class DriverController {
         this.driverService = driverService;
     }
 
+//    @GetMapping
+//    public String index(Model model){
+//        model.addAttribute("drivers", driverService.findAll());
+//        return "driver/index";
+//    }
+
     @GetMapping
-    public String index(Model model){
-        model.addAttribute("drivers", driverService.findAll());
+    public String index(
+            @RequestParam(required = false) String sortField,
+            @RequestParam(required = false) String sortDirection,
+            Model model
+    ) {
+        model.addAttribute(
+                "drivers",
+                driverService.findAllSorted(sortField, sortDirection)
+        );
         return "driver/index";
     }
 
@@ -57,5 +70,7 @@ public class DriverController {
         driverService.save(driver);
         return "redirect:/drivers";
     }
+
+
 
 }

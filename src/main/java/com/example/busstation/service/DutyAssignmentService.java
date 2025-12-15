@@ -4,6 +4,7 @@ import com.example.busstation.model.Driver;
 import com.example.busstation.model.DutyAssignment;
 import com.example.busstation.repository.DutyAssignmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,5 +33,18 @@ public class DutyAssignmentService {
 
     public void deleteById(long id){
         dutyAssignmentRepo.deleteById(id);
+    }
+
+    public List<DutyAssignment> findAllSorted(String sortField, String sortDirection) {
+
+        if (sortField == null || sortField.isBlank()) {
+            return dutyAssignmentRepo.findAll();
+        }
+
+        Sort sort = sortDirection != null && sortDirection.equalsIgnoreCase("desc")
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return dutyAssignmentRepo.findAll(sort);
     }
 }

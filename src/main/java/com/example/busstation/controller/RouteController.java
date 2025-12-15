@@ -26,11 +26,25 @@ public class RouteController {
 
     }
 
+//    @GetMapping
+//    public String index(Model model) {
+//        model.addAttribute("routes", routeService.findAll());
+//        return "route/index";
+//    }
+
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("routes", routeService.findAll());
+    public String index(
+            @RequestParam(required = false) String sortField,
+            @RequestParam(required = false) String sortDirection,
+            Model model
+    ) {
+        model.addAttribute(
+                "routes",
+                routeService.findAllSorted(sortField, sortDirection)
+        );
         return "route/index";
     }
+
 
     @GetMapping("/new")
     public String form(Model model) {
