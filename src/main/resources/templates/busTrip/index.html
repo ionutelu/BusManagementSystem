@@ -21,7 +21,9 @@
         <!-- ROUTE -->
         <div class="col-md-4">
             <label class="form-label">Route (Origin or Destination):</label>
-            <input type="text" class="form-control" name="route"
+            <input type="text"
+                   class="form-control"
+                   name="route"
                    th:value="${param.route}"
                    placeholder="Ex: București">
         </div>
@@ -31,17 +33,20 @@
             <label class="form-label">Status:</label>
             <select name="status" class="form-select">
                 <option value="">-- All Statuses --</option>
-                <option th:value="PLANNED"
+
+                <option value="PLANNED"
                         th:selected="${param.status != null and param.status[0] == 'PLANNED'}">
                     Planned
                 </option>
-                <option th:value="IN_PROGRESS"
-                        th:selected="${param.status != null and param.status[0] == 'IN_PROGRESS'}">
-                    In Progress
+
+                <option value="ACTIVE"
+                        th:selected="${param.status != null and param.status[0] == 'ACTIVE'}">
+                    Active
                 </option>
-                <option th:value="FINISHED"
-                        th:selected="${param.status != null and param.status[0] == 'FINISHED'}">
-                    Finished
+
+                <option value="COMPLETED"
+                        th:selected="${param.status != null and param.status[0] == 'COMPLETED'}">
+                    Completed
                 </option>
             </select>
         </div>
@@ -159,7 +164,7 @@
         <td th:text="${#temporals.format(bt.startTime, 'yyyy-MM-dd HH:mm')}"></td>
 
         <td>
-            <span class="badge bg-info" th:text="${bt.status}"></span>
+            <span class="badge bg-info" th:text="${bt.status.status}"></span>
         </td>
 
         <td class="d-flex gap-2">
