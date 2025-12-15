@@ -51,4 +51,29 @@ public class PassengerService {
         passengerRepo.deleteById(id);
     }
 
+    public List<Passenger> findFilteredAndSorted(
+            String name,
+            String currency,
+            String sortField,
+            String sortDirection
+    ) {
+        if (sortField == null || sortField.isBlank()) {
+            sortField = "id";
+        }
+
+        // dacă vine "" din select, îl tratăm ca NULL (adică “All Currencies”)
+        if (currency != null && currency.isBlank()) {
+            currency = null;
+        }
+        if (name != null && name.isBlank()) {
+            name = null;
+        }
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return passengerRepo.findFiltered(name, currency, sort);
+    }
+
 }

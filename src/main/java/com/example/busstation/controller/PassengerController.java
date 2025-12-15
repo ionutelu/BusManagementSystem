@@ -18,13 +18,29 @@ public class PassengerController {
         this.passengerService = passengerService;
     }
 
+//    @GetMapping
+//    public String index(@RequestParam(required = false) String sortField,
+//                        @RequestParam(required = false) String sortDirection,
+//                        Model model) {
+//        model.addAttribute("passengers", passengerService.findAllSorted(sortField, sortDirection));
+//        return "passenger/index";
+//    }
+
     @GetMapping
-    public String index(@RequestParam(required = false) String sortField,
-                        @RequestParam(required = false) String sortDirection,
-                        Model model) {
-        model.addAttribute("passengers", passengerService.findAllSorted(sortField, sortDirection));
+    public String index(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String currency,
+            @RequestParam(required = false, defaultValue = "id") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
+            Model model
+    ) {
+        model.addAttribute(
+                "passengers",
+                passengerService.findFilteredAndSorted(name, currency, sortField, sortDirection)
+        );
         return "passenger/index";
     }
+
 
     @GetMapping("/new")
     public String newForm(Model model) {
