@@ -62,4 +62,27 @@ public class BusStationService {
 
         return busStationRepo.findAll(sort);
     }
+
+    public List<BusStation> findFilteredAndSorted(
+            String name,
+            Boolean damaged,
+            String sortField,
+            String sortDirection
+    ) {
+
+        if (sortField == null || sortField.isBlank()) {
+            sortField = "id";
+        }
+
+        if ("damaged".equals(sortField)) {
+            sortField = "isDamaged";
+        }
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return busStationRepo.findFiltered(name, damaged, sort);
+    }
+
 }

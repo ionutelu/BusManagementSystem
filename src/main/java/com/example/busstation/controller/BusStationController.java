@@ -25,16 +25,34 @@ public class BusStationController {
 //        return "busStation/index";
 //    }
 
+//    @GetMapping
+//    public String index(
+//            @RequestParam(required = false) String sortField,
+//            @RequestParam(required = false) String sortDirection,
+//            Model model
+//    ) {
+//        model.addAttribute("busStations",
+//                busStationService.findAllSorted(sortField, sortDirection));
+//        return "busStation/index";
+//    }
+
     @GetMapping
     public String index(
-            @RequestParam(required = false) String sortField,
-            @RequestParam(required = false) String sortDirection,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Boolean damaged,
+            @RequestParam(required = false, defaultValue = "id") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
             Model model
     ) {
-        model.addAttribute("busStations",
-                busStationService.findAllSorted(sortField, sortDirection));
+        model.addAttribute(
+                "busStations",
+                busStationService.findFilteredAndSorted(
+                        name, damaged, sortField, sortDirection
+                )
+        );
         return "busStation/index";
     }
+
 
 
     @GetMapping("/new")
