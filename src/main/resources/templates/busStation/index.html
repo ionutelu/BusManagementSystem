@@ -1,76 +1,163 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Bus Station List</title>
-
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 
 <body class="container mt-4">
 
-<h2 class="mb-3">Bus Stations</h2>
+<h2 class="mb-4">Bus Stations (List, Sorting & Filtering)</h2>
 
-<div class="mb-3">
-    <a th:href="@{/busStations/new}" class="btn btn-primary">
-        Add New Bus Station
-    </a>
+<div class="card mb-4 p-3 bg-light">
+    <h5 class="card-title">🔍 Filter & Search</h5>
+
+    <form method="get" th:action="@{/busStations}" class="row g-3 align-items-end">
+
+        <div class="col-md-4">
+            <label class="form-label">Name:</label>
+            <input type="text" class="form-control" name="name"
+                   th:value="${param.name}" placeholder="Ex: Gara Centrală">
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Damaged Status:</label>
+            <select name="damaged" class="form-select">
+                <option value="">-- All Statuses --</option>
+                <option value="true" th:selected="${param.damaged != null and param.damaged[0] == 'true'}">
+                    Yes (Damaged)
+                </option>
+                <option value="false" th:selected="${param.damaged != null and param.damaged[0] == 'false'}">
+                    No (OK)
+                </option>
+            </select>
+        </div>
+
+        <input type="hidden" name="sortField" th:value="${param.sortField}">
+        <input type="hidden" name="sortDirection" th:value="${param.sortDirection}">
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
+            <a th:href="@{/busStations}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
 </div>
 
-<table class="table table-striped table-bordered">
+<div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+    <span th:text="${successMessage}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="mb-3">
+    <a th:href="@{/busStations/new}" class="btn btn-success">+ Add New Bus Station</a>
+</div>
+
+
+<table class="table table-striped table-hover table-bordered">
     <thead class="table-dark">
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>City</th>
-        <th>Damaged</th>
+
+        <th th:with="
+            url=@{/busStations(
+                sortField='id',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'id'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                name=${param.name},
+                damaged=${param.damaged}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                ID
+                <span th:if="${param.sortField != null and param.sortField[0] == 'id'}"
+                      th:text="${param.sortDirection != null and param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <th th:with="
+            url=@{/busStations(
+                sortField='name',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'name'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                name=${param.name},
+                damaged=${param.damaged}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Name
+                <span th:if="${param.sortField != null and param.sortField[0] == 'name'}"
+                      th:text="${param.sortDirection != null and param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <th th:with="
+            url=@{/busStations(
+                sortField='city',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'city'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                name=${param.name},
+                damaged=${param.damaged}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                City
+                <span th:if="${param.sortField != null and param.sortField[0] == 'city'}"
+                      th:text="${param.sortDirection != null and param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <th th:with="
+            url=@{/busStations(
+                sortField='damaged',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'damaged'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                name=${param.name},
+                damaged=${param.damaged}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Damaged
+                <span th:if="${param.sortField != null and param.sortField[0] == 'damaged'}"
+                      th:text="${param.sortDirection != null and param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
         <th>Actions</th>
     </tr>
     </thead>
 
     <tbody>
-
     <tr th:each="station : ${busStations}">
         <td th:text="${station.id}"></td>
         <td th:text="${station.name}"></td>
         <td th:text="${station.city}"></td>
-
-        <!-- Show Damaged as Yes/No -->
         <td>
             <span th:if="${station.damaged}" class="badge bg-danger">Yes</span>
             <span th:unless="${station.damaged}" class="badge bg-success">No</span>
         </td>
 
         <td class="d-flex gap-2">
-
-            <a th:href="@{'/busStations/' + ${station.id} + '/trips'}"
-               class="btn btn-info btn-sm">
-                Trips
-            </a>
-
             <a th:href="@{'/busStations/' + ${station.id} + '/edit'}"
-               class="btn btn-warning btn-sm">
-                Edit
-            </a>
+               class="btn btn-warning btn-sm">Edit</a>
 
             <form th:action="@{'/busStations/' + ${station.id} + '/delete'}"
-                  method="post" class="m-0 p-0">
-                <button type="submit" class="btn btn-danger btn-sm">
-                    Delete
-                </button>
+                  method="post" onsubmit="return confirm('Sunteți sigur că doriți să ștergeți această stație?');">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
             </form>
         </td>
-
     </tr>
 
     <tr th:if="${#lists.isEmpty(busStations)}">
         <td colspan="5" class="text-center text-muted">No bus stations found.</td>
     </tr>
-
     </tbody>
 </table>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -10,37 +10,131 @@
 
 <body class="container mt-4">
 
-<h2 class="mb-3">Drivers</h2>
+<h2 class="mb-4">Drivers (List, Sorting & Filtering)</h2>
 
+<!-- FILTER & SEARCH -->
+<div class="card mb-4 p-3 bg-light">
+    <h5 class="card-title">🔍 Filter & Search</h5>
+
+    <form method="get" th:action="@{/drivers}" class="row g-3 align-items-end">
+
+        <!-- NAME -->
+        <div class="col-md-4">
+            <label class="form-label">Name:</label>
+            <input type="text" class="form-control" name="name"
+                   th:value="${param.name}"
+                   placeholder="Ex: Ion Popescu">
+        </div>
+
+        <!-- EXPERIENCE -->
+        <div class="col-md-3">
+            <label class="form-label">Min Experience (years):</label>
+            <input type="number" class="form-control" name="minExperience"
+                   th:value="${param.minExperience}"
+                   min="0">
+        </div>
+
+        <!-- KEEP SORT -->
+        <input type="hidden" name="sortField" th:value="${param.sortField}">
+        <input type="hidden" name="sortDirection" th:value="${param.sortDirection}">
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
+            <a th:href="@{/drivers}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
+</div>
+
+<!-- ADD NEW -->
 <div class="mb-3">
-    <a th:href="@{/drivers/new}" class="btn btn-primary">
-        Add New Driver
+    <a th:href="@{/drivers/new}" class="btn btn-success">
+        + Add New Driver
     </a>
 </div>
 
-<table class="table table-striped table-bordered">
+<!-- TABLE -->
+<table class="table table-striped table-hover table-bordered">
     <thead class="table-dark">
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th> <th>Experience</th>
+
+        <!-- ID -->
+        <th th:with="
+            url=@{/drivers(
+                sortField='id',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'id'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                name=${param.name},
+                minExperience=${param.minExperience}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                ID
+                <span th:if="${param.sortField != null and param.sortField[0] == 'id'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <!-- NAME -->
+        <th th:with="
+            url=@{/drivers(
+                sortField='name',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'name'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                name=${param.name},
+                minExperience=${param.minExperience}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Name
+                <span th:if="${param.sortField != null and param.sortField[0] == 'name'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
+        <!-- EMAIL -->
+        <th>Email</th>
+
+        <!-- EXPERIENCE -->
+        <th th:with="
+            url=@{/drivers(
+                sortField='experienceYears',
+                sortDirection=${(
+                    param.sortField != null and param.sortField[0] == 'experienceYears'
+                    and param.sortDirection != null and param.sortDirection[0] == 'asc'
+                ) ? 'desc' : 'asc'},
+                name=${param.name},
+                minExperience=${param.minExperience}
+            )}">
+            <a th:href="${url}" class="text-white text-decoration-none">
+                Experience
+                <span th:if="${param.sortField != null and param.sortField[0] == 'experienceYears'}"
+                      th:text="${param.sortDirection[0] == 'asc' ? ' ▲' : ' ▼'}"></span>
+            </a>
+        </th>
+
         <th>Actions</th>
     </tr>
     </thead>
 
     <tbody>
-
     <tr th:each="driver : ${drivers}">
         <td th:text="${driver.id}"></td>
         <td th:text="${driver.name}"></td>
-        <td th:text="${driver.email}"></td> <td th:text="${driver.experienceYears} + ' years'"></td>
+        <td th:text="${driver.email}"></td>
+        <td>
+            <span class="badge bg-info"
+                  th:text="${driver.experienceYears + ' years'}"></span>
+        </td>
 
         <td class="d-flex gap-2">
             <a th:href="@{'/drivers/' + ${driver.id} + '/edit'}"
                class="btn btn-warning btn-sm">Edit</a>
 
             <form th:action="@{'/drivers/' + ${driver.id} + '/delete'}"
-                  method="post" class="m-0 p-0">
+                  method="post"
+                  onsubmit="return confirm('Sigur doriți să ștergeți acest șofer?');">
                 <button type="submit" class="btn btn-danger btn-sm">
                     Delete
                 </button>
@@ -49,11 +143,13 @@
     </tr>
 
     <tr th:if="${#lists.isEmpty(drivers)}">
-        <td colspan="5" class="text-center text-muted">No drivers found.</td>
+        <td colspan="5" class="text-center text-muted">
+            No drivers found.
+        </td>
     </tr>
-
     </tbody>
 </table>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

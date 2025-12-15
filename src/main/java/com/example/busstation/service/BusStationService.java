@@ -7,6 +7,7 @@ import com.example.busstation.model.BusStation;
 import com.example.busstation.repository.BusStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,4 +50,16 @@ public class BusStationService {
         busStationRepo.deleteById(id);
     }
 
+    public List<BusStation> findAllSorted(String sortField, String sortDirection) {
+
+        if (sortField == null || sortField.isBlank()) {
+            return busStationRepo.findAll();
+        }
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return busStationRepo.findAll(sort);
+    }
 }
