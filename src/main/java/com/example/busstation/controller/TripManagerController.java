@@ -21,11 +21,25 @@ public class TripManagerController {
         this.tripManagerService = tripManagerService;
     }
 
+//    @GetMapping
+//    public String index(Model model) {
+//        model.addAttribute("tripManagers", tripManagerService.findAll());
+//        return "tripManager/index";
+//    }
+
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("tripManagers", tripManagerService.findAll());
+    public String index(
+            @RequestParam(required = false) String sortField,
+            @RequestParam(required = false) String sortDirection,
+            Model model
+    ) {
+        model.addAttribute(
+                "tripManagers",
+                tripManagerService.findAllSorted(sortField, sortDirection)
+        );
         return "tripManager/index";
     }
+
 
     @GetMapping("/new")
     public String form(TripManager tripManager) {

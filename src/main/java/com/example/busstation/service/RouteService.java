@@ -9,6 +9,7 @@ import jakarta.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +42,19 @@ public class RouteService {
 
     public void deleteById(long id){
         routeRepo.deleteById(id);
+    }
+
+    public List<Route> findAllSorted(String sortField, String sortDirection) {
+
+        if (sortField == null || sortField.isBlank()) {
+            return routeRepo.findAll();
+        }
+
+        Sort sort = sortDirection != null && sortDirection.equalsIgnoreCase("desc")
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return routeRepo.findAll(sort);
     }
 
 }

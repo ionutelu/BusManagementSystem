@@ -4,6 +4,7 @@ import com.example.busstation.model.BusStation;
 import com.example.busstation.model.Driver;
 import com.example.busstation.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +33,19 @@ public class DriverService {
 
     public Driver findById(long id){
         return driverRepo.findById(id).orElseThrow(() -> new RuntimeException("Driver not found: " + id));
+    }
+
+    public List<Driver> findAllSorted(String sortField, String sortDirection) {
+
+        if (sortField == null || sortField.isBlank()) {
+            return driverRepo.findAll();
+        }
+
+        Sort sort = sortDirection != null && sortDirection.equalsIgnoreCase("desc")
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return driverRepo.findAll(sort);
     }
 
 

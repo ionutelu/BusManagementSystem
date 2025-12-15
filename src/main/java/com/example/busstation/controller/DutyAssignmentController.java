@@ -23,11 +23,25 @@ public class DutyAssignmentController {
         this.busTripService = busTripService;
     }
 
+//    @GetMapping
+//    public String index(Model model) {
+//        model.addAttribute("assignments", dutyAssignmentService.findAll());
+//        return "dutyAssignment/index";
+//    }
+
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("assignments", dutyAssignmentService.findAll());
+    public String index(
+            @RequestParam(required = false) String sortField,
+            @RequestParam(required = false) String sortDirection,
+            Model model
+    ) {
+        model.addAttribute(
+                "assignments",
+                dutyAssignmentService.findAllSorted(sortField, sortDirection)
+        );
         return "dutyAssignment/index";
     }
+
 
     @GetMapping("/new")
     public String form(Model model) {

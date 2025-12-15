@@ -7,6 +7,7 @@ import com.example.busstation.model.BusTrip;
 import com.example.busstation.model.Route;
 import com.example.busstation.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -43,7 +44,18 @@ public class BusTripService {
         busTripRepo.deleteById(id);
     }
 
+    public List<BusTrip> findAllSorted(String sortField, String sortDirection) {
 
+        if (sortField == null || sortField.isBlank()) {
+            return busTripRepo.findAll();
+        }
+
+        Sort sort = sortDirection != null && sortDirection.equalsIgnoreCase("desc")
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return busTripRepo.findAll(sort);
+    }
 
 
 }

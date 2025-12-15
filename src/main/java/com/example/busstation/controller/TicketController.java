@@ -26,11 +26,25 @@ public class TicketController {
         this.busTripService = busTripService;
     }
 
+//    @GetMapping
+//    public String index(Model model){
+//        model.addAttribute("tickets", ticketService.findAll());
+//        return "ticket/index";
+//    }
+
     @GetMapping
-    public String index(Model model){
-        model.addAttribute("tickets", ticketService.findAll());
+    public String index(
+            @RequestParam(required = false) String sortField,
+            @RequestParam(required = false) String sortDirection,
+            Model model
+    ) {
+        model.addAttribute(
+                "tickets",
+                ticketService.findAllSorted(sortField, sortDirection)
+        );
         return "ticket/index";
     }
+
 
     @GetMapping("/new")
     public String form(Model model){
