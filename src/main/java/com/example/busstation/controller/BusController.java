@@ -26,17 +26,36 @@ public class BusController {
 //        return "bus/index";
 //    }
 
+//    @GetMapping
+//    public String index(
+//            @RequestParam(required = false) String sortField,
+//            @RequestParam(required = false) String sortDirection,
+//            Model model
+//    ) {
+//        model.addAttribute("buses",
+//                busService.findAllSorted(sortField, sortDirection));
+//
+//        return "bus/index";
+//    }
+
     @GetMapping
     public String index(
-            @RequestParam(required = false) String sortField,
-            @RequestParam(required = false) String sortDirection,
+            @RequestParam(required = false) String vin,
+            @RequestParam(required = false) BusStatus status,
+            @RequestParam(required = false) Integer minCapacity,
+            @RequestParam(required = false, defaultValue = "id") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
             Model model
     ) {
-        model.addAttribute("buses",
-                busService.findAllSorted(sortField, sortDirection));
-
+        model.addAttribute(
+                "buses",
+                busService.findAllFilteredAndSorted(
+                        vin, status, minCapacity, sortField, sortDirection
+                )
+        );
         return "bus/index";
     }
+
 
 
     @GetMapping("/new")
