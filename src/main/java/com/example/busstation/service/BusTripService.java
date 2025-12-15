@@ -4,6 +4,7 @@ import com.example.busstation.exception.BusTripNotFoundException;
 import com.example.busstation.exception.RouteNotFoundForTripException;
 import com.example.busstation.model.BusStation;
 import com.example.busstation.model.BusTrip;
+import com.example.busstation.model.BusTripStatus;
 import com.example.busstation.model.Route;
 import com.example.busstation.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,4 +59,21 @@ public class BusTripService {
     }
 
 
+    public List<BusTrip> findFilteredAndSorted(
+            String route,
+            BusTripStatus status,
+            String sortField,
+            String sortDirection
+    ) {
+
+        if (sortField == null || sortField.isBlank()) {
+            sortField = "id";
+        }
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return busTripRepo.findFiltered(route, status, sort);
+    }
 }

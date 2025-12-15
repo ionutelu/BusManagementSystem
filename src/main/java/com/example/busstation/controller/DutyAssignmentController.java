@@ -29,18 +29,37 @@ public class DutyAssignmentController {
 //        return "dutyAssignment/index";
 //    }
 
+//    @GetMapping
+//    public String index(
+//            @RequestParam(required = false) String sortField,
+//            @RequestParam(required = false) String sortDirection,
+//            Model model
+//    ) {
+//        model.addAttribute(
+//                "assignments",
+//                dutyAssignmentService.findAllSorted(sortField, sortDirection)
+//        );
+//        return "dutyAssignment/index";
+//    }
+
     @GetMapping
     public String index(
-            @RequestParam(required = false) String sortField,
-            @RequestParam(required = false) String sortDirection,
+            @RequestParam(required = false) Long tripId,
+            @RequestParam(required = false) String staffName,
+            @RequestParam(required = false) DriverRole role,
+            @RequestParam(required = false, defaultValue = "id") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
             Model model
     ) {
         model.addAttribute(
                 "assignments",
-                dutyAssignmentService.findAllSorted(sortField, sortDirection)
+                dutyAssignmentService.findFilteredAndSorted(
+                        tripId, staffName, role, sortField, sortDirection
+                )
         );
         return "dutyAssignment/index";
     }
+
 
 
     @GetMapping("/new")

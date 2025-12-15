@@ -43,18 +43,36 @@ public class BusTripController {
 //        return "busTrip/index";
 //    }
 
+//    @GetMapping
+//    public String index(
+//            @RequestParam(required = false) String sortField,
+//            @RequestParam(required = false) String sortDirection,
+//            Model model
+//    ) {
+//        model.addAttribute(
+//                "busTrips",
+//                busTripService.findAllSorted(sortField, sortDirection)
+//        );
+//        return "busTrip/index";
+//    }
+
     @GetMapping
     public String index(
-            @RequestParam(required = false) String sortField,
-            @RequestParam(required = false) String sortDirection,
+            @RequestParam(required = false) String route,
+            @RequestParam(required = false) BusTripStatus status,
+            @RequestParam(required = false, defaultValue = "id") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
             Model model
     ) {
         model.addAttribute(
                 "busTrips",
-                busTripService.findAllSorted(sortField, sortDirection)
+                busTripService.findFilteredAndSorted(
+                        route, status, sortField, sortDirection
+                )
         );
         return "busTrip/index";
     }
+
 
 
 
@@ -205,9 +223,6 @@ public class BusTripController {
     public String redirectDetails(@PathVariable Long id) {
         return "redirect:/busTrips/" + id + "/details";
     }
-
-
-
 
 }
 

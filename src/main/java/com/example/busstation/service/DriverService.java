@@ -49,4 +49,22 @@ public class DriverService {
     }
 
 
+    public List<Driver> findFilteredAndSorted(
+            String name,
+            Integer minExperience,
+            String sortField,
+            String sortDirection
+    ) {
+
+        if (sortField == null || sortField.isBlank()) {
+            sortField = "id";
+        }
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return driverRepo.findFiltered(name, minExperience, sort);
+    }
+
 }
