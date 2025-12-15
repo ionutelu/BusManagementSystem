@@ -8,9 +8,10 @@ import com.example.busstation.model.Bus;
 import com.example.busstation.repository.BusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+
 
 @Service
 public class BusService {
@@ -67,4 +68,18 @@ public class BusService {
 
         busRepo.deleteById(id);
     }
+
+    public List<Bus> findAllSorted(String sortField, String sortDirection) {
+
+        if (sortField == null || sortField.isBlank()) {
+            return busRepo.findAll();
+        }
+
+        Sort sort = sortDirection != null && sortDirection.equalsIgnoreCase("desc")
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return busRepo.findAll(sort);
+    }
+
 }
