@@ -29,7 +29,7 @@ Ensure MySQL is running on port `3307` with:
 CREATE DATABASE busapp;
 ```
 
-> ⚠️ Credentials are hardcoded in `src/main/resources/application.properties`. See improvement opportunities for securing this.
+Credentials are read from environment variables with safe local-dev fallbacks — see the **Environment Variables** section.
 
 ### 2. Run the Backend
 
@@ -125,4 +125,31 @@ export $(grep -v '^#' .env | xargs)
 | Start frontend dev | `cd frontend && npm run dev` |
 | Build frontend | `cd frontend && npm run build` |
 | View API docs | Open `http://localhost:8080/swagger-ui.html` |
+
+---
+
+## Spring Profiles
+
+The application ships with two profiles that gate environment-specific settings.
+
+| Profile | When active | SQL logging | `ddl-auto` |
+|---|---|---|---|
+| `dev` _(default)_ | Local development | `show-sql=true`, Hibernate SQL at DEBUG | `validate` (base) |
+| `prod` | Production deployment | `show-sql=false` | `validate` (explicit) |
+
+### How activation works
+
+| Scenario | How |
+|---|---|
+| Local dev (default) | No action needed — `spring.profiles.active=dev` is baked into `application.properties` |
+| Production deploy | Set environment variable `SPRING_PROFILES_ACTIVE=prod` before starting the JVM |
+| Explicit local override | `./mvnw spring-boot:run -Dspring-boot.run.profiles=prod` |
+
+### Profile-specific files
+
+| File | Purpose |
+|---|---|
+| `src/main/resources/application.properties` | Shared base config (datasource, dialect, Flyway) |
+| `src/main/resources/application-dev.properties` | Dev overrides (`show-sql=true`, Hibernate SQL DEBUG) |
+| `src/main/resources/application-prod.properties` | Prod safety settings (`show-sql=false`, explicit `ddl-auto=validate`) |
 
