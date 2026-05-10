@@ -7,6 +7,8 @@ import com.example.busstation.model.Ticket;
 import com.example.busstation.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -92,6 +94,29 @@ public class TicketService {
                 : Sort.by(sortField).ascending();
 
         return ticketRepo.findFiltered(busTripId, passengerName, maxPrice, sort);
+    }
+
+    public Page<Ticket> findFilteredAndSortedPaged(
+            Long busTripId,
+            String passengerName,
+            Double maxPrice,
+            String sortField,
+            String sortDirection,
+            int page,
+            int size
+    ) {
+        if (passengerName != null && passengerName.isBlank()) passengerName = null;
+        if (sortField == null || sortField.isBlank()) sortField = "id";
+        switch (sortField) {
+            case "busTrip": sortField = "busTrip.id"; break;
+            case "passenger": sortField = "passenger.name"; break;
+            case "id": case "seatNumber": case "price": break;
+            default: sortField = "id";
+        }
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+        return ticketRepo.findFilteredPage(busTripId, passengerName, maxPrice, PageRequest.of(page, size, sort));
     }
 
 }

@@ -10,6 +10,7 @@ import com.example.busstation.model.Route;
 import com.example.busstation.service.BusStationService;
 import com.example.busstation.service.RouteService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,15 +32,17 @@ public class RouteApiController {
     }
 
     @GetMapping
-    public List<RouteResponseDto> list(
+    public Page<RouteResponseDto> list(
             @RequestParam(required = false) String origin,
             @RequestParam(required = false) String destination,
             @RequestParam(required = false) Float maxDistance,
             @RequestParam(required = false, defaultValue = "id") String sortField,
-            @RequestParam(required = false, defaultValue = "asc") String sortDirection
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
     ) {
-        return routeService.findFilteredAndSorted(origin, destination, maxDistance, sortField, sortDirection)
-                .stream().map(this::toDto).collect(Collectors.toList());
+        return routeService.findFilteredAndSortedPaged(origin, destination, maxDistance, sortField, sortDirection, page, size)
+                .map(this::toDto);
     }
 
     @GetMapping("/{id}")

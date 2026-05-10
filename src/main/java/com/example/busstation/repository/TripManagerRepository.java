@@ -1,5 +1,7 @@
 package com.example.busstation.repository;
 import com.example.busstation.model.TripManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +24,18 @@ public interface TripManagerRepository extends JpaRepository<TripManager, Long> 
             @Param("email") String email,
             @Param("employeeCode") String employeeCode,
             Sort sort
-    );}
+    );
+
+    @Query("""
+        SELECT tm FROM TripManager tm
+        WHERE (:name IS NULL OR LOWER(tm.name) LIKE LOWER(CONCAT('%', :name, '%')))
+          AND (:email IS NULL OR LOWER(tm.email) LIKE LOWER(CONCAT('%', :email, '%')))
+          AND (:employeeCode IS NULL OR LOWER(tm.employeeCode) LIKE LOWER(CONCAT('%', :employeeCode, '%')))
+    """)
+    Page<TripManager> findFilteredPage(
+            @Param("name") String name,
+            @Param("email") String email,
+            @Param("employeeCode") String employeeCode,
+            Pageable pageable
+    );
+}

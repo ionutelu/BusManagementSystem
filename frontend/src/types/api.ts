@@ -8,6 +8,16 @@ export interface ApiErrorResponse {
   path: string
 }
 
+export interface Page<T> {
+  content: T[]
+  totalElements: number
+  totalPages: number
+  number: number
+  size: number
+  first: boolean
+  last: boolean
+}
+
 // ── Bus ─────────────────────────────────────────────────────────────────────
 
 export type BusStatus = 'ACTIVE' | 'DOWN'

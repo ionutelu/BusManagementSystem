@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { busStationApi } from '../../api/busStations'
 import type { BusStationRequest, BusStationResponse } from '../../types/api'
 
+const PAGE_SIZE = 20
 const emptyForm = (): BusStationRequest => ({ name: '', city: '', isDamaged: false })
 
 export default function BusStationsPage() {
@@ -11,11 +12,13 @@ export default function BusStationsPage() {
   const [creating, setCreating] = useState(false)
   const [form, setForm] = useState<BusStationRequest>(emptyForm())
   const [error, setError] = useState<string | null>(null)
+  const [page, setPage] = useState(0)
 
-  const { data: stations = [], isLoading } = useQuery({
-    queryKey: ['bus-stations'],
-    queryFn: () => busStationApi.list(),
+  const { data, isLoading } = useQuery({
+    queryKey: ['bus-stations', page],
+    queryFn: () => busStationApi.list({ page, size: PAGE_SIZE }),
   })
+  const stations = data?.content ?? []
 
   const createMutation = useMutation({
     mutationFn: (data: BusStationRequest) => busStationApi.create(data),
@@ -55,38 +58,51 @@ export default function BusStationsPage() {
       </div>
       {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">{error}</div>}
       {isLoading ? <p className="text-gray-500">Loading…</p> : (
-        <div className="overflow-x-auto bg-white rounded shadow">
-          <table className="min-w-full text-sm">
-            <thead className="bg-gray-100 text-left text-gray-600 uppercase text-xs">
-              <tr>
-                <th className="px-4 py-3">ID</th>
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">City</th>
-                <th className="px-4 py-3">Damaged</th>
-                <th className="px-4 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stations.map((s) => (
-                <tr key={s.id} className="border-t hover:bg-gray-50">
-                  <td className="px-4 py-3 text-gray-500">{s.id}</td>
-                  <td className="px-4 py-3 font-medium">{s.name}</td>
-                  <td className="px-4 py-3">{s.city}</td>
-                  <td className="px-4 py-3">
-                    <span className={`px-2 py-1 rounded text-xs font-semibold ${s.isDamaged ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
-                      {s.isDamaged ? 'Yes' : 'No'}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 flex gap-2">
-                    <button onClick={() => openEdit(s)} className="text-blue-600 hover:underline text-xs">Edit</button>
-                    <button onClick={() => deleteMutation.mutate(s.id)} className="text-red-600 hover:underline text-xs">Delete</button>
-                  </td>
+        <>
+          <div className="overflow-x-auto bg-white rounded shadow">
+            <table className="min-w-full text-sm">
+              <thead className="bg-gray-100 text-left text-gray-600 uppercase text-xs">
+                <tr>
+                  <th className="px-4 py-3">ID</th>
+                  <th className="px-4 py-3">Name</th>
+                  <th className="px-4 py-3">City</th>
+                  <th className="px-4 py-3">Damaged</th>
+                  <th className="px-4 py-3">Actions</th>
                 </tr>
-              ))}
-              {stations.length === 0 && <tr><td colSpan={5} className="px-4 py-6 text-center text-gray-400">No stations found.</td></tr>}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {stations.map((s) => (
+                  <tr key={s.id} className="border-t hover:bg-gray-50">
+                    <td className="px-4 py-3 text-gray-500">{s.id}</td>
+                    <td className="px-4 py-3 font-medium">{s.name}</td>
+                    <td className="px-4 py-3">{s.city}</td>
+                    <td className="px-4 py-3">
+                      <span className={`px-2 py-1 rounded text-xs font-semibold ${s.isDamaged ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+                        {s.isDamaged ? 'Yes' : 'No'}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 flex gap-2">
+                      <button onClick={() => openEdit(s)} className="text-blue-600 hover:underline text-xs">Edit</button>
+                      <button onClick={() => deleteMutation.mutate(s.id)} className="text-red-600 hover:underline text-xs">Delete</button>
+                    </td>
+                  </tr>
+                ))}
+                {stations.length === 0 && <tr><td colSpan={5} className="px-4 py-6 text-center text-gray-400">No stations found.</td></tr>}
+              </tbody>
+            </table>
+          </div>
+          {data && data.totalPages > 1 && (
+            <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
+              <span>{data.totalElements} total · Page {data.number + 1} of {data.totalPages}</span>
+              <div className="flex gap-2">
+                <button onClick={() => setPage((p) => p - 1)} disabled={data.first}
+                  className="px-3 py-1 rounded border disabled:opacity-40 hover:bg-gray-50">← Prev</button>
+                <button onClick={() => setPage((p) => p + 1)} disabled={data.last}
+                  className="px-3 py-1 rounded border disabled:opacity-40 hover:bg-gray-50">Next →</button>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {(creating || editing) && (

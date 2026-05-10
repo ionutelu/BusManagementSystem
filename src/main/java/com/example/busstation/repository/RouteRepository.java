@@ -1,5 +1,7 @@
 package com.example.busstation.repository;
 import com.example.busstation.model.Route;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +24,18 @@ public interface RouteRepository extends JpaRepository<Route, Long> {
             @Param("destination") String destination,
             @Param("maxDistance") Float maxDistance,
             Sort sort
-    );}
+    );
+
+    @Query("""
+        SELECT r FROM Route r
+        WHERE (:origin IS NULL OR LOWER(r.origin.name) LIKE LOWER(CONCAT('%', :origin, '%')))
+          AND (:destination IS NULL OR LOWER(r.destination.name) LIKE LOWER(CONCAT('%', :destination, '%')))
+          AND (:maxDistance IS NULL OR r.distance <= :maxDistance)
+    """)
+    Page<Route> findFilteredPage(
+            @Param("origin") String origin,
+            @Param("destination") String destination,
+            @Param("maxDistance") Float maxDistance,
+            Pageable pageable
+    );
+}

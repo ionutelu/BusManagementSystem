@@ -1,9 +1,9 @@
 import apiClient from './client'
-import type { BusTripResponse, BusTripRequest } from '../types/api'
+import type { BusTripResponse, BusTripRequest, Page } from '../types/api'
 
 export const busTripApi = {
-  list: (params?: Record<string, string>) =>
-    apiClient.get<BusTripResponse[]>('/bus-trips', { params }).then((r) => r.data),
+  list: (params?: Record<string, string | number>) =>
+    apiClient.get<Page<BusTripResponse>>('/bus-trips', { params }).then((r) => r.data),
 
   getById: (id: number) =>
     apiClient.get<BusTripResponse>(`/bus-trips/${id}`).then((r) => r.data),
@@ -20,4 +20,3 @@ export const busTripApi = {
   addStation: (tripId: number, stationId: number) =>
     apiClient.post<BusTripResponse>(`/bus-trips/${tripId}/stations/${stationId}`).then((r) => r.data),
 }
-

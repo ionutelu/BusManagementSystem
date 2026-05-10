@@ -9,6 +9,8 @@ import com.example.busstation.model.BusStatus;
 import com.example.busstation.repository.BusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -106,6 +108,22 @@ public class BusService {
                 minCapacity,
                 sort
         );
+    }
+
+    public Page<Bus> findAllFilteredAndSortedPaged(
+            String vin,
+            BusStatus status,
+            Integer minCapacity,
+            String sortField,
+            String sortDirection,
+            int page,
+            int size
+    ) {
+        if (sortField == null || sortField.isBlank()) sortField = "id";
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+        return busRepo.findFilteredPage(vin, status, minCapacity, PageRequest.of(page, size, sort));
     }
 
 }

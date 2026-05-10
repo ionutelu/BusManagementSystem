@@ -1,9 +1,9 @@
 import apiClient from './client'
-import type { RouteResponse, RouteRequest, BusTripResponse } from '../types/api'
+import type { RouteResponse, RouteRequest, BusTripResponse, Page } from '../types/api'
 
 export const routeApi = {
-  list: (params?: Record<string, string>) =>
-    apiClient.get<RouteResponse[]>('/routes', { params }).then((r) => r.data),
+  list: (params?: Record<string, string | number>) =>
+    apiClient.get<Page<RouteResponse>>('/routes', { params }).then((r) => r.data),
 
   getById: (id: number) =>
     apiClient.get<RouteResponse>(`/routes/${id}`).then((r) => r.data),
@@ -20,4 +20,3 @@ export const routeApi = {
   delete: (id: number) =>
     apiClient.delete(`/routes/${id}`),
 }
-

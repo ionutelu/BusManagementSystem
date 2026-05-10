@@ -4,6 +4,7 @@ import { routeApi } from '../../api/routes'
 import { busStationApi } from '../../api/busStations'
 import type { RouteRequest, RouteResponse } from '../../types/api'
 
+const PAGE_SIZE = 20
 const emptyForm = (): RouteRequest => ({ originStationId: 0, destinationStationId: 0, distance: 1 })
 
 export default function RoutesPage() {
@@ -12,9 +13,20 @@ export default function RoutesPage() {
   const [creating, setCreating] = useState(false)
   const [form, setForm] = useState<RouteRequest>(emptyForm())
   const [error, setError] = useState<string | null>(null)
+  const [page, setPage] = useState(0)
 
-  const { data: routes = [], isLoading } = useQuery({ queryKey: ['routes'], queryFn: () => routeApi.list() })
-  const { data: stations = [] } = useQuery({ queryKey: ['bus-stations'], queryFn: () => busStationApi.list() })
+  const { data, isLoading } = useQuery({
+    queryKey: ['routes', page],
+    queryFn: () => routeApi.list({ page, size: PAGE_SIZE }),
+  })
+  const routes = data?.content ?? []
+
+  // dropdown — fetch all stations
+  const { data: stationsPage } = useQuery({
+    queryKey: ['bus-stations-all'],
+    queryFn: () => busStationApi.list({ size: 1000 }),
+  })
+  const stations = stationsPage?.content ?? []
 
   const createMutation = useMutation({
     mutationFn: (data: RouteRequest) => routeApi.create(data),
@@ -56,34 +68,47 @@ export default function RoutesPage() {
       </div>
       {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">{error}</div>}
       {isLoading ? <p className="text-gray-500">Loading…</p> : (
-        <div className="overflow-x-auto bg-white rounded shadow">
-          <table className="min-w-full text-sm">
-            <thead className="bg-gray-100 text-left text-gray-600 uppercase text-xs">
-              <tr>
-                <th className="px-4 py-3">ID</th>
-                <th className="px-4 py-3">Origin</th>
-                <th className="px-4 py-3">Destination</th>
-                <th className="px-4 py-3">Distance (km)</th>
-                <th className="px-4 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {routes.map((r) => (
-                <tr key={r.id} className="border-t hover:bg-gray-50">
-                  <td className="px-4 py-3 text-gray-500">{r.id}</td>
-                  <td className="px-4 py-3">{r.originName} <span className="text-gray-400 text-xs">({r.originCity})</span></td>
-                  <td className="px-4 py-3">{r.destinationName} <span className="text-gray-400 text-xs">({r.destinationCity})</span></td>
-                  <td className="px-4 py-3">{r.distance}</td>
-                  <td className="px-4 py-3 flex gap-2">
-                    <button onClick={() => openEdit(r)} className="text-blue-600 hover:underline text-xs">Edit</button>
-                    <button onClick={() => deleteMutation.mutate(r.id)} className="text-red-600 hover:underline text-xs">Delete</button>
-                  </td>
+        <>
+          <div className="overflow-x-auto bg-white rounded shadow">
+            <table className="min-w-full text-sm">
+              <thead className="bg-gray-100 text-left text-gray-600 uppercase text-xs">
+                <tr>
+                  <th className="px-4 py-3">ID</th>
+                  <th className="px-4 py-3">Origin</th>
+                  <th className="px-4 py-3">Destination</th>
+                  <th className="px-4 py-3">Distance (km)</th>
+                  <th className="px-4 py-3">Actions</th>
                 </tr>
-              ))}
-              {routes.length === 0 && <tr><td colSpan={5} className="px-4 py-6 text-center text-gray-400">No routes found.</td></tr>}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {routes.map((r) => (
+                  <tr key={r.id} className="border-t hover:bg-gray-50">
+                    <td className="px-4 py-3 text-gray-500">{r.id}</td>
+                    <td className="px-4 py-3">{r.originName} <span className="text-gray-400 text-xs">({r.originCity})</span></td>
+                    <td className="px-4 py-3">{r.destinationName} <span className="text-gray-400 text-xs">({r.destinationCity})</span></td>
+                    <td className="px-4 py-3">{r.distance}</td>
+                    <td className="px-4 py-3 flex gap-2">
+                      <button onClick={() => openEdit(r)} className="text-blue-600 hover:underline text-xs">Edit</button>
+                      <button onClick={() => deleteMutation.mutate(r.id)} className="text-red-600 hover:underline text-xs">Delete</button>
+                    </td>
+                  </tr>
+                ))}
+                {routes.length === 0 && <tr><td colSpan={5} className="px-4 py-6 text-center text-gray-400">No routes found.</td></tr>}
+              </tbody>
+            </table>
+          </div>
+          {data && data.totalPages > 1 && (
+            <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
+              <span>{data.totalElements} total · Page {data.number + 1} of {data.totalPages}</span>
+              <div className="flex gap-2">
+                <button onClick={() => setPage((p) => p - 1)} disabled={data.first}
+                  className="px-3 py-1 rounded border disabled:opacity-40 hover:bg-gray-50">← Prev</button>
+                <button onClick={() => setPage((p) => p + 1)} disabled={data.last}
+                  className="px-3 py-1 rounded border disabled:opacity-40 hover:bg-gray-50">Next →</button>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {(creating || editing) && (

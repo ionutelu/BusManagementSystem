@@ -1,6 +1,8 @@
 package com.example.busstation.repository;
 import com.example.busstation.model.Bus;
 import com.example.busstation.model.BusStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,5 +25,18 @@ public interface BusRepository extends JpaRepository<Bus, Long> {
                 @Param("status") BusStatus status,
                 @Param("minCapacity") Integer minCapacity,
                 Sort sort
+        );
+
+        @Query("""
+        SELECT b FROM Bus b
+        WHERE (:vin IS NULL OR b.vin LIKE %:vin%)
+          AND (:status IS NULL OR b.status = :status)
+          AND (:minCapacity IS NULL OR b.capacity >= :minCapacity)
+    """)
+        Page<Bus> findFilteredPage(
+                @Param("vin") String vin,
+                @Param("status") BusStatus status,
+                @Param("minCapacity") Integer minCapacity,
+                Pageable pageable
         );
 }

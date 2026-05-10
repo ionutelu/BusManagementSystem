@@ -1,9 +1,9 @@
 import apiClient from './client'
-import type { DutyAssignmentResponse, DutyAssignmentRequest } from '../types/api'
+import type { DutyAssignmentResponse, DutyAssignmentRequest, Page } from '../types/api'
 
 export const assignmentApi = {
-  list: (params?: Record<string, string>) =>
-    apiClient.get<DutyAssignmentResponse[]>('/assignments', { params }).then((r) => r.data),
+  list: (params?: Record<string, string | number>) =>
+    apiClient.get<Page<DutyAssignmentResponse>>('/assignments', { params }).then((r) => r.data),
 
   getById: (id: number) =>
     apiClient.get<DutyAssignmentResponse>(`/assignments/${id}`).then((r) => r.data),
@@ -17,4 +17,3 @@ export const assignmentApi = {
   delete: (id: number) =>
     apiClient.delete(`/assignments/${id}`),
 }
-

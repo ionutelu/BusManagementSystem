@@ -1,9 +1,9 @@
 import apiClient from './client'
-import type { DriverResponse, DriverRequest } from '../types/api'
+import type { DriverResponse, DriverRequest, Page } from '../types/api'
 
 export const driverApi = {
-  list: (params?: Record<string, string>) =>
-    apiClient.get<DriverResponse[]>('/drivers', { params }).then((r) => r.data),
+  list: (params?: Record<string, string | number>) =>
+    apiClient.get<Page<DriverResponse>>('/drivers', { params }).then((r) => r.data),
 
   getById: (id: number) =>
     apiClient.get<DriverResponse>(`/drivers/${id}`).then((r) => r.data),
@@ -17,4 +17,3 @@ export const driverApi = {
   delete: (id: number) =>
     apiClient.delete(`/drivers/${id}`),
 }
-

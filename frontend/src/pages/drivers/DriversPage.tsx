@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { driverApi } from '../../api/drivers'
 import type { DriverRequest, DriverResponse } from '../../types/api'
 
+const PAGE_SIZE = 20
 const emptyForm = (): DriverRequest => ({ name: '', email: '', experienceYears: 1 })
 
 export default function DriversPage() {
@@ -11,8 +12,13 @@ export default function DriversPage() {
   const [creating, setCreating] = useState(false)
   const [form, setForm] = useState<DriverRequest>(emptyForm())
   const [error, setError] = useState<string | null>(null)
+  const [page, setPage] = useState(0)
 
-  const { data: drivers = [], isLoading } = useQuery({ queryKey: ['drivers'], queryFn: () => driverApi.list() })
+  const { data, isLoading } = useQuery({
+    queryKey: ['drivers', page],
+    queryFn: () => driverApi.list({ page, size: PAGE_SIZE }),
+  })
+  const drivers = data?.content ?? []
 
   const createMutation = useMutation({
     mutationFn: (data: DriverRequest) => driverApi.create(data),
@@ -52,34 +58,47 @@ export default function DriversPage() {
       </div>
       {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">{error}</div>}
       {isLoading ? <p className="text-gray-500">Loading…</p> : (
-        <div className="overflow-x-auto bg-white rounded shadow">
-          <table className="min-w-full text-sm">
-            <thead className="bg-gray-100 text-left text-gray-600 uppercase text-xs">
-              <tr>
-                <th className="px-4 py-3">ID</th>
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">Experience (yrs)</th>
-                <th className="px-4 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {drivers.map((d) => (
-                <tr key={d.id} className="border-t hover:bg-gray-50">
-                  <td className="px-4 py-3 text-gray-500">{d.id}</td>
-                  <td className="px-4 py-3 font-medium">{d.name}</td>
-                  <td className="px-4 py-3">{d.email}</td>
-                  <td className="px-4 py-3">{d.experienceYears}</td>
-                  <td className="px-4 py-3 flex gap-2">
-                    <button onClick={() => openEdit(d)} className="text-blue-600 hover:underline text-xs">Edit</button>
-                    <button onClick={() => deleteMutation.mutate(d.id)} className="text-red-600 hover:underline text-xs">Delete</button>
-                  </td>
+        <>
+          <div className="overflow-x-auto bg-white rounded shadow">
+            <table className="min-w-full text-sm">
+              <thead className="bg-gray-100 text-left text-gray-600 uppercase text-xs">
+                <tr>
+                  <th className="px-4 py-3">ID</th>
+                  <th className="px-4 py-3">Name</th>
+                  <th className="px-4 py-3">Email</th>
+                  <th className="px-4 py-3">Experience (yrs)</th>
+                  <th className="px-4 py-3">Actions</th>
                 </tr>
-              ))}
-              {drivers.length === 0 && <tr><td colSpan={5} className="px-4 py-6 text-center text-gray-400">No drivers found.</td></tr>}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {drivers.map((d) => (
+                  <tr key={d.id} className="border-t hover:bg-gray-50">
+                    <td className="px-4 py-3 text-gray-500">{d.id}</td>
+                    <td className="px-4 py-3 font-medium">{d.name}</td>
+                    <td className="px-4 py-3">{d.email}</td>
+                    <td className="px-4 py-3">{d.experienceYears}</td>
+                    <td className="px-4 py-3 flex gap-2">
+                      <button onClick={() => openEdit(d)} className="text-blue-600 hover:underline text-xs">Edit</button>
+                      <button onClick={() => deleteMutation.mutate(d.id)} className="text-red-600 hover:underline text-xs">Delete</button>
+                    </td>
+                  </tr>
+                ))}
+                {drivers.length === 0 && <tr><td colSpan={5} className="px-4 py-6 text-center text-gray-400">No drivers found.</td></tr>}
+              </tbody>
+            </table>
+          </div>
+          {data && data.totalPages > 1 && (
+            <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
+              <span>{data.totalElements} total · Page {data.number + 1} of {data.totalPages}</span>
+              <div className="flex gap-2">
+                <button onClick={() => setPage((p) => p - 1)} disabled={data.first}
+                  className="px-3 py-1 rounded border disabled:opacity-40 hover:bg-gray-50">← Prev</button>
+                <button onClick={() => setPage((p) => p + 1)} disabled={data.last}
+                  className="px-3 py-1 rounded border disabled:opacity-40 hover:bg-gray-50">Next →</button>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {(creating || editing) && (

@@ -4,6 +4,8 @@ import com.example.busstation.model.BusStation;
 import com.example.busstation.model.Driver;
 import com.example.busstation.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +67,21 @@ public class DriverService {
                 : Sort.by(sortField).ascending();
 
         return driverRepo.findFiltered(name, minExperience, sort);
+    }
+
+    public Page<Driver> findFilteredAndSortedPaged(
+            String name,
+            Integer minExperience,
+            String sortField,
+            String sortDirection,
+            int page,
+            int size
+    ) {
+        if (sortField == null || sortField.isBlank()) sortField = "id";
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+        return driverRepo.findFilteredPage(name, minExperience, PageRequest.of(page, size, sort));
     }
 
 }

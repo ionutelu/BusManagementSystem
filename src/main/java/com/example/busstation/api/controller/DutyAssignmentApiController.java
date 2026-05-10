@@ -11,6 +11,7 @@ import com.example.busstation.service.DutyAssignmentService;
 import com.example.busstation.service.DriverService;
 import com.example.busstation.service.TripManagerService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,15 +39,17 @@ public class DutyAssignmentApiController {
     }
 
     @GetMapping
-    public List<DutyAssignmentResponseDto> list(
+    public Page<DutyAssignmentResponseDto> list(
             @RequestParam(required = false) Long tripId,
             @RequestParam(required = false) String staffName,
             @RequestParam(required = false) DriverRole role,
             @RequestParam(required = false, defaultValue = "id") String sortField,
-            @RequestParam(required = false, defaultValue = "asc") String sortDirection
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
     ) {
-        return dutyAssignmentService.findFilteredAndSorted(tripId, staffName, role, sortField, sortDirection)
-                .stream().map(this::toDto).collect(Collectors.toList());
+        return dutyAssignmentService.findFilteredAndSortedPaged(tripId, staffName, role, sortField, sortDirection, page, size)
+                .map(this::toDto);
     }
 
     @GetMapping("/{id}")

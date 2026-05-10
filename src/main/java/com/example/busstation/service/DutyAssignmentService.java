@@ -5,6 +5,8 @@ import com.example.busstation.model.DriverRole;
 import com.example.busstation.model.DutyAssignment;
 import com.example.busstation.repository.DutyAssignmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -84,6 +86,28 @@ public class DutyAssignmentService {
                 : Sort.by(sortField).ascending();
 
         return dutyAssignmentRepo.findFiltered(tripId, staffName, role, sort);
+    }
+
+    public Page<DutyAssignment> findFilteredAndSortedPaged(
+            Long tripId,
+            String staffName,
+            DriverRole role,
+            String sortField,
+            String sortDirection,
+            int page,
+            int size
+    ) {
+        if (sortField == null || sortField.isBlank()) sortField = "id";
+        switch (sortField) {
+            case "busTrip": sortField = "busTrip.id"; break;
+            case "staff": sortField = "staff.name"; break;
+            case "id": case "role": break;
+            default: sortField = "id";
+        }
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+        return dutyAssignmentRepo.findFilteredPage(tripId, staffName, role, PageRequest.of(page, size, sort));
     }
 
 }

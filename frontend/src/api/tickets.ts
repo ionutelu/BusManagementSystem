@@ -1,9 +1,9 @@
 import apiClient from './client'
-import type { TicketResponse, TicketRequest } from '../types/api'
+import type { TicketResponse, TicketRequest, Page } from '../types/api'
 
 export const ticketApi = {
-  list: (params?: Record<string, string>) =>
-    apiClient.get<TicketResponse[]>('/tickets', { params }).then((r) => r.data),
+  list: (params?: Record<string, string | number>) =>
+    apiClient.get<Page<TicketResponse>>('/tickets', { params }).then((r) => r.data),
 
   getById: (id: number) =>
     apiClient.get<TicketResponse>(`/tickets/${id}`).then((r) => r.data),
@@ -17,4 +17,3 @@ export const ticketApi = {
   delete: (id: number) =>
     apiClient.delete(`/tickets/${id}`),
 }
-

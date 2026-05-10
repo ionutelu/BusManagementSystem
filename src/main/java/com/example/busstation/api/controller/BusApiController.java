@@ -6,6 +6,7 @@ import com.example.busstation.model.Bus;
 import com.example.busstation.model.BusStatus;
 import com.example.busstation.service.BusService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,15 +25,17 @@ public class BusApiController {
     }
 
     @GetMapping
-    public List<BusResponseDto> list(
+    public Page<BusResponseDto> list(
             @RequestParam(required = false) String vin,
             @RequestParam(required = false) BusStatus status,
             @RequestParam(required = false) Integer minCapacity,
             @RequestParam(required = false, defaultValue = "id") String sortField,
-            @RequestParam(required = false, defaultValue = "asc") String sortDirection
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
     ) {
-        return busService.findAllFilteredAndSorted(vin, status, minCapacity, sortField, sortDirection)
-                .stream().map(this::toDto).collect(Collectors.toList());
+        return busService.findAllFilteredAndSortedPaged(vin, status, minCapacity, sortField, sortDirection, page, size)
+                .map(this::toDto);
     }
 
     @GetMapping("/{id}")

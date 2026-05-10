@@ -5,6 +5,8 @@ import com.example.busstation.model.Bus;
 import com.example.busstation.model.Passenger;
 import com.example.busstation.repository.PassengerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +76,23 @@ public class PassengerService {
                 : Sort.by(sortField).ascending();
 
         return passengerRepo.findFiltered(name, currency, sort);
+    }
+
+    public Page<Passenger> findFilteredAndSortedPaged(
+            String name,
+            String currency,
+            String sortField,
+            String sortDirection,
+            int page,
+            int size
+    ) {
+        if (sortField == null || sortField.isBlank()) sortField = "id";
+        if (currency != null && currency.isBlank()) currency = null;
+        if (name != null && name.isBlank()) name = null;
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+        return passengerRepo.findFilteredPage(name, currency, PageRequest.of(page, size, sort));
     }
 
 }

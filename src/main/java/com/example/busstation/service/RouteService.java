@@ -9,6 +9,8 @@ import jakarta.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -76,6 +78,24 @@ public class RouteService {
                 : Sort.by(sortField).ascending();
 
         return routeRepo.findFiltered(origin, destination, maxDistance, sort);
+    }
+
+    public Page<Route> findFilteredAndSortedPaged(
+            String origin,
+            String destination,
+            Float maxDistance,
+            String sortField,
+            String sortDirection,
+            int page,
+            int size
+    ) {
+        if (sortField == null || sortField.isBlank()) sortField = "id";
+        if (origin != null && origin.isBlank()) origin = null;
+        if (destination != null && destination.isBlank()) destination = null;
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+        return routeRepo.findFilteredPage(origin, destination, maxDistance, PageRequest.of(page, size, sort));
     }
 
 }

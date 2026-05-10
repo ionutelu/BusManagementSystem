@@ -8,6 +8,7 @@ import com.example.busstation.model.Passenger;
 import com.example.busstation.model.Ticket;
 import com.example.busstation.service.PassengerService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,14 +27,16 @@ public class PassengerApiController {
     }
 
     @GetMapping
-    public List<PassengerResponseDto> list(
+    public Page<PassengerResponseDto> list(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String currency,
             @RequestParam(required = false, defaultValue = "id") String sortField,
-            @RequestParam(required = false, defaultValue = "asc") String sortDirection
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
     ) {
-        return passengerService.findFilteredAndSorted(name, currency, sortField, sortDirection)
-                .stream().map(this::toDto).collect(Collectors.toList());
+        return passengerService.findFilteredAndSortedPaged(name, currency, sortField, sortDirection, page, size)
+                .map(this::toDto);
     }
 
     @GetMapping("/{id}")

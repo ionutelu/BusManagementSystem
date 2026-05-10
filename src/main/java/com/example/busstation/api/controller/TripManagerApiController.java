@@ -5,6 +5,7 @@ import com.example.busstation.api.dto.tripmanager.TripManagerResponseDto;
 import com.example.busstation.model.TripManager;
 import com.example.busstation.service.TripManagerService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,15 +24,17 @@ public class TripManagerApiController {
     }
 
     @GetMapping
-    public List<TripManagerResponseDto> list(
+    public Page<TripManagerResponseDto> list(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String employeeCode,
             @RequestParam(required = false, defaultValue = "id") String sortField,
-            @RequestParam(required = false, defaultValue = "asc") String sortDirection
+            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
     ) {
-        return tripManagerService.findFilteredAndSorted(name, email, employeeCode, sortField, sortDirection)
-                .stream().map(this::toDto).collect(Collectors.toList());
+        return tripManagerService.findFilteredAndSortedPaged(name, email, employeeCode, sortField, sortDirection, page, size)
+                .map(this::toDto);
     }
 
     @GetMapping("/{id}")

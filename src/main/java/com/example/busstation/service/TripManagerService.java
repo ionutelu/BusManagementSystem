@@ -4,6 +4,8 @@ import com.example.busstation.model.Ticket;
 import com.example.busstation.model.TripManager;
 import com.example.busstation.repository.TripManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +76,29 @@ public class TripManagerService {
                 : Sort.by(sortField).ascending();
 
         return tripManagerRepo.findFiltered(name, email, employeeCode, sort);
+    }
+
+    public Page<TripManager> findFilteredAndSortedPaged(
+            String name,
+            String email,
+            String employeeCode,
+            String sortField,
+            String sortDirection,
+            int page,
+            int size
+    ) {
+        if (name != null && name.isBlank()) name = null;
+        if (email != null && email.isBlank()) email = null;
+        if (employeeCode != null && employeeCode.isBlank()) employeeCode = null;
+        if (sortField == null || sortField.isBlank()) sortField = "id";
+        switch (sortField) {
+            case "id": case "name": case "email": case "employeeCode": break;
+            default: sortField = "id";
+        }
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+        return tripManagerRepo.findFilteredPage(name, email, employeeCode, PageRequest.of(page, size, sort));
     }
 
 }

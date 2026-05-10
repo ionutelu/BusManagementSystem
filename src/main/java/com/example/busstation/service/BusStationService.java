@@ -7,6 +7,8 @@ import com.example.busstation.model.BusStation;
 import com.example.busstation.repository.BusStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -83,6 +85,22 @@ public class BusStationService {
                 : Sort.by(sortField).ascending();
 
         return busStationRepo.findFiltered(name, damaged, sort);
+    }
+
+    public Page<BusStation> findFilteredAndSortedPaged(
+            String name,
+            Boolean damaged,
+            String sortField,
+            String sortDirection,
+            int page,
+            int size
+    ) {
+        if (sortField == null || sortField.isBlank()) sortField = "id";
+        if ("damaged".equals(sortField)) sortField = "isDamaged";
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+        return busStationRepo.findFilteredPage(name, damaged, PageRequest.of(page, size, sort));
     }
 
 }
